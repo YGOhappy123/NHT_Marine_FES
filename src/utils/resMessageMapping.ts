@@ -17,8 +17,8 @@ export const RES_MESSAGE_MAPPING = {
     DELETE_IMAGE_FAILED: 'Xóa ảnh thất bại.',
     EMAIL_VERIFICATION_FAILED: 'Email chưa được xác thực.',
 
-    LOGIN_SUCCESSFULLY: 'Đăng nhập thành công.',
-    REGISTER_SUCCESSFULLY: 'Đăng ký thành công.',
+    SIGN_IN_SUCCESSFULLY: 'Đăng nhập thành công.',
+    SIGN_UP_SUCCESSFULLY: 'Đăng ký thành công.',
     REFRESH_TOKEN_SUCCESSFULLY: 'Làm mới token thành công.',
     DEACTIVATE_ACCOUNT_SUCCESSFULLY: 'Hủy kích hoạt tài khoản thành công.',
     REACTIVATE_ACCOUNT_SUCCESSFULLY: 'Kích hoạt tài khoản thành công.',

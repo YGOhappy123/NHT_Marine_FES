@@ -1,5 +1,11 @@
+import ThemeToggler from '@/components/common/ThemeToggler'
+
 const HomePage = () => {
-    return <div>HomePage</div>
+    return (
+        <div>
+            <ThemeToggler />
+        </div>
+    )
 }
 
 export default HomePage
