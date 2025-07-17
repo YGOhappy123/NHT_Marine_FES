@@ -17,7 +17,8 @@ declare global {
         isActive?: boolean
 
         roleId: number
-        role?: string
+        role: string
+        permissions: string[]
         createdBy?: number
         createdByStaff?: Partial<IStaff> | string
     }

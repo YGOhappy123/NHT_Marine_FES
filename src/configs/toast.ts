@@ -1,6 +1,6 @@
 import { ToastOptions, TypeOptions } from 'react-toastify'
 
-export default (type: TypeOptions): ToastOptions => ({
+const toastConfig = (type: TypeOptions): ToastOptions => ({
     type,
     position: 'top-right',
     hideProgressBar: true,
@@ -9,3 +9,5 @@ export default (type: TypeOptions): ToastOptions => ({
     pauseOnHover: false,
     autoClose: 2000
 })
+
+export default toastConfig

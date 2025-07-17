@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import MainLayout from '@/layouts/MainLayout'
+import DashboardLayout from '@/layouts/DashboardLayout'
 import HomePage from '@/pages/HomePage'
 import ErrorPage from '@/pages/ErrorPage'
 
@@ -8,7 +8,7 @@ const MainRoutes = [
         path: '/',
         element: (
             <Suspense>
-                <MainLayout />
+                <DashboardLayout />
             </Suspense>
         ),
         errorElement: <ErrorPage />,
