@@ -12,7 +12,7 @@ type AuthProtectorProps = {
     children: ReactNode
 }
 
-const AuthProtector = ({ redirect, children }: AuthProtectorProps) => {
+const AuthProtector = ({ redirect = '/', children }: AuthProtectorProps) => {
     const [shouldRedirect, setShouldRedirect] = useState(false)
     const accessToken = cookies.get('access_token') || localStorage.getItem('access_token')
     const auth = useSelector((state: RootState) => state.auth as AuthState)
@@ -32,7 +32,7 @@ const AuthProtector = ({ redirect, children }: AuthProtectorProps) => {
         if (!auth.isLogged) {
             dispatch(setLogged(false))
             dispatch(setUser(null as any))
-            toast('Vui lòng đăng nhập để truy cập trang này.', toastConfig('info'))
+            toast('Vui lòng đăng nhập để truy cập ứng dụng.', toastConfig('info'))
             setShouldRedirect(true)
         }
     }, [auth.isLogged])

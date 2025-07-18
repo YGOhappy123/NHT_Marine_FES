@@ -167,6 +167,16 @@
     }
 }
 
+/* Prevent Autofill CSS */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--color-primary);
+    transition: background-color 5000s ease-in-out 0s;
+}
+
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 6px;
@@ -186,16 +196,6 @@
     opacity: 90;
 }
 
-/* Prevent Autofill CSS */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: var(--color-primary);
-    transition: background-color 5000s ease-in-out 0s;
-}
-
 /* Error Page Linear Gradient */
 .error-page-linear-gradient {
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
@@ -211,15 +211,4 @@ input:-webkit-autofill:active {
 
 .bg-muted {
     background-color: hsl(240 3.7% 15.9%);
-}
-
-.dark {
-    --sidebar: hsl(240 5.9% 10%);
-    --sidebar-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-primary: hsl(224.3 76.3% 48%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(240 3.7% 15.9%);
-    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-border: hsl(240 3.7% 15.9%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
