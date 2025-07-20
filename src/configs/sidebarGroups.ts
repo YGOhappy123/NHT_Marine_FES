@@ -68,7 +68,7 @@ export const sidebarGroups: SidebarGroupData[] = [
         ]
     },
     {
-        title: 'Đơn hàng',
+        title: 'Đơn hàng và vận chuyển',
         items: [
             {
                 title: 'Đơn hàng',

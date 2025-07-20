@@ -27,7 +27,8 @@ export const RES_MESSAGE_MAPPING = {
     RESET_PASSWORD_SUCCESSFULLY: 'Đặt lại mật khẩu thành công.',
     CHANGE_PASSWORD_SUCCESSFULLY: 'Thay đổi mật khẩu thành công.',
     UPLOAD_IMAGE_SUCCESSFULLY: 'Tải ảnh lên thành công.',
-    DELETE_IMAGE_SUCCESSFULLY: 'Xóa ảnh thành công.'
+    DELETE_IMAGE_SUCCESSFULLY: 'Xóa ảnh thành công.',
+    UPDATE_USER_SUCCESSFULLY: 'Cập nhật người dùng thành công.'
 }
 
 export const getMappedMessage = (originalMessage: string) => {

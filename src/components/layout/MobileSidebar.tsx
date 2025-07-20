@@ -18,7 +18,7 @@ const MobileSidebar = () => {
 
     return (
         <div className="bg-sidebar flex px-4 py-2 items-center justify-between border-b-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center -ml-2">
                 <SidebarTrigger />
                 <ThemeToggler />
             </div>

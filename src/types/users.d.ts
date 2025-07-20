@@ -22,6 +22,21 @@ declare global {
         createdBy?: number
         createdByStaff?: Partial<IStaff> | string
     }
+
+    interface IStaffRole {
+        roleId: number
+        name: string
+        isImmutable: boolean
+        permissions?: (
+            | string
+            | number
+            | {
+                  permissionId: number
+                  name: string
+                  code: string
+              }
+        )[]
+    }
 }
 
 export {}

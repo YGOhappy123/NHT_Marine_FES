@@ -76,8 +76,12 @@ const SignInForm = () => {
                 </div>
 
                 <div className="flex flex-col items-center">
-                    <Button type="submit" className="w-full rounded font-semibold capitalize text-base h-12">
-                        Đăng Nhập
+                    <Button
+                        type="submit"
+                        disabled={form.formState.isSubmitting}
+                        className="w-full rounded font-semibold capitalize text-base h-12"
+                    >
+                        {form.formState.isSubmitting ? 'Đang tải...' : 'Đăng nhập'}
                     </Button>
                 </div>
             </form>

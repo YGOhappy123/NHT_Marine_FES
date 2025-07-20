@@ -11,11 +11,7 @@ import OrderPage from '@/pages/DashboardOrder/OrderPage'
 const MainRoutes = [
     {
         path: '/',
-        element: (
-            <Suspense>
-                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
-            </Suspense>
-        ),
+        element: <AuthProtector children={<DashboardLayout />} redirect="/auth" />,
         errorElement: <ErrorPage />,
         children: [
             {

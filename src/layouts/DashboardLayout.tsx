@@ -5,6 +5,7 @@ import { useIsMobile } from '@/hooks/useMobile'
 import AppSidebar from '@/components/layout/AppSidebar'
 import useTitle from '@/hooks/useTitle'
 import MobileSidebar from '@/components/layout/MobileSidebar'
+import PageBreadcrumb from '@/components/common/PageBreadcrumb'
 
 const DashboardLayout = () => {
     useTitle('NHT Marine Staff | Dashboard')
@@ -20,7 +21,8 @@ const DashboardLayout = () => {
             <main className="h-screen flex-1 overflow-y-auto flex flex-col">
                 {isMobile && <MobileSidebar />}
 
-                <div className="p-4 flex-1">
+                <div className="px-4 flex-1 flex flex-col">
+                    <PageBreadcrumb />
                     <Outlet />
                 </div>
             </main>

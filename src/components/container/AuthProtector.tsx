@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -13,7 +13,6 @@ type AuthProtectorProps = {
 }
 
 const AuthProtector = ({ redirect = '/', children }: AuthProtectorProps) => {
-    const [shouldRedirect, setShouldRedirect] = useState(false)
     const accessToken = cookies.get('access_token') || localStorage.getItem('access_token')
     const auth = useSelector((state: RootState) => state.auth as AuthState)
     const location = useLocation()
@@ -28,20 +27,18 @@ const AuthProtector = ({ redirect = '/', children }: AuthProtectorProps) => {
         }
     }, [location])
 
-    useEffect(() => {
-        if (!auth.isLogged) {
-            dispatch(setLogged(false))
-            dispatch(setUser(null as any))
-            toast('Vui lòng đăng nhập để truy cập ứng dụng.', toastConfig('info'))
-            setShouldRedirect(true)
-        }
-    }, [auth.isLogged])
-
-    if (shouldRedirect) {
+    const redirectFn = () => {
+        dispatch(setLogged(false))
+        dispatch(setUser(null as any))
+        toast('Vui lòng đăng nhập để truy cập ứng dụng.', toastConfig('info'))
         return <Navigate to={redirect} replace />
     }
 
-    return <>{children}</>
+    if (!auth.isLogged) {
+        return redirectFn()
+    } else {
+        return <>{children}</>
+    }
 }
 
 export default AuthProtector
