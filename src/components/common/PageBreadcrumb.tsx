@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import {
     Breadcrumb,
@@ -12,24 +13,31 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import { sidebarGroups } from '@/configs/sidebarGroups'
 import { useIsMobile } from '@/hooks/useMobile'
 import ThemeToggler from '@/components/common/ThemeToggler'
+import useTitle from '@/hooks/useTitle'
 
 const PageBreadcrumb = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     const { pathname } = useLocation()
     const isMobile = useIsMobile()
 
-    const matchingGroup = sidebarGroups.find((group) =>
-        group.items.some((item) => item.url === pathname || item.children?.some((child) => child.url === pathname))
+    const matchingGroup = sidebarGroups.find(group =>
+        group.items.some(item => item.url === pathname || item.children?.some(child => child.url === pathname))
     )
     const matchingItem = matchingGroup?.items.find(
-        (item) => item.url === pathname || item.children?.some((child) => child.url === pathname)
+        item => item.url === pathname || item.children?.some(child => child.url === pathname)
     )
     const matchingChild =
         matchingItem?.children?.length &&
         matchingItem.children.length > 0 &&
-        matchingItem.children.find((child) => child.url === pathname)
+        matchingItem.children.find(child => child.url === pathname)
+
+    useTitle(`NHT Marine | ${matchingChild ? matchingChild.title : matchingItem?.title}`)
 
     return (
-        <div className="flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+        <div className="bg-background sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2">
                 {!isMobile && (
                     <>

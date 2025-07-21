@@ -76,7 +76,7 @@ function SidebarProvider({
 
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
-        return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
+        return isMobile ? setOpenMobile(open => !open) : setOpen(open => !open)
     }, [isMobile, setOpen, setOpenMobile])
 
     // Adds a keyboard shortcut to toggle the sidebar.
@@ -243,7 +243,7 @@ function SidebarTrigger({ className, onClick, ...props }: React.ComponentProps<t
             variant="ghost"
             size="icon"
             className={cn('size-8', className)}
-            onClick={(event) => {
+            onClick={event => {
                 onClick?.(event)
                 toggleSidebar()
             }}
@@ -281,14 +281,23 @@ function SidebarRail({ className, ...props }: React.ComponentProps<'button'>) {
 }
 
 function SidebarInset({ className, ...props }: React.ComponentProps<'main'>) {
+    const { isMobile, open } = useSidebar()
+
     return (
         <main
             data-slot="sidebar-inset"
             className={cn(
-                'bg-background relative flex w-full flex-1 flex-col',
+                'bg-background relative flex flex-1 flex-col',
                 'md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2',
                 className
             )}
+            style={{
+                maxWidth: isMobile
+                    ? '100%'
+                    : open
+                      ? `calc(100% - ${SIDEBAR_WIDTH}`
+                      : `calc(100% - ${SIDEBAR_WIDTH_ICON}`
+            }}
             {...props}
         />
     )

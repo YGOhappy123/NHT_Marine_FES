@@ -54,7 +54,7 @@ const authService = () => {
             oldPassword: string
             newPassword: string
             confirmPassword: string
-        }) => axios.post<IResponseData<any>>('/auth/change-password', { oldPassword, newPassword, confirmPassword }),
+        }) => axios.patch<IResponseData<any>>('/auth/change-password', { oldPassword, newPassword, confirmPassword }),
         onError: onError,
         onSuccess: (res) => {
             toast(getMappedMessage(res.data.message), toastConfig('success'))

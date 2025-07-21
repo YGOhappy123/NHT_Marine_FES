@@ -3,17 +3,19 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
+import { twMerge } from 'tailwind-merge'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { RootState } from '@/store'
+import { setUser } from '@/slices/authSlice'
+import { useIsMobile } from '@/hooks/useMobile'
 import ImageUploader from '@/pages/DashboardProfile/ProfilePage/ImageUploader'
 import verifyPermission from '@/utils/verifyPermission'
 import permissions from '@/configs/permissions'
 import fileService from '@/services/fileService'
 import staffService from '@/services/staffService'
-import { setUser } from '@/slices/authSlice'
 
 const profileFormSchema = z.object({
     fullName: z
@@ -30,10 +32,14 @@ type ProfileFormProps = {
 
 const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
     const user = useSelector((state: RootState) => state.auth.user) as IStaff
-    const hasModifyPermission = verifyPermission(user, permissions.modifyPersonalInformation)
+    const hasModifyPermission =
+        verifyPermission(user, permissions.modifyPersonalInformation) ||
+        verifyPermission(user, permissions.updateStaffInformation)
+
     const [avatar, setAvatar] = useState(user?.avatar)
     const { uploadBase64Mutation } = fileService()
-    const { updateStaffMutation } = staffService()
+    const { updateStaffMutation } = staffService({ enableFetching: false })
+    const isMobile = useIsMobile()
     const dispatch = useDispatch()
 
     const form = useForm<z.infer<typeof profileFormSchema>>({
@@ -81,7 +87,7 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col p-6">
-                <div className="grid grid-cols-3 mb-12 gap-12">
+                <div className={twMerge('mb-12 grid gap-12', isMobile ? 'grid-cols-1' : 'grid-cols-3')}>
                     <ImageUploader
                         hasPermission={hasModifyPermission}
                         avatar={avatar}
@@ -100,7 +106,7 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
                                         <Input
                                             disabled={!hasModifyPermission}
                                             placeholder="Họ và tên..."
-                                            className="rounded h-12 font-semibold border-2 text-card-foreground"
+                                            className="text-card-foreground h-12 rounded border-2 font-semibold"
                                             {...field}
                                         />
                                     </FormControl>
@@ -118,7 +124,7 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
                                         <Input
                                             disabled={!hasModifyPermission}
                                             placeholder="Email..."
-                                            className="rounded h-12 font-semibold border-2 text-card-foreground"
+                                            className="text-card-foreground h-12 rounded border-2 font-semibold"
                                             {...field}
                                         />
                                     </FormControl>
@@ -132,18 +138,14 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-card-foreground">Vai trò</FormLabel>
-                                    <Select
-                                        onValueChange={(value) => {}}
-                                        value={field.value?.toString() ?? ''}
-                                        disabled
-                                    >
+                                    <Select onValueChange={value => {}} value={field.value?.toString() ?? ''} disabled>
                                         <FormControl>
-                                            <SelectTrigger className="rounded w-full h-12! font-semibold border-2 text-card-foreground">
+                                            <SelectTrigger className="text-card-foreground h-12! w-full rounded border-2 font-semibold">
                                                 <SelectValue placeholder="Vai trò..." />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {staffRoles.map((role) => (
+                                            {staffRoles.map(role => (
                                                 <SelectItem
                                                     key={role.roleId}
                                                     value={role.roleId.toString()}
@@ -164,7 +166,7 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
                 <Button
                     type="submit"
                     disabled={!hasModifyPermission || form.formState.isSubmitting}
-                    className="w-full rounded font-semibold capitalize text-base h-12"
+                    className="h-12 w-full rounded text-base font-semibold capitalize"
                 >
                     {form.formState.isSubmitting ? 'Đang tải...' : 'Cập nhật thông tin'}
                 </Button>

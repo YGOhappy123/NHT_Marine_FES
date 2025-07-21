@@ -13,14 +13,14 @@ const ProfilePage = () => {
     const hasModifyPermission = verifyPermission(user, permissions.modifyPersonalInformation)
 
     const fetchAllRolesQuery = useQuery({
-        queryKey: ['role-all'],
-        queryFn: () => axios.get<IResponseData<IStaffRole[]>>(`/roles?sort=${JSON.stringify({ roleId: 'ASC' })}`),
+        queryKey: ['role', user.roleId],
+        queryFn: () => axios.get<IResponseData<IStaffRole>>(`/roles/${user.roleId}`),
         refetchOnWindowFocus: false,
         refetchInterval: 10000,
         enabled: true,
         select: (res) => res.data
     })
-    const roles = fetchAllRolesQuery.data?.data || []
+    const role = fetchAllRolesQuery.data?.data
 
     return (
         <div className="flex-1 flex justify-center items-center">
@@ -34,7 +34,7 @@ const ProfilePage = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <ProfileForm staffRoles={roles} />
+                    <ProfileForm staffRoles={role ? [role] : []} />
                 </CardContent>
             </Card>
         </div>

@@ -180,6 +180,7 @@ input:-webkit-autofill:active {
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -190,6 +191,7 @@ input:-webkit-autofill:active {
 ::-webkit-scrollbar-thumb {
     border-radius: 6px;
     background-color: var(--color-primary);
+    cursor: pointer;
 }
 
 ::-webkit-scrollbar-thumb:hover {

@@ -7,11 +7,17 @@ import PermissionProtector from '@/components/container/PermissionProtector'
 import ProfilePage from '@/pages/DashboardProfile/ProfilePage'
 import permissions from '@/configs/permissions'
 import OrderPage from '@/pages/DashboardOrder/OrderPage'
+import ChangePasswordPage from '@/pages/DashboardProfile/ChangePasswordPage'
+import RoleManagementPage from '@/pages/DashboardPersonnel/RoleManagementPage'
 
 const MainRoutes = [
     {
         path: '/',
-        element: <AuthProtector children={<DashboardLayout />} redirect="/auth" />,
+        element: (
+            <Suspense>
+                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
+            </Suspense>
+        ),
         errorElement: <ErrorPage />,
         children: [
             {
@@ -23,9 +29,22 @@ const MainRoutes = [
                 element: <ProfilePage />
             },
             {
+                path: 'change-password',
+                element: <ChangePasswordPage />
+            },
+            {
                 path: 'orders',
                 element: (
                     <PermissionProtector children={<OrderPage />} permission={permissions.accessOrderDashboardPage} />
+                )
+            },
+            {
+                path: 'staff-roles',
+                element: (
+                    <PermissionProtector
+                        children={<RoleManagementPage />}
+                        permission={permissions.accessRoleDashboardPage}
+                    />
                 )
             }
         ]

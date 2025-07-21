@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import authService from '@/services/authService'
+import { PasswordInput } from '@/components/ui/password-input'
 
 const signInFormSchema = z.object({
     username: z.string().min(1, { message: 'Tên đăng nhập không được để trống.' }),
@@ -62,8 +63,7 @@ const SignInForm = () => {
                             <FormItem>
                                 <FormLabel>Mật khẩu</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        type="password"
+                                    <PasswordInput
                                         placeholder="Mật khẩu..."
                                         className="rounded h-12 font-semibold border-2"
                                         {...field}
