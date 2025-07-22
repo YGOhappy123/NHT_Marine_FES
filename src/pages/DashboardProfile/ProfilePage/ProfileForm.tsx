@@ -106,7 +106,7 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
                                         <Input
                                             disabled={!hasModifyPermission}
                                             placeholder="Họ và tên..."
-                                            className="text-card-foreground h-12 rounded border-2 font-semibold"
+                                            className="caret-card-foreground text-card-foreground h-12 rounded border-2 font-semibold"
                                             {...field}
                                         />
                                     </FormControl>
@@ -124,7 +124,7 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
                                         <Input
                                             disabled={!hasModifyPermission}
                                             placeholder="Email..."
-                                            className="text-card-foreground h-12 rounded border-2 font-semibold"
+                                            className="caret-card-foreground text-card-foreground h-12 rounded border-2 font-semibold"
                                             {...field}
                                         />
                                     </FormControl>
@@ -140,7 +140,7 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
                                     <FormLabel className="text-card-foreground">Vai trò</FormLabel>
                                     <Select onValueChange={value => {}} value={field.value?.toString() ?? ''} disabled>
                                         <FormControl>
-                                            <SelectTrigger className="text-card-foreground h-12! w-full rounded border-2 font-semibold">
+                                            <SelectTrigger className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2 font-semibold">
                                                 <SelectValue placeholder="Vai trò..." />
                                             </SelectTrigger>
                                         </FormControl>

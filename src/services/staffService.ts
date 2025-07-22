@@ -5,14 +5,14 @@ import { onError } from '@/utils/errorsHandler'
 import useAxiosIns from '@/hooks/useAxiosIns'
 import toastConfig from '@/configs/toast'
 
-const staffService = ({ enableFetching = false }: { enableFetching?: boolean }) => {
+const staffService = ({ enableFetching = false }: { enableFetching: boolean }) => {
     const axios = useAxiosIns()
     const queryClient = useQueryClient()
 
     const updateStaffMutation = useMutation({
         mutationFn: ({ staffId, data }: { staffId: number; data: Partial<IStaff> }) =>
             axios.patch<IResponseData<any>>(`/staffs/${staffId}`, data),
-        onSuccess: (res) => {
+        onSuccess: res => {
             queryClient.invalidateQueries({ queryKey: ['staffs'] })
             toast(getMappedMessage(res.data.message), toastConfig('success'))
         },

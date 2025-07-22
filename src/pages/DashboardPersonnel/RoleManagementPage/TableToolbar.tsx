@@ -1,17 +1,27 @@
 import { Table } from '@tanstack/react-table'
-import { PencilLine, X } from 'lucide-react'
+import { X } from 'lucide-react'
+import { UseMutationResult } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableViewOptions } from '@/components/ui/data-table-view-options'
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter'
-import { roleTypes } from '@/pages/DashboardPersonnel/RoleManagementPage/RoleTableColumns'
+import { roleTypes } from '@/pages/DashboardPersonnel/RoleManagementPage/getTableColumns'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import appPermissions from '@/configs/permissions'
+import AddRoleDialog from '@/pages/DashboardPersonnel/RoleManagementPage/AddRoleDialog'
+import verifyPermission from '@/utils/verifyPermission'
 
 interface TableToolbarProps<TData> {
     table: Table<TData>
+    permissions: IPermission[]
+    addNewRoleMutation: UseMutationResult<any, any, Partial<IStaffRole>, any>
 }
 
-export function TableToolbar<TData>({ table }: TableToolbarProps<TData>) {
+export function TableToolbar<TData>({ table, permissions, addNewRoleMutation }: TableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0
+    const user = useSelector((state: RootState) => state.auth.user)
+    const hasAddRolePermission = verifyPermission(user, appPermissions.addNewRole)
 
     return (
         <div className="flex items-center justify-between">
@@ -36,11 +46,12 @@ export function TableToolbar<TData>({ table }: TableToolbarProps<TData>) {
                     </Button>
                 )}
             </div>
+
             <DataTableViewOptions table={table} />
-            <Button size="sm" className="ml-2 hidden h-8 lg:flex">
-                <PencilLine />
-                Thêm vai trò
-            </Button>
+
+            {hasAddRolePermission && (
+                <AddRoleDialog permissions={permissions} addNewRoleMutation={addNewRoleMutation} />
+            )}
         </div>
     )
 }

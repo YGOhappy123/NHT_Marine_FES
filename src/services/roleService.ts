@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getMappedMessage } from '@/utils/resMessageMapping'
 import { onError } from '@/utils/errorsHandler'
 import useAxiosIns from '@/hooks/useAxiosIns'
-import permissions from '@/configs/permissions'
+import toastConfig from '@/configs/toast'
 
-const roleService = ({ enableFetching = false }: { enableFetching?: boolean }) => {
+const roleService = ({ enableFetching = false }: { enableFetching: boolean }) => {
     const axios = useAxiosIns()
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const [roles, setRoles] = useState<IStaffRole[]>([])
     const [total, setTotal] = useState<number>(0)
 
@@ -22,6 +21,34 @@ const roleService = ({ enableFetching = false }: { enableFetching?: boolean }) =
         refetchInterval: 30000
     })
 
+    const addNewRoleMutation = useMutation({
+        mutationFn: (data: Partial<IStaffRole>) => axios.post<IResponseData<any>>('/roles', data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['staff-roles'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
+    const updateRoleMutation = useMutation({
+        mutationFn: ({ roleId, data }: { roleId: number; data: Partial<IStaffRole> }) =>
+            axios.patch<IResponseData<any>>(`/roles/${roleId}`, data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['staff-roles'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
+    const removeRoleMutation = useMutation({
+        mutationFn: (roleId: number) => axios.delete<IResponseData<any>>(`/roles/${roleId}`),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['staff-roles'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
     useEffect(() => {
         if (getAllRolesQuery.isSuccess && getAllRolesQuery.data) {
             setRoles(getAllRolesQuery.data.data?.data)
@@ -31,7 +58,10 @@ const roleService = ({ enableFetching = false }: { enableFetching?: boolean }) =
 
     return {
         roles,
-        total
+        total,
+        addNewRoleMutation,
+        updateRoleMutation,
+        removeRoleMutation
     }
 }
 

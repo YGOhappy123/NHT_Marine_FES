@@ -16,6 +16,9 @@ export const RES_MESSAGE_MAPPING = {
     UPLOAD_IMAGE_FAILED: 'Tải ảnh lên thất bại.',
     DELETE_IMAGE_FAILED: 'Xóa ảnh thất bại.',
     EMAIL_VERIFICATION_FAILED: 'Email chưa được xác thực.',
+    ROLE_NOT_FOUND: 'Không tìm thấy vai trò',
+    ROLE_EXISTED: 'Vai trò đã tồn tại',
+    ROLE_BEING_USED: 'Vai trò đang được sử dụng',
 
     SIGN_IN_SUCCESSFULLY: 'Đăng nhập thành công.',
     SIGN_UP_SUCCESSFULLY: 'Đăng ký thành công.',
@@ -28,7 +31,10 @@ export const RES_MESSAGE_MAPPING = {
     CHANGE_PASSWORD_SUCCESSFULLY: 'Thay đổi mật khẩu thành công.',
     UPLOAD_IMAGE_SUCCESSFULLY: 'Tải ảnh lên thành công.',
     DELETE_IMAGE_SUCCESSFULLY: 'Xóa ảnh thành công.',
-    UPDATE_USER_SUCCESSFULLY: 'Cập nhật người dùng thành công.'
+    UPDATE_USER_SUCCESSFULLY: 'Cập nhật người dùng thành công.',
+    CREATE_ROLE_SUCCESSFULLY: 'Tạo vai trò thành công.',
+    UPDATE_ROLE_SUCCESSFULLY: 'Cập nhật vai trò thành công.',
+    DELETE_ROLE_SUCCESSFULLY: 'Xóa vai trò thành công.'
 }
 
 export const getMappedMessage = (originalMessage: string) => {

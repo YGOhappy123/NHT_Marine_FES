@@ -27,15 +27,13 @@ declare global {
         roleId: number
         name: string
         isImmutable: boolean
-        permissions?: (
-            | string
-            | number
-            | {
-                  permissionId: number
-                  name: string
-                  code: string
-              }
-        )[]
+        permissions?: (string | number | IPermission)[]
+    }
+
+    interface IPermission {
+        permissionId: number
+        name: string
+        code: string
     }
 }
 
