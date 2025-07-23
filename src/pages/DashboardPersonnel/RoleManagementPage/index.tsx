@@ -8,16 +8,15 @@ import { getTableColumns } from '@/pages/DashboardPersonnel/RoleManagementPage/g
 import { RootState } from '@/store'
 import roleService from '@/services/roleService'
 import useAxiosIns from '@/hooks/useAxiosIns'
-import ViewRoleDialog from '@/pages/DashboardPersonnel/RoleManagementPage/ViewRoleDialog'
-import UpdateRoleDialog from '@/pages/DashboardPersonnel/RoleManagementPage/UpdateRoleDialog'
+import DataRoleDialog from '@/pages/DashboardPersonnel/RoleManagementPage/DataRoleDialog'
 import verifyPermission from '@/utils/verifyPermission'
 import appPermissions from '@/configs/permissions'
 
 const RoleManagementPage = () => {
     const axios = useAxiosIns()
     const user = useSelector((state: RootState) => state.auth.user)
-    const [viewDialogOpen, setViewDialogOpen] = useState(false)
-    const [updateDialogOpen, setUpdateDialogOpen] = useState(false)
+    const [dialogOpen, setDialogOpen] = useState(false)
+    const [dialogMode, setDialogMode] = useState<'view' | 'update'>('view')
     const [selectedRole, setSelectedRole] = useState<IStaffRole | null>(null)
     const { roles, addNewRoleMutation, updateRoleMutation, removeRoleMutation } = roleService({ enableFetching: true })
 
@@ -43,19 +42,15 @@ const RoleManagementPage = () => {
                 </div>
             </div>
 
-            <ViewRoleDialog
+            <DataRoleDialog
                 role={selectedRole}
                 permissions={permissions}
-                open={viewDialogOpen}
-                setOpen={setViewDialogOpen}
-            />
-
-            <UpdateRoleDialog
-                role={selectedRole}
-                permissions={permissions}
-                open={updateDialogOpen}
-                setOpen={setUpdateDialogOpen}
+                mode={dialogMode}
+                setMode={setDialogMode}
+                open={dialogOpen}
+                setOpen={setDialogOpen}
                 updateRoleMutation={updateRoleMutation}
+                hasUpdatePermission={verifyPermission(user, appPermissions.updateRole)}
             />
 
             <DataTable
@@ -65,11 +60,13 @@ const RoleManagementPage = () => {
                     hasDeletePermission: verifyPermission(user, appPermissions.removeRole),
                     onViewRole: (role: IStaffRole) => {
                         setSelectedRole(role)
-                        setViewDialogOpen(true)
+                        setDialogMode('view')
+                        setDialogOpen(true)
                     },
                     onUpdateRole: (role: IStaffRole) => {
                         setSelectedRole(role)
-                        setUpdateDialogOpen(true)
+                        setDialogMode('update')
+                        setDialogOpen(true)
                     },
                     removeRoleMutation: removeRoleMutation
                 })}
