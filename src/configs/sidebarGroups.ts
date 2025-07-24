@@ -136,7 +136,7 @@ export const sidebarGroups: SidebarGroupData[] = [
             {
                 title: 'Vai trò và quyền hạn',
                 icon: KeyRound,
-                url: '/staff-roles',
+                url: '/personnel/staff-roles',
                 accessRequirement: permissions.accessRoleDashboardPage
             }
         ]

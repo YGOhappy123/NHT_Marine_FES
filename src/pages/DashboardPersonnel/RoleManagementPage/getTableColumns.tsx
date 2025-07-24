@@ -68,7 +68,10 @@ export const getTableColumns = ({
             accessorKey: 'roleId',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Mã vai trò" enableHiding={false} />,
             cell: ({ row }) => <div className="w-[80px]">{row.getValue('roleId')}</div>,
-            enableHiding: false
+            enableHiding: false,
+            filterFn: (row, id, value: (number | string)[]) => {
+                return value.includes(row.getValue(id))
+            }
         },
         {
             id: 'Tên vai trò',

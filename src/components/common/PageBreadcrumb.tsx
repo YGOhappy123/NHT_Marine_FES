@@ -23,16 +23,20 @@ const PageBreadcrumb = () => {
     const { pathname } = useLocation()
     const isMobile = useIsMobile()
 
+    const pathMatches = (path?: string) => {
+        if (!path) return false
+        return pathname === path || pathname.startsWith(`${path}/`)
+    }
+
     const matchingGroup = sidebarGroups.find(group =>
-        group.items.some(item => item.url === pathname || item.children?.some(child => child.url === pathname))
+        group.items.some(item => pathMatches(item.url) || item.children?.some(child => pathMatches(child.url)))
     )
+
     const matchingItem = matchingGroup?.items.find(
-        item => item.url === pathname || item.children?.some(child => child.url === pathname)
+        item => pathMatches(item.url) || item.children?.some(child => pathMatches(child.url))
     )
-    const matchingChild =
-        matchingItem?.children?.length &&
-        matchingItem.children.length > 0 &&
-        matchingItem.children.find(child => child.url === pathname)
+
+    const matchingChild = matchingItem?.children?.find(child => pathMatches(child.url))
 
     useTitle(`NHT Marine | ${matchingChild ? matchingChild.title : matchingItem?.title}`)
 
@@ -55,7 +59,7 @@ const PageBreadcrumb = () => {
                         {matchingChild ? (
                             <>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink>{matchingItem.title}</BreadcrumbLink>
+                                    <BreadcrumbLink>{matchingItem?.title}</BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem>

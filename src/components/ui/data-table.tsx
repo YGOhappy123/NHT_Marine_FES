@@ -55,7 +55,7 @@ export function DataTable<TData, TValue>({ columns, data, renderToolbar }: DataT
             {renderToolbar && renderToolbar(table as any)}
             <div className="overflow-hidden rounded-md border">
                 <Table>
-                    <TableHeader className="bg-muted">
+                    <TableHeader className="bg-muted/90">
                         {table.getHeaderGroups().map(headerGroup => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map(header => {

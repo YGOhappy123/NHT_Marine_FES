@@ -56,7 +56,7 @@ const AddRoleDialog = ({ permissions, addNewRoleMutation }: AddRoleDialogProps) 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button size="sm" className="ml-2 flex h-8">
+                <Button size="sm" className="flex h-8">
                     <PencilLine />
                     Thêm vai trò
                 </Button>
