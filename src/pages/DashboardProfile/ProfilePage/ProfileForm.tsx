@@ -3,14 +3,12 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { twMerge } from 'tailwind-merge'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { RootState } from '@/store'
 import { setUser } from '@/slices/authSlice'
-import { useIsMobile } from '@/hooks/useMobile'
 import ImageUploader from '@/pages/DashboardProfile/ProfilePage/ImageUploader'
 import verifyPermission from '@/utils/verifyPermission'
 import permissions from '@/configs/permissions'
@@ -39,7 +37,6 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
     const [avatar, setAvatar] = useState(user?.avatar)
     const { uploadBase64Mutation } = fileService()
     const { updateStaffMutation } = staffService({ enableFetching: false })
-    const isMobile = useIsMobile()
     const dispatch = useDispatch()
 
     const form = useForm<z.infer<typeof profileFormSchema>>({
@@ -87,7 +84,7 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col p-6">
-                <div className={twMerge('mb-12 grid gap-12', isMobile ? 'grid-cols-1' : 'grid-cols-3')}>
+                <div className="mb-12 grid grid-cols-1 gap-12 md:grid-cols-3">
                     <ImageUploader
                         hasPermission={hasModifyPermission}
                         avatar={avatar}
@@ -95,7 +92,7 @@ const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
                         currentAvatar={user.avatar}
                     />
 
-                    <div className="col-span-2 flex flex-col gap-6">
+                    <div className="col-span-1 flex flex-col gap-6 md:col-span-2">
                         <FormField
                             control={form.control}
                             name="fullName"

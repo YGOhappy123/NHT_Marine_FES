@@ -3,7 +3,7 @@ import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
 import AuthProtector from '@/components/container/AuthProtector'
 import PermissionProtector from '@/components/container/PermissionProtector'
-import ProductPage from '@/pages/DashboardProduct/ProductPage'
+import ProductManagementPage from '@/pages/DashboardProduct/ProductManagementPage'
 import ProductDetailPage from '@/pages/DashboardProduct/ProductDetailPage'
 import AddProductPage from '@/pages/DashboardProduct/AddProductPage'
 import permissions from '@/configs/permissions'
@@ -20,7 +20,7 @@ const ProductRoutes = [
         children: [
             {
                 path: '',
-                element: <ProductPage />
+                element: <ProductManagementPage />
             },
             {
                 path: ':productId',

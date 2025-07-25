@@ -221,12 +221,7 @@ const DataRoleDialog = ({
                             <Button variant="outline">Đóng</Button>
                         </DialogClose>
                         {hasUpdatePermission && !role?.isImmutable && (
-                            <Button
-                                type="button"
-                                onClick={() => {
-                                    setMode('update')
-                                }}
-                            >
+                            <Button type="button" onClick={() => setMode('update')}>
                                 <PencilLine />
                                 Chỉnh sửa
                             </Button>

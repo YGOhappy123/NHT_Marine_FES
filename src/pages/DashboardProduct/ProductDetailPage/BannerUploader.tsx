@@ -4,14 +4,14 @@ import { Edit } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import toastConfig from '@/configs/toast'
 
-type ImageUploaderProps = {
+type BannerUploaderProps = {
     hasPermission: boolean
-    avatar: string | undefined
-    setAvatar: (avatar: string | undefined) => void
-    currentAvatar: string | undefined
+    bannerImg: string | undefined
+    setBannerImg: (bannerImg: string | undefined) => void
+    currentBannerImg: string | undefined
 }
 
-const ImageUploader = ({ hasPermission, avatar, setAvatar, currentAvatar }: ImageUploaderProps) => {
+const BannerUploader = ({ hasPermission, bannerImg, setBannerImg, currentBannerImg }: BannerUploaderProps) => {
     const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
         if (!file || !file.type.startsWith('image/')) {
@@ -20,14 +20,18 @@ const ImageUploader = ({ hasPermission, avatar, setAvatar, currentAvatar }: Imag
         }
 
         const reader = new FileReader()
-        reader.onloadend = () => setAvatar(reader.result as any)
+        reader.onloadend = () => setBannerImg(reader.result as any)
         reader.readAsDataURL(file)
     }
 
     return (
-        <div className="flex flex-col items-center justify-start gap-6">
-            <div className="border-primary bg-ivory relative flex w-full max-w-[200px] items-center justify-center rounded-full border-4 p-1">
-                <img src={avatar} alt="user avatar" className="aspect-square h-full w-full rounded-full object-cover" />
+        <div className="flex w-full max-w-[200px] flex-col items-center justify-start gap-6">
+            <div className="border-primary bg-ivory relative flex w-full items-center justify-center rounded-full border-4 p-1">
+                <img
+                    src={bannerImg}
+                    alt="user bannerImg"
+                    className="aspect-square h-full w-full rounded-full object-cover"
+                />
 
                 {hasPermission && (
                     <label
@@ -48,8 +52,8 @@ const ImageUploader = ({ hasPermission, avatar, setAvatar, currentAvatar }: Imag
                 />
             </div>
 
-            {avatar !== currentAvatar && (
-                <Button type="button" variant="outline" onClick={() => setAvatar(currentAvatar)}>
+            {bannerImg !== currentBannerImg && (
+                <Button type="button" variant="outline" onClick={() => setBannerImg(currentBannerImg)}>
                     Đặt lại ảnh cũ
                 </Button>
             )}
@@ -57,4 +61,4 @@ const ImageUploader = ({ hasPermission, avatar, setAvatar, currentAvatar }: Imag
     )
 }
 
-export default ImageUploader
+export default BannerUploader

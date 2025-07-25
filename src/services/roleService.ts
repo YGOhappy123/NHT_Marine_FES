@@ -10,7 +10,7 @@ const roleService = ({ enableFetching = false }: { enableFetching: boolean }) =>
     const axios = useAxiosIns()
     const queryClient = useQueryClient()
     const [roles, setRoles] = useState<IStaffRole[]>([])
-    const [total, setTotal] = useState<number>(0)
+    const [roleCount, setRoleCount] = useState<number>(0)
 
     const getAllRolesQuery = useQuery({
         queryKey: ['staff-roles'],
@@ -52,13 +52,13 @@ const roleService = ({ enableFetching = false }: { enableFetching: boolean }) =>
     useEffect(() => {
         if (getAllRolesQuery.isSuccess && getAllRolesQuery.data) {
             setRoles(getAllRolesQuery.data.data?.data)
-            setTotal(getAllRolesQuery.data.data?.total as number)
+            setRoleCount(getAllRolesQuery.data.data?.total as number)
         }
     }, [getAllRolesQuery.isSuccess, getAllRolesQuery.data])
 
     return {
         roles,
-        total,
+        roleCount,
         addNewRoleMutation,
         updateRoleMutation,
         removeRoleMutation

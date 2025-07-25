@@ -102,7 +102,7 @@ export const sidebarGroups: SidebarGroupData[] = [
                 url: '/categories'
             },
             {
-                title: 'Sản phẩm và phân loại',
+                title: 'Danh sách sản phẩm',
                 icon: Fish,
                 url: '/products'
             },

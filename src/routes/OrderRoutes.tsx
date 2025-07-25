@@ -3,7 +3,7 @@ import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
 import AuthProtector from '@/components/container/AuthProtector'
 import PermissionProtector from '@/components/container/PermissionProtector'
-import OrderPage from '@/pages/DashboardOrder/OrderPage'
+import OrderManagementPage from '@/pages/DashboardOrder/OrderManagementPage'
 import permissions from '@/configs/permissions'
 
 const OrderRoutes = [
@@ -19,7 +19,10 @@ const OrderRoutes = [
             {
                 path: '',
                 element: (
-                    <PermissionProtector children={<OrderPage />} permission={permissions.accessOrderDashboardPage} />
+                    <PermissionProtector
+                        children={<OrderManagementPage />}
+                        permission={permissions.accessOrderDashboardPage}
+                    />
                 )
             }
         ]
