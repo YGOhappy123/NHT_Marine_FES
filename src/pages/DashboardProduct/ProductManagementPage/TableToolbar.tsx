@@ -1,39 +1,44 @@
+import { useNavigate } from 'react-router-dom'
 import { Table } from '@tanstack/react-table'
-import { X } from 'lucide-react'
-import { UseMutationResult } from '@tanstack/react-query'
+import { BatteryFull, BatteryLow, PencilLine, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableViewOptions } from '@/components/ui/data-table-view-options'
-import { roleTypes } from '@/pages/DashboardPersonnel/RoleManagementPage/getTableColumns'
 import { useIsMobile } from '@/hooks/useMobile'
 import { twMerge } from 'tailwind-merge'
-import AddRoleDialog from '@/pages/DashboardPersonnel/RoleManagementPage/AddRoleDialog'
 import TableDataFilter from '@/components/common/TableDataFilter'
 
 interface TableToolbarProps<TData> {
     table: Table<TData>
-    permissions: IPermission[]
-    addNewRoleMutation: UseMutationResult<any, any, Partial<IStaffRole>, any>
-    hasAddRolePermission: boolean
+    hasAddProductPermission: boolean
 }
 
-export function TableToolbar<TData>({
-    table,
-    permissions,
-    addNewRoleMutation,
-    hasAddRolePermission
-}: TableToolbarProps<TData>) {
+const stockStatuses = [
+    {
+        value: true,
+        label: 'Còn hàng',
+        icon: BatteryFull
+    },
+    {
+        value: false,
+        label: 'Hết hàng',
+        icon: BatteryLow
+    }
+]
+
+export function TableToolbar<TData>({ table, hasAddProductPermission }: TableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0
     const isMobile = useIsMobile()
+    const navigate = useNavigate()
 
     return (
         <div className="flex items-center justify-between">
             <div className={twMerge('flex gap-2', isMobile ? '' : 'flex-col items-start xl:flex-row')}>
                 <div className="flex items-center gap-2">
                     <Input
-                        placeholder="Tìm vai trò theo tên..."
-                        value={(table.getColumn('Tên vai trò')?.getFilterValue() as string) ?? ''}
-                        onChange={event => table.getColumn('Tên vai trò')?.setFilterValue(event.target.value)}
+                        placeholder="Tìm sản phẩm theo tên..."
+                        value={(table.getColumn('Thông tin sản phẩm')?.getFilterValue() as string) ?? ''}
+                        onChange={event => table.getColumn('Thông tin sản phẩm')?.setFilterValue(event.target.value)}
                         className="text-foreground caret-foreground h-8 w-[150px] md:w-[200px] lg:w-[250px]"
                     />
                     {!isMobile && isFiltered && (
@@ -47,14 +52,17 @@ export function TableToolbar<TData>({
                         </Button>
                     )}
                 </div>
-                {table.getColumn('Loại vai trò') && (
+                {table.getColumn('Tồn kho') && (
                     <TableDataFilter
                         table={table}
-                        rootColumn="roleId"
-                        filterColumn="Loại vai trò"
-                        title="Loại vai trò"
-                        options={roleTypes}
-                        filterFn={(rawValue: boolean, option) => rawValue === option}
+                        rootColumn="rootProductId"
+                        filterColumn="Tồn kho"
+                        title="Trạng thái tồn kho"
+                        options={stockStatuses}
+                        filterFn={(rawValue: number, option) => {
+                            console.log(rawValue > 0 === option)
+                            return rawValue > 0 === option
+                        }}
                     />
                 )}
                 {isFiltered && (
@@ -72,8 +80,11 @@ export function TableToolbar<TData>({
             <div className="flex items-center gap-2">
                 <DataTableViewOptions table={table} />
 
-                {hasAddRolePermission && (
-                    <AddRoleDialog permissions={permissions} addNewRoleMutation={addNewRoleMutation} />
+                {hasAddProductPermission && (
+                    <Button size="sm" className="flex h-8" onClick={() => navigate('/products/add')}>
+                        <PencilLine />
+                        Thêm sản phẩm
+                    </Button>
                 )}
             </div>
         </div>

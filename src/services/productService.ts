@@ -30,24 +30,56 @@ const productService = ({ enableFetching = false }: { enableFetching: boolean })
     //     }
     // })
 
-    // const updateProductMutation = useMutation({
-    //     mutationFn: ({ productId, data }: { productId: number; data: Partial<IRootProduct> }) =>
-    //         axios.patch<IResponseData<any>>(`/products/${productId}`, data),
-    //     onError: onError,
-    //     onSuccess: res => {
-    //         queryClient.invalidateQueries({ queryKey: ['products'] })
-    //         toast(getMappedMessage(res.data.message), toastConfig('success'))
-    //     }
-    // })
+    const updateProductInfoMutation = useMutation({
+        mutationFn: ({
+            productId,
+            data
+        }: {
+            productId: number
+            data: {
+                name: string
+                description: string
+                categoryId: number
+                imageUrl: string
+            }
+        }) => axios.patch<IResponseData<any>>(`/products/${productId}/info`, data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['products'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
 
-    // const removeProductMutation = useMutation({
-    //     mutationFn: (productId: number) => axios.delete<IResponseData<any>>(`/products/${productId}`),
-    //     onError: onError,
-    //     onSuccess: res => {
-    //         queryClient.invalidateQueries({ queryKey: ['products'] })
-    //         toast(getMappedMessage(res.data.message), toastConfig('success'))
-    //     }
-    // })
+    const updateProductItemsMutation = useMutation({
+        mutationFn: ({
+            productId,
+            data
+        }: {
+            productId: number
+            data: {
+                productItems: {
+                    productItemId: number
+                    price: number
+                    imageUrl: string
+                    packingGuide: string
+                }[]
+            }
+        }) => axios.patch<IResponseData<any>>(`/products/${productId}/items`, data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['products'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
+    const removeProductMutation = useMutation({
+        mutationFn: (productId: number) => axios.delete<IResponseData<any>>(`/products/${productId}`),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['products'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
 
     useEffect(() => {
         if (getAllProductsQuery.isSuccess && getAllProductsQuery.data) {
@@ -58,10 +90,11 @@ const productService = ({ enableFetching = false }: { enableFetching: boolean })
 
     return {
         products,
-        productCount
+        productCount,
         // addNewProductMutation,
-        // updateProductMutation,
-        // removeProductMutation
+        updateProductInfoMutation,
+        updateProductItemsMutation,
+        removeProductMutation
     }
 }
 

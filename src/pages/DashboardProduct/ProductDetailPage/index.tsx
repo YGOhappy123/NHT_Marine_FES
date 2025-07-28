@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
 import { ArrowLeftFromLine } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
+import { Button } from '@/components/ui/button'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import TableOfContents from '@/pages/DashboardProduct/ProductDetailPage/TableOfContents'
 import ProductInfoCard from '@/pages/DashboardProduct/ProductDetailPage/ProductInfoCard'
@@ -106,10 +106,12 @@ const ProductDetailPage = () => {
                         product={product!}
                         categories={categories}
                         hasModifyInfoPermission={verifyPermission(user, permissions.updateProductInformation)}
+                        onUpdateSuccess={() => getProductDetailQuery.refetch()}
                     />
                     <ProductVariantsCard
                         product={product!}
-                        hasModifyVariantsPermission={verifyPermission(user, permissions.updateProductPrice)}
+                        hasModifyItemPermission={verifyPermission(user, permissions.updateProductPrice)}
+                        onUpdateSuccess={() => getProductDetailQuery.refetch()}
                     />
                     <ProductPromotionsCard product={product!} />
                 </div>

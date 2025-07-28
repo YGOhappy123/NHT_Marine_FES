@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -11,11 +11,14 @@ import { Input } from '@/components/ui/input'
 import { sections } from '@/pages/DashboardProduct/ProductDetailPage/TableOfContents'
 import BannerUploader from '@/pages/DashboardProduct/ProductDetailPage/BannerUploader'
 import RichTextEditor from '@/components/common/RichTextEditor'
+import fileService from '@/services/fileService'
+import productService from '@/services/productService'
 
 type ProductInfoCardProps = {
     product: IRootProduct
     categories: ICategory[]
     hasModifyInfoPermission: boolean
+    onUpdateSuccess: () => Promise<any>
 }
 
 const productInfoFormSchema = z.object({
@@ -25,9 +28,11 @@ const productInfoFormSchema = z.object({
     imageUrl: z.string().min(1, { message: 'Vui lòng chọn ảnh banner.' })
 })
 
-const ProductInfoCard = ({ product, categories, hasModifyInfoPermission }: ProductInfoCardProps) => {
+const ProductInfoCard = ({ product, categories, hasModifyInfoPermission, onUpdateSuccess }: ProductInfoCardProps) => {
     const section = sections.information
     const [mode, setMode] = useState<'view' | 'update'>('view')
+    const { uploadBase64Mutation } = fileService()
+    const { updateProductInfoMutation } = productService({ enableFetching: false })
 
     const form = useForm<z.infer<typeof productInfoFormSchema>>({
         resolver: zodResolver(productInfoFormSchema),
@@ -42,8 +47,39 @@ const ProductInfoCard = ({ product, categories, hasModifyInfoPermission }: Produ
     const onSubmit = async (values: z.infer<typeof productInfoFormSchema>) => {
         if (!hasModifyInfoPermission) return
 
-        console.log(values)
+        try {
+            let newImageUrl = ''
+
+            if (values.imageUrl !== product.imageUrl) {
+                const res = await uploadBase64Mutation.mutateAsync({ base64: values.imageUrl, folder: 'products' })
+                newImageUrl = res.data.data?.imageUrl
+            }
+
+            await updateProductInfoMutation.mutateAsync({
+                productId: product.rootProductId,
+                data: {
+                    name: values.name,
+                    description: values.description,
+                    categoryId: values.categoryId,
+                    imageUrl: newImageUrl || product.imageUrl
+                }
+            })
+
+            onUpdateSuccess()
+            setMode('view')
+        } catch {
+            form.reset()
+        }
     }
+
+    useEffect(() => {
+        form.reset({
+            name: product.name,
+            description: product.description,
+            categoryId: product.categoryId,
+            imageUrl: product.imageUrl
+        })
+    }, [product, form])
 
     return (
         <Card className="w-full max-w-4xl" id={section.id}>
@@ -151,44 +187,46 @@ const ProductInfoCard = ({ product, categories, hasModifyInfoPermission }: Produ
                             </div>
                         </div>
 
-                        <div className="mt-12 grid grid-cols-1 items-center gap-4 xl:grid-cols-2">
-                            {mode === 'view' && hasModifyInfoPermission && (
-                                <Button
-                                    type="button"
-                                    onClick={() => {
-                                        setMode('update')
-                                        form.reset()
-                                    }}
-                                    className="h-12 rounded text-base capitalize xl:col-span-2"
-                                >
-                                    <PencilLine />
-                                    Chỉnh sửa
-                                </Button>
-                            )}
-
-                            {mode === 'update' && (
-                                <>
+                        {hasModifyInfoPermission && (
+                            <div className="mt-6 grid grid-cols-1 items-center gap-4 xl:grid-cols-2">
+                                {mode === 'view' && (
                                     <Button
                                         type="button"
-                                        variant="outline"
                                         onClick={() => {
-                                            setMode('view')
+                                            setMode('update')
                                             form.reset()
                                         }}
-                                        className="h-12 rounded text-base capitalize"
+                                        className="h-12 rounded text-base capitalize xl:col-span-2"
                                     >
-                                        Hủy bỏ
+                                        <PencilLine />
+                                        Chỉnh sửa
                                     </Button>
-                                    <Button
-                                        type="submit"
-                                        disabled={!hasModifyInfoPermission || form.formState.isSubmitting}
-                                        className="h-12 rounded text-base capitalize"
-                                    >
-                                        {form.formState.isSubmitting ? 'Đang tải...' : 'Cập nhật thông tin'}
-                                    </Button>
-                                </>
-                            )}
-                        </div>
+                                )}
+
+                                {mode === 'update' && (
+                                    <>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={() => {
+                                                setMode('view')
+                                                form.reset()
+                                            }}
+                                            className="h-12 rounded text-base capitalize"
+                                        >
+                                            Hủy bỏ
+                                        </Button>
+                                        <Button
+                                            type="submit"
+                                            disabled={!hasModifyInfoPermission || form.formState.isSubmitting}
+                                            className="h-12 rounded text-base capitalize"
+                                        >
+                                            {form.formState.isSubmitting ? 'Đang tải...' : 'Cập nhật thông tin'}
+                                        </Button>
+                                    </>
+                                )}
+                            </div>
+                        )}
                     </form>
                 </Form>
             </CardContent>

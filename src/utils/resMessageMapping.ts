@@ -16,9 +16,14 @@ export const RES_MESSAGE_MAPPING = {
     UPLOAD_IMAGE_FAILED: 'Tải ảnh lên thất bại.',
     DELETE_IMAGE_FAILED: 'Xóa ảnh thất bại.',
     EMAIL_VERIFICATION_FAILED: 'Email chưa được xác thực.',
-    ROLE_NOT_FOUND: 'Không tìm thấy vai trò',
-    ROLE_EXISTED: 'Vai trò đã tồn tại',
-    ROLE_BEING_USED: 'Vai trò đang được sử dụng',
+    ROLE_NOT_FOUND: 'Không tìm thấy vai trò.',
+    ROLE_EXISTED: 'Tên vai trò đã tồn tại.',
+    ROLE_BEING_USED: 'Vai trò đang được sử dụng.',
+    PRODUCT_NOT_FOUND: 'Không tìm thấy sản phẩm.',
+    PRODUCT_EXISTED: 'Tên sản phẩm đã tồn tại.',
+    PRODUCT_ITEM_NOT_FOUND: 'Không tìm thấy chi tiết sản phẩm.',
+    PRODUCT_IDS_MISMATCH: 'Các mã sản phẩm không khớp.',
+    PRODUCT_BEING_USED: 'Sản phẩm đang được sử dụng.',
 
     SIGN_IN_SUCCESSFULLY: 'Đăng nhập thành công.',
     SIGN_UP_SUCCESSFULLY: 'Đăng ký thành công.',
@@ -34,7 +39,10 @@ export const RES_MESSAGE_MAPPING = {
     UPDATE_USER_SUCCESSFULLY: 'Cập nhật người dùng thành công.',
     CREATE_ROLE_SUCCESSFULLY: 'Tạo vai trò thành công.',
     UPDATE_ROLE_SUCCESSFULLY: 'Cập nhật vai trò thành công.',
-    DELETE_ROLE_SUCCESSFULLY: 'Xóa vai trò thành công.'
+    DELETE_ROLE_SUCCESSFULLY: 'Xóa vai trò thành công.',
+    CREATE_PRODUCT_SUCCESSFULLY: 'Tạo sản phẩm thành công.',
+    UPDATE_PRODUCT_SUCCESSFULLY: 'Cập nhật sản phẩm thành công.',
+    DELETE_PRODUCT_SUCCESSFULLY: 'Xóa sản phẩm thành công.'
 }
 
 export const getMappedMessage = (originalMessage: string) => {

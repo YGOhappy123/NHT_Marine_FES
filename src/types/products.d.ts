@@ -29,10 +29,12 @@ declare global {
         variantId: number
         name: string
         isAdjustable: boolean
-        options: {
-            optionId: number
-            value: string
-        }[]
+        options: IVariantOption[]
+    }
+
+    interface IVariantOption {
+        optionId: number
+        value: string
     }
 
     interface IProductItem {

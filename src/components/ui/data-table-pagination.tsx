@@ -10,7 +10,7 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
     return (
         <div className="flex items-center justify-between px-2">
-            <div className="flex-1 text-sm text-muted-foreground">
+            <div className="text-muted-foreground hidden flex-1 text-sm lg:block">
                 {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng
                 được chọn.
             </div>
@@ -19,7 +19,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
                     <p className="text-sm font-medium">Số dòng mỗi trang</p>
                     <Select
                         value={`${table.getState().pagination.pageSize}`}
-                        onValueChange={(value) => {
+                        onValueChange={value => {
                             table.setPageSize(Number(value))
                         }}
                     >
@@ -27,7 +27,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
                             <SelectValue placeholder={table.getState().pagination.pageSize} />
                         </SelectTrigger>
                         <SelectContent side="top">
-                            {[10, 20, 30, 40, 50].map((pageSize) => (
+                            {[10, 20, 30, 40, 50].map(pageSize => (
                                 <SelectItem key={pageSize} value={`${pageSize}`}>
                                     {pageSize}
                                 </SelectItem>

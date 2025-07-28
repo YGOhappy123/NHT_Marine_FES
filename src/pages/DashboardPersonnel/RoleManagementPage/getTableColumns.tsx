@@ -119,52 +119,54 @@ export const getTableColumns = ({
         },
         {
             id: 'actions',
-            header: 'Hành động',
+            header: () => <div className="text-center">Hành động</div>,
             cell: ({ row }) => (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="data-[state=open]:bg-muted flex h-8 w-8 p-0">
-                            <MoreHorizontal />
-                            <span className="sr-only">Mở menu</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="center" className="w-[160px]">
-                        <DropdownMenuItem className="cursor-pointer" onClick={() => onViewRole(row.original)}>
-                            Chi tiết
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            disabled={row.original.isImmutable || !hasUpdatePermission}
-                            className="cursor-pointer"
-                            onClick={() => {
-                                if (!row.original.isImmutable && hasUpdatePermission) {
-                                    onUpdateRole(row.original)
+                <div className="flex justify-center">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="data-[state=open]:bg-muted flex h-8 w-8 p-0">
+                                <MoreHorizontal />
+                                <span className="sr-only">Mở menu</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="center" className="w-[160px]">
+                            <DropdownMenuItem className="cursor-pointer" onClick={() => onViewRole(row.original)}>
+                                Chi tiết
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                disabled={row.original.isImmutable || !hasUpdatePermission}
+                                className="cursor-pointer"
+                                onClick={() => {
+                                    if (!row.original.isImmutable && hasUpdatePermission) {
+                                        onUpdateRole(row.original)
+                                    }
+                                }}
+                            >
+                                Chỉnh sửa
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <ConfirmationDialog
+                                title="Bạn có chắc muốn xóa vai trò này?"
+                                description="Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn vai trò khỏi hệ thống NHT Marine."
+                                onConfirm={async () => {
+                                    if (!row.original.isImmutable && hasDeletePermission) {
+                                        removeRoleMutation.mutateAsync(row.original.roleId)
+                                    }
+                                }}
+                                trigger={
+                                    <DropdownMenuItem
+                                        variant="destructive"
+                                        disabled={row.original.isImmutable || !hasDeletePermission}
+                                        className="cursor-pointer"
+                                    >
+                                        Xóa
+                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
+                                    </DropdownMenuItem>
                                 }
-                            }}
-                        >
-                            Chỉnh sửa
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <ConfirmationDialog
-                            title="Bạn có chắc muốn xóa vai trò này?"
-                            description="Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn vai trò khỏi hệ thống NHT Marine."
-                            onConfirm={async () => {
-                                if (!row.original.isImmutable && hasDeletePermission) {
-                                    removeRoleMutation.mutateAsync(row.original.roleId)
-                                }
-                            }}
-                            trigger={
-                                <DropdownMenuItem
-                                    variant="destructive"
-                                    disabled={row.original.isImmutable || !hasDeletePermission}
-                                    className="cursor-pointer"
-                                >
-                                    Xóa
-                                    <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
-                                </DropdownMenuItem>
-                            }
-                        />
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            />
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             )
         }
     ]

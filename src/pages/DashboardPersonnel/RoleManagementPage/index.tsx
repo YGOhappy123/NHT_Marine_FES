@@ -71,7 +71,12 @@ const RoleManagementPage = () => {
                     removeRoleMutation: removeRoleMutation
                 })}
                 renderToolbar={table => (
-                    <TableToolbar table={table} permissions={permissions} addNewRoleMutation={addNewRoleMutation} />
+                    <TableToolbar
+                        table={table}
+                        permissions={permissions}
+                        addNewRoleMutation={addNewRoleMutation}
+                        hasAddRolePermission={verifyPermission(user, appPermissions.addNewRole)}
+                    />
                 )}
             />
         </div>

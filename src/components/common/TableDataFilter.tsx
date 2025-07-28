@@ -64,11 +64,16 @@ const TableDataFilter = <TData, TValue>({
     useEffect(() => {
         if (!rootTableColumn) return
 
+        if (selectedValues.size === 0) {
+            rootTableColumn.setFilterValue(undefined)
+            return
+        }
+
         const newValues = tableRows
             .filter(row => Array.from(selectedValues).some(value => filterFn(row.getValue(filterColumn), value)))
             .map(row => row.getValue(rootColumn))
 
-        rootTableColumn?.setFilterValue(newValues.length ? newValues : undefined)
+        rootTableColumn?.setFilterValue(newValues)
     }, [selectedValues])
 
     return (
