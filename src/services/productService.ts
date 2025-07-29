@@ -21,14 +21,14 @@ const productService = ({ enableFetching = false }: { enableFetching: boolean })
         refetchInterval: 10000
     })
 
-    // const addNewProductMutation = useMutation({
-    //     mutationFn: (data: Partial<IRootProduct>) => axios.post<IResponseData<any>>('/products', data),
-    //     onError: onError,
-    //     onSuccess: res => {
-    //         queryClient.invalidateQueries({ queryKey: ['products'] })
-    //         toast(getMappedMessage(res.data.message), toastConfig('success'))
-    //     }
-    // })
+    const addNewProductMutation = useMutation({
+        mutationFn: (data: any) => axios.post<IResponseData<any>>('/products', data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['products'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
 
     const updateProductInfoMutation = useMutation({
         mutationFn: ({
@@ -91,7 +91,7 @@ const productService = ({ enableFetching = false }: { enableFetching: boolean })
     return {
         products,
         productCount,
-        // addNewProductMutation,
+        addNewProductMutation,
         updateProductInfoMutation,
         updateProductItemsMutation,
         removeProductMutation

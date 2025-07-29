@@ -29,9 +29,8 @@ const BannerUploader = ({ hasPermission, bannerImg, setBannerImg, currentBannerI
         <div className="flex w-full max-w-[200px] flex-col items-center justify-start gap-6">
             <div className="border-primary relative flex w-full items-center justify-center rounded-full border-4 p-1">
                 <img
-                    src={bannerImg}
-                    alt="product banner"
-                    className="aspect-square h-full w-full rounded-full object-cover"
+                    src={bannerImg || '/images/upload-icon.jpg'}
+                    className="bg-primary-foreground aspect-square h-full w-full rounded-full object-cover"
                 />
 
                 {hasPermission && (

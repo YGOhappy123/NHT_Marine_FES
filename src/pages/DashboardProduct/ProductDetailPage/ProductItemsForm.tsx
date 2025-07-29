@@ -5,10 +5,10 @@ import { Resolver, useForm } from 'react-hook-form'
 import { PencilLine } from 'lucide-react'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Separator } from '@/components/ui/separator'
+import { Badge } from '@/components/ui/badge'
 import { BADGE_COLORS } from '@/configs/constants'
 import NoButtonImageUploader from '@/components/common/NoButtonImageUploader'
 import fileService from '@/services/fileService'
@@ -114,7 +114,7 @@ const ProductItemsForm = ({ product, options, hasModifyItemPermission, onUpdateS
                     <div key={index} className="bg-muted/90 w-full rounded-lg border-2 p-3">
                         <div className="flex gap-2">
                             <h5 className="font-semibold">Danh sách thuộc tính:</h5>
-                            {/* <ul className="flex items-center gap-2">
+                            <ul className="flex items-center gap-2">
                                 {item.attributes!.map((attribute, index) => {
                                     return (
                                         <li key={attribute.optionId}>
@@ -126,7 +126,7 @@ const ProductItemsForm = ({ product, options, hasModifyItemPermission, onUpdateS
                                         </li>
                                     )
                                 })}
-                            </ul> */}
+                            </ul>
                         </div>
 
                         <Separator className="my-3 border" />

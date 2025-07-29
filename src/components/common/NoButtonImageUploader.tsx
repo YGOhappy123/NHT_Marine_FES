@@ -48,7 +48,7 @@ const NoButtonImageUploader = ({
                     }}
                 >
                     <img
-                        src={image}
+                        src={image || '/images/upload-icon.jpg'}
                         alt="image"
                         className={twMerge(
                             'aspect-square h-full w-full object-cover',

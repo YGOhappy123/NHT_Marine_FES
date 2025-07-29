@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { UseMutationResult } from '@tanstack/react-query'
-import { CircleCheck, CircleX, MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header'
 import { Button } from '@/components/ui/button'
