@@ -25,10 +25,14 @@ const AuthCarousel = ({ images, size, autoplayDuration = 2000 }: AuthCarouselPro
                     height: size.height
                 }}
             >
-                {images.map((imageUrl) => (
+                {images.map(imageUrl => (
                     <CarouselItem key={imageUrl}>
                         <div className="flex h-full items-center justify-center overflow-hidden rounded-lg">
-                            <img src={imageUrl} alt="room image" className="min-h-full min-w-full object-cover" />
+                            <img
+                                src={imageUrl}
+                                alt="auth banner image"
+                                className="min-h-full min-w-full object-cover"
+                            />
                         </div>
                     </CarouselItem>
                 ))}

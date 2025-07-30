@@ -10,7 +10,9 @@ import useAxiosIns from '@/hooks/useAxiosIns'
 const ProfilePage = () => {
     const axios = useAxiosIns()
     const user = useSelector((state: RootState) => state.auth.user) as IStaff
-    const hasModifyPermission = verifyPermission(user, permissions.modifyPersonalInformation)
+    const hasModifyPermission =
+        verifyPermission(user, permissions.modifyPersonalInformation) ||
+        verifyPermission(user, permissions.updateStaffInformation)
 
     const fetchAllRolesQuery = useQuery({
         queryKey: ['role', user.roleId],
@@ -18,12 +20,12 @@ const ProfilePage = () => {
         refetchOnWindowFocus: false,
         refetchInterval: 10000,
         enabled: true,
-        select: (res) => res.data
+        select: res => res.data
     })
     const role = fetchAllRolesQuery.data?.data
 
     return (
-        <div className="flex-1 flex justify-center items-center">
+        <div className="flex flex-1 items-center justify-center">
             <Card className="w-full max-w-4xl">
                 <CardHeader className="text-center">
                     <CardTitle className="text-xl">Thông tin cá nhân</CardTitle>
@@ -34,7 +36,7 @@ const ProfilePage = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <ProfileForm staffRoles={role ? [role] : []} />
+                    <ProfileForm staffRoles={role ? [role] : []} hasModifyPermission={hasModifyPermission} />
                 </CardContent>
             </Card>
         </div>

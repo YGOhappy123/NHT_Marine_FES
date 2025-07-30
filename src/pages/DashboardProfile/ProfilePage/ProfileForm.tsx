@@ -10,8 +10,6 @@ import { Input } from '@/components/ui/input'
 import { RootState } from '@/store'
 import { setUser } from '@/slices/authSlice'
 import ImageUploader from '@/pages/DashboardProfile/ProfilePage/ImageUploader'
-import verifyPermission from '@/utils/verifyPermission'
-import permissions from '@/configs/permissions'
 import fileService from '@/services/fileService'
 import staffService from '@/services/staffService'
 
@@ -26,13 +24,11 @@ const profileFormSchema = z.object({
 
 type ProfileFormProps = {
     staffRoles: IStaffRole[]
+    hasModifyPermission: boolean
 }
 
-const ProfileForm = ({ staffRoles }: ProfileFormProps) => {
+const ProfileForm = ({ staffRoles, hasModifyPermission }: ProfileFormProps) => {
     const user = useSelector((state: RootState) => state.auth.user) as IStaff
-    const hasModifyPermission =
-        verifyPermission(user, permissions.modifyPersonalInformation) ||
-        verifyPermission(user, permissions.updateStaffInformation)
 
     const [avatar, setAvatar] = useState(user?.avatar)
     const { uploadBase64Mutation } = fileService()
