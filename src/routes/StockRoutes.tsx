@@ -3,14 +3,14 @@ import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
 import AuthProtector from '@/components/container/AuthProtector'
 import PermissionProtector from '@/components/container/PermissionProtector'
-import OrderManagementPage from '@/pages/DashboardOrder/OrderManagementPage'
 import permissions from '@/configs/permissions'
-import DeliveryServicePage from '@/pages/DashboardOrder/DeliveryServicePage'
-import OrderStatusPage from '@/pages/DashboardOrder/OrderStatusPage'
+import DamageTypePage from '@/pages/DashboardStock/DamageTypePage'
+import StorageTypePage from '@/pages/DashboardStock/StorageTypePage'
+import SupplierPage from '@/pages/DashboardStock/SupplierPage'
 
-const OrderRoutes = [
+const StockRoutes = [
     {
-        path: '/orders',
+        path: '/damage-types',
         element: (
             <Suspense>
                 <AuthProtector children={<DashboardLayout />} redirect="/auth" />
@@ -22,15 +22,15 @@ const OrderRoutes = [
                 path: '',
                 element: (
                     <PermissionProtector
-                        children={<OrderManagementPage />}
-                        permission={permissions.accessOrderDashboardPage}
+                        children={<DamageTypePage />}
+                        permission={permissions.accessDamageReportDashboardPage}
                     />
                 )
             }
         ]
     },
     {
-        path: '/delivery-services',
+        path: '/storage-types',
         element: (
             <Suspense>
                 <AuthProtector children={<DashboardLayout />} redirect="/auth" />
@@ -42,15 +42,15 @@ const OrderRoutes = [
                 path: '',
                 element: (
                     <PermissionProtector
-                        children={<DeliveryServicePage />}
-                        permission={permissions.accessDeliveryServiceDashboardPage}
+                        children={<StorageTypePage />}
+                        permission={permissions.accessStorageDashboardPage}
                     />
                 )
             }
         ]
     },
     {
-        path: '/order-statuses',
+        path: '/suppliers',
         element: (
             <Suspense>
                 <AuthProtector children={<DashboardLayout />} redirect="/auth" />
@@ -62,8 +62,8 @@ const OrderRoutes = [
                 path: '',
                 element: (
                     <PermissionProtector
-                        children={<OrderStatusPage />}
-                        permission={permissions.accessOrderStatusDashboardPage}
+                        children={<SupplierPage />}
+                        permission={permissions.accessSupplierDashboardPage}
                     />
                 )
             }
@@ -71,4 +71,4 @@ const OrderRoutes = [
     }
 ]
 
-export default OrderRoutes
+export default StockRoutes
