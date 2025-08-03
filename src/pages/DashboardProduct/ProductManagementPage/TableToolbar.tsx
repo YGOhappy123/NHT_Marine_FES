@@ -60,7 +60,6 @@ export function TableToolbar<TData>({ table, hasAddProductPermission }: TableToo
                         title="Trạng thái tồn kho"
                         options={stockStatuses}
                         filterFn={(rawValue: number, option) => {
-                            console.log(rawValue > 0 === option)
                             return rawValue > 0 === option
                         }}
                     />

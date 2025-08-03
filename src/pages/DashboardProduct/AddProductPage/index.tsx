@@ -102,14 +102,14 @@ const AddProductPage = () => {
         <div className="flex h-full flex-1 flex-col space-y-8 p-4">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">Xin chào, {user.fullName}!</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Xin chào, {user!.fullName}!</h2>
                     <p className="text-muted-foreground">
                         Đây là các bước cần thiết để tạo một sản phẩm mới trên hệ thống NHT Marine.
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <Avatar className="size-12 rounded-full">
-                        <AvatarImage src={user.avatar} alt={user.fullName} />
+                        <AvatarImage src={user!.avatar} alt={user!.fullName} />
                     </Avatar>
                 </div>
             </div>
