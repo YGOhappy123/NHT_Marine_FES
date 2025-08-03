@@ -4,11 +4,13 @@ import PersonnelRoutes from '@/routes/PersonnelRoutes'
 import OrderRoutes from '@/routes/OrderRoutes'
 import ProductRoutes from '@/routes/ProductRoutes'
 import AuthRoutes from '@/routes/AuthRoutes'
+import CategoryRoutes from '@/routes/CategoryRoutes'
 
 const developmentRoutes = createBrowserRouter([
     ...MainRoutes,
     ...PersonnelRoutes,
     ...OrderRoutes,
+    ...CategoryRoutes,
     ...ProductRoutes,
     ...AuthRoutes
 ])
@@ -17,6 +19,7 @@ const productionRoutes = createBrowserRouter([
     ...MainRoutes,
     ...PersonnelRoutes,
     ...OrderRoutes,
+    ...CategoryRoutes,
     ...ProductRoutes,
     ...AuthRoutes
 ])

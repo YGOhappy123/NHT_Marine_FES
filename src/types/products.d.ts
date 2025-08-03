@@ -23,6 +23,7 @@ declare global {
         parentId?: number
 
         createdByStaff?: Partial<IStaff> | string
+        parentCategory?: Partial<ICategory> | string
     }
 
     interface IProductVariant {
