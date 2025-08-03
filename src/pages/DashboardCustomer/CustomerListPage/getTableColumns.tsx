@@ -60,10 +60,8 @@ export const getTableColumns = ({
         },
         {
             accessorKey: 'customerId',
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Mã khách hàng" enableHiding={false} />
-            ),
-            cell: ({ row }) => <div className="w-[80px]">{row.getValue('customerId')}</div>,
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Mã KH" enableHiding={false} />,
+            cell: ({ row }) => <div className="w-[50px]">{row.getValue('customerId')}</div>,
             enableHiding: false,
             filterFn: (row, id, value: (number | string)[]) => {
                 return value.includes(row.getValue(id))
@@ -101,7 +99,7 @@ export const getTableColumns = ({
             accessorKey: 'createdAt',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Thời gian tạo" />,
             cell: ({ row }) => (
-                <div className="w-[200px]">{dayjs(row.original.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
+                <div className="w-[150px]">{dayjs(row.original.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
             )
         },
         {
@@ -113,7 +111,7 @@ export const getTableColumns = ({
                 if (!customerType) return null
 
                 return (
-                    <div className="flex w-[200px] items-center">
+                    <div className="flex w-[150px] items-center">
                         {customerType.icon && <customerType.icon className="text-muted-foreground mr-2 h-4 w-4" />}
                         <span>{customerType.label}</span>
                     </div>
