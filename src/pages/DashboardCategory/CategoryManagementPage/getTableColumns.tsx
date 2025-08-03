@@ -85,7 +85,9 @@ export const getTableColumns = ({
             accessorKey: 'parentId',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Danh mục cha" />,
             cell: ({ row }) => (
-                <div className="w-[200px]">{(row.original.parentCategory as Partial<ICategory> | undefined)?.name}</div>
+                <div className="w-[200px]">
+                    {(row.original.parentCategory as Partial<ICategory> | undefined)?.name || <i>Không có</i>}
+                </div>
             )
         },
         {
@@ -127,7 +129,7 @@ export const getTableColumns = ({
                             disabled={!hasUpdatePermission}
                             className="cursor-pointer"
                             onClick={() => {
-                                if (!hasUpdatePermission) {
+                                if (hasUpdatePermission) {
                                     onUpdateCategory(row.original)
                                 }
                             }}

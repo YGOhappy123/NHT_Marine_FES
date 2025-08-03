@@ -109,7 +109,9 @@ const AddCategoryDialog = ({ parentCategories, addNewCategoryMutation }: AddCate
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>
-                                                    <SelectItem value="none">Không có danh mục cha</SelectItem>
+                                                    <SelectItem value="none">
+                                                        <i>Không có</i>
+                                                    </SelectItem>
                                                     {parentCategories.map(category => (
                                                         <SelectItem
                                                             key={category.categoryId}

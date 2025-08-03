@@ -131,7 +131,9 @@ const DataCategoryDialog = ({
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>
-                                                    <SelectItem value="none">Không có danh mục cha</SelectItem>
+                                                    <SelectItem value="none">
+                                                        <i>Không có</i>
+                                                    </SelectItem>
                                                     {parentCategories
                                                         .filter(
                                                             parentCategory =>
