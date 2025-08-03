@@ -20,7 +20,7 @@ const ProductPromotionsCard = ({ product }: ProductPromotionsCardProps) => {
             header: ({ column }) => <DataTableColumnHeader column={column} title="Khuyến mãi" enableHiding={false} />,
             cell: ({ row }) => (
                 <p className="break-words whitespace-normal">
-                    {row.original.promotionId} - {row.original.name}
+                    {row.original.promotionId} - {row.original.name} - {row.original.discountRate}%
                 </p>
             ),
             enableHiding: false
