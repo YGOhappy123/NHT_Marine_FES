@@ -43,6 +43,7 @@ export const RES_MESSAGE_MAPPING = {
     CREATE_ROLE_SUCCESSFULLY: 'Tạo vai trò thành công.',
     UPDATE_ROLE_SUCCESSFULLY: 'Cập nhật vai trò thành công.',
     DELETE_ROLE_SUCCESSFULLY: 'Xóa vai trò thành công.',
+    DEACTIVATE_CUSTOMER_SUCCESSFULLY: 'Khóa tài khoản khách hàng thành công.',
     CREATE_CATEGORY_SUCCESSFULLY: 'Tạo danh mục thành công.',
     UPDATE_CATEGORY_SUCCESSFULLY: 'Cập nhật danh mục thành công.',
     DELETE_CATEGORY_SUCCESSFULLY: 'Xóa danh mục thành công.',

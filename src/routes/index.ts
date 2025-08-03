@@ -5,6 +5,7 @@ import OrderRoutes from '@/routes/OrderRoutes'
 import ProductRoutes from '@/routes/ProductRoutes'
 import AuthRoutes from '@/routes/AuthRoutes'
 import CategoryRoutes from '@/routes/CategoryRoutes'
+import CustomerRoutes from '@/routes/CustomerRoutes'
 
 const developmentRoutes = createBrowserRouter([
     ...MainRoutes,
@@ -12,7 +13,8 @@ const developmentRoutes = createBrowserRouter([
     ...OrderRoutes,
     ...CategoryRoutes,
     ...ProductRoutes,
-    ...AuthRoutes
+    ...AuthRoutes,
+    ...CustomerRoutes,
 ])
 
 const productionRoutes = createBrowserRouter([
@@ -21,7 +23,8 @@ const productionRoutes = createBrowserRouter([
     ...OrderRoutes,
     ...CategoryRoutes,
     ...ProductRoutes,
-    ...AuthRoutes
+    ...AuthRoutes,
+    ...CustomerRoutes,
 ])
 
 const getRouter = (environment: 'development' | 'production') => {
