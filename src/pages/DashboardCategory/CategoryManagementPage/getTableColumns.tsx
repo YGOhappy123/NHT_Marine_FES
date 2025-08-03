@@ -120,14 +120,14 @@ export const getTableColumns = ({
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="center" className="w-[160px]">
-                        <DropdownMenuItem className="cursor-pointer" onClick={() => onViewCategory(row.original)}>
+                        {/* <DropdownMenuItem className="cursor-pointer" onClick={() => onViewCategory(row.original)}>
                             Chi tiết
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
                         <DropdownMenuItem
-                            disabled={row.original.isImmutable || !hasUpdatePermission}
+                            disabled={!hasUpdatePermission}
                             className="cursor-pointer"
                             onClick={() => {
-                                if (!row.original.isImmutable && hasUpdatePermission) {
+                                if (!hasUpdatePermission) {
                                     onUpdateCategory(row.original)
                                 }
                             }}
