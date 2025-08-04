@@ -1,10 +1,9 @@
 import { Table } from '@tanstack/react-table'
-import { X } from 'lucide-react'
+import { Fish, FishOff, X } from 'lucide-react'
 import { UseMutationResult } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableViewOptions } from '@/components/ui/data-table-view-options'
-import { categoryTypes } from '@/pages/DashboardCategory/CategoryManagementPage/getTableColumns'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import appPermissions from '@/configs/permissions'
@@ -19,6 +18,19 @@ interface TableToolbarProps<TData> {
     parentCategories: ICategory[]
     addNewCategoryMutation: UseMutationResult<any, any, Partial<ICategory>, any>
 }
+
+const parentCategoriesOptions = [
+    {
+        value: 'null',
+        label: 'Không có',
+        icon: FishOff
+    },
+    {
+        value: 'hasParent',
+        label: 'Có danh mục cha',
+        icon: Fish
+    }
+]
 
 export function TableToolbar<TData>({ table, parentCategories, addNewCategoryMutation }: TableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0
@@ -47,14 +59,23 @@ export function TableToolbar<TData>({ table, parentCategories, addNewCategoryMut
                         </Button>
                     )}
                 </div>
-                {table.getColumn('Loại danh mục') && (
+                {table.getColumn('Danh mục cha') && (
                     <TableDataFilter
                         table={table}
                         rootColumn="categoryId"
-                        filterColumn="Loại danh mục"
-                        title="Loại danh mục"
-                        options={categoryTypes}
-                        filterFn={(rawValue: boolean, option) => rawValue === option}
+                        filterColumn="Danh mục cha"
+                        title="Danh mục cha"
+                        options={parentCategoriesOptions}
+                        filterFn={(rawValue: string, options) => {
+                            switch (options) {
+                                case 'null':
+                                    return rawValue == null
+                                case 'hasParent':
+                                    return rawValue != null
+                                default:
+                                    return false
+                            }
+                        }}
                     />
                 )}
                 {isFiltered && (

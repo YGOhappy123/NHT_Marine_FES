@@ -1,9 +1,8 @@
 import { Table } from '@tanstack/react-table'
-import { X } from 'lucide-react'
+import { CircleCheck, CircleX, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableViewOptions } from '@/components/ui/data-table-view-options'
-import { customerTypes } from '@/pages/DashboardCustomer/CustomerListPage/getTableColumns'
 import { useIsMobile } from '@/hooks/useMobile'
 import { twMerge } from 'tailwind-merge'
 import TableDataFilter from '@/components/common/TableDataFilter'
@@ -11,6 +10,19 @@ import TableDataFilter from '@/components/common/TableDataFilter'
 interface TableToolbarProps<TData> {
     table: Table<TData>
 }
+
+const accountStatuses = [
+    {
+        value: false,
+        label: 'Đã bị khóa',
+        icon: CircleX
+    },
+    {
+        value: true,
+        label: 'Đang hoạt động',
+        icon: CircleCheck
+    }
+]
 
 export function TableToolbar<TData>({ table }: TableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0
@@ -37,13 +49,13 @@ export function TableToolbar<TData>({ table }: TableToolbarProps<TData>) {
                         </Button>
                     )}
                 </div>
-                {table.getColumn('Loại khách hàng') && (
+                {table.getColumn('Trạng thái') && (
                     <TableDataFilter
                         table={table}
                         rootColumn="customerId"
-                        filterColumn="Loại khách hàng"
-                        title="Loại khách hàng"
-                        options={customerTypes}
+                        filterColumn="Trạng thái"
+                        title="Trạng thái"
+                        options={accountStatuses}
                         filterFn={(rawValue: boolean, option) => rawValue === option}
                     />
                 )}
