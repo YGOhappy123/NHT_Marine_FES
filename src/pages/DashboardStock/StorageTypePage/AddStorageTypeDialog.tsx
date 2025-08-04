@@ -70,7 +70,7 @@ const AddStorageTypeDialog = ({ addNewStorageTypeMutation }: AddStorageTypeDialo
                                     <FormControl>
                                         <Input
                                             placeholder="Nhập tên loại kho"
-                                            className="h-10"
+                                            className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             {...field}
                                         />
                                     </FormControl>

@@ -73,7 +73,7 @@ const AddDeliveryServiceDialog = ({ addNewDeliveryServiceMutation }: AddDelivery
                                     <FormControl>
                                         <Input
                                             placeholder="Nhập tên nhà cung cấp"
-                                            className="h-10"
+                                            className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             {...field}
                                         />
                                     </FormControl>
@@ -90,7 +90,7 @@ const AddDeliveryServiceDialog = ({ addNewDeliveryServiceMutation }: AddDelivery
                                     <FormControl>
                                         <Input
                                             placeholder="Nhập số điện thoại (0xxxxxxxxx)"
-                                            className="h-10"
+                                            className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             {...field}
                                         />
                                     </FormControl>

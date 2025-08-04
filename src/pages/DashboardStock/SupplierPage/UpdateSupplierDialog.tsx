@@ -103,7 +103,7 @@ const UpdateSupplierDialog = ({
                                     <FormControl>
                                         <Input
                                             placeholder="Nhập tên nhà cung cấp"
-                                            className="h-10"
+                                            className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             disabled={!hasUpdatePermission}
                                             {...field}
                                         />
@@ -121,7 +121,7 @@ const UpdateSupplierDialog = ({
                                     <FormControl>
                                         <Input
                                             placeholder="Nhập địa chỉ"
-                                            className="h-10"
+                                            className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             disabled={!hasUpdatePermission}
                                             {...field}
                                         />
@@ -139,7 +139,7 @@ const UpdateSupplierDialog = ({
                                     <FormControl>
                                         <Input
                                             placeholder="Nhập email liên hệ"
-                                            className="h-10"
+                                            className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             disabled={!hasUpdatePermission}
                                             {...field}
                                         />
@@ -157,7 +157,7 @@ const UpdateSupplierDialog = ({
                                     <FormControl>
                                         <Input
                                             placeholder="Nhập số điện thoại (0xxxxxxxxx)"
-                                            className="h-10"
+                                            className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             disabled={!hasUpdatePermission}
                                             {...field}
                                         />

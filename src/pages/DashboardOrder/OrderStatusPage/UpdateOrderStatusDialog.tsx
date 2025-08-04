@@ -107,7 +107,7 @@ const UpdateOrderStatusDialog = ({
                                     <FormControl>
                                         <Input
                                             placeholder="Nhập tên trạng thái đơn hàng"
-                                            className="h-10"
+                                            className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             disabled={!hasUpdatePermission}
                                             {...field}
                                         />
@@ -125,7 +125,7 @@ const UpdateOrderStatusDialog = ({
                                     <FormControl>
                                         <Input
                                             placeholder="Nhập mô tả trạng thái đơn hàng"
-                                            className="h-10"
+                                            className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             disabled={!hasUpdatePermission}
                                             {...field}
                                         />

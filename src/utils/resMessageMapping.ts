@@ -77,6 +77,7 @@ export const RES_MESSAGE_MAPPING = {
     SUPPLIER_CONTACT_EMAIL_EXISTED: 'Email liên hệ nhà cung cấp đã tồn tại.',
     SUPPLIER_CONTACT_PHONE_EXISTED: 'Số điện thoại liên hệ nhà cung cấp đã tồn tại.',
     DELIVERY_CONTACT_PHONE_EXISTED: 'Số điện thoại liên hệ đơn vị vận chuyển đã tồn tại.',
+    CANNOT_DELETE_DEFAULT_ORDER_STATUS: 'Không thể xóa trạng thái đơn hàng mặc định.',
 }
 
 export const getMappedMessage = (originalMessage: string) => {
