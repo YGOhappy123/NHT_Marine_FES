@@ -33,7 +33,7 @@ const ImageUploader = ({ hasPermission, avatar, setAvatar, currentAvatar }: Imag
                 {hasPermission && (
                     <label
                         htmlFor={inputId}
-                        className="bg-primary hover:bg-primary/90 absolute right-2 bottom-2 flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground absolute right-2 bottom-2 flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full"
                     >
                         <Edit />
                     </label>

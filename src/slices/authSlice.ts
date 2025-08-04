@@ -6,7 +6,7 @@ export interface AuthState {
     user: IStaff | null
 }
 
-const initialState: Partial<AuthState> = {
+const initialState: AuthState = {
     isLogged: false,
     user: null
 }
