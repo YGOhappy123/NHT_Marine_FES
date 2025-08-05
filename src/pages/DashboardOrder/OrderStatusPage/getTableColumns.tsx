@@ -98,7 +98,7 @@ export const getTableColumns = ({
         {
             id: 'isAccounted',
             accessorKey: 'isAccounted',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Đã đối soát" />,
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Đã thanh toán" />,
             cell: ({ row }) => <div className="w-[120px]">{row.getValue('isAccounted') ? 'Có' : 'Không'}</div>,
             filterFn: (row, id, value: (boolean | number | string)[]) => {
                 return value.includes(row.getValue(id))

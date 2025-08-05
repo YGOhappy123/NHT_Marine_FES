@@ -135,9 +135,9 @@ export function TableToolbar<TData>({
                                     </div>
                                 </div>
 
-                                {/* Đã đối soát */}
+                                {/* Đã thanh toán */}
                                 <div>
-                                    <div className="text-sm font-medium mb-2">Đã đối soát</div>
+                                    <div className="text-sm font-medium mb-2">Đã thanh toán</div>
                                     <div className="flex gap-2">
                                         <Button
                                             size="sm"
