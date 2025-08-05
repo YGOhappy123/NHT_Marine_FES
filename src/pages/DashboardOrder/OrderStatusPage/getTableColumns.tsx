@@ -29,6 +29,7 @@ type Options = {
     removeOrderStatusMutation: UseMutationResult<any, any, number, any>
 }
 
+// (phần import và interface IOrderStatus giữ nguyên)
 export const getTableColumns = ({
     hasUpdatePermission,
     hasDeletePermission,
@@ -82,23 +83,36 @@ export const getTableColumns = ({
                 </div>
             )
         },
+        // --- Trạng thái mặc định ---
         {
             id: 'isDefaultState',
             accessorKey: 'isDefaultState',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Trạng thái mặc định" />,
-            cell: ({ row }) => <div className="w-[120px]">{row.getValue('isDefaultState') ? 'Có' : 'Không'}</div>
+            cell: ({ row }) => <div className="w-[120px]">{row.getValue('isDefaultState') ? 'Có' : 'Không'}</div>,
+            // Khi filter, react-table sẽ truyền vào value là mảng các option đã chọn => ta kiểm tra includes
+            filterFn: (row, id, value: (boolean | number | string)[]) => {
+                return value.includes(row.getValue(id))
+            }
         },
+        // --- Đã thanh toán (isAccounted) ---
         {
             id: 'isAccounted',
             accessorKey: 'isAccounted',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Đã đối soát" />,
-            cell: ({ row }) => <div className="w-[120px]">{row.getValue('isAccounted') ? 'Có' : 'Không'}</div>
+            cell: ({ row }) => <div className="w-[120px]">{row.getValue('isAccounted') ? 'Có' : 'Không'}</div>,
+            filterFn: (row, id, value: (boolean | number | string)[]) => {
+                return value.includes(row.getValue(id))
+            }
         },
+        // --- Chưa hoàn thành (isUnfulfilled) ---
         {
             id: 'isUnfulfilled',
             accessorKey: 'isUnfulfilled',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Chưa hoàn thành" />,
-            cell: ({ row }) => <div className="w-[120px]">{row.getValue('isUnfulfilled') ? 'Có' : 'Không'}</div>
+            cell: ({ row }) => <div className="w-[120px]">{row.getValue('isUnfulfilled') ? 'Có' : 'Không'}</div>,
+            filterFn: (row, id, value: (boolean | number | string)[]) => {
+                return value.includes(row.getValue(id))
+            }
         },
         {
             id: 'actions',
