@@ -61,7 +61,7 @@ declare global {
         createdBy: number
 
         createdByStaff?: Partial<IStaff> | string
-        products?: (string | number | IRootProduct)[]
+        products?: Partial<IRootProduct>[]
     }
 }
 

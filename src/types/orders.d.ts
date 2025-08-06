@@ -39,8 +39,6 @@ declare global {
         updateLogs: Partial<IOrderStatusUpdateLog>[]
     }
 
-    interface IOrderStatus {}
-
     interface IOrderTransition {
         transitionId: number
         transitionLabel: string
