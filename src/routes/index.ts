@@ -4,13 +4,15 @@ import PersonnelRoutes from '@/routes/PersonnelRoutes'
 import OrderRoutes from '@/routes/OrderRoutes'
 import ProductRoutes from '@/routes/ProductRoutes'
 import AuthRoutes from '@/routes/AuthRoutes'
+import StockRoutes from '@/routes/StockRoutes'
 
 const developmentRoutes = createBrowserRouter([
     ...MainRoutes,
     ...PersonnelRoutes,
     ...OrderRoutes,
     ...ProductRoutes,
-    ...AuthRoutes
+    ...AuthRoutes,
+    ...StockRoutes
 ])
 
 const productionRoutes = createBrowserRouter([
@@ -18,7 +20,8 @@ const productionRoutes = createBrowserRouter([
     ...PersonnelRoutes,
     ...OrderRoutes,
     ...ProductRoutes,
-    ...AuthRoutes
+    ...AuthRoutes,
+    ...StockRoutes
 ])
 
 const getRouter = (environment: 'development' | 'production') => {
