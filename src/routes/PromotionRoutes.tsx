@@ -3,33 +3,13 @@ import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
 import AuthProtector from '@/components/container/AuthProtector'
 import PermissionProtector from '@/components/container/PermissionProtector'
+import PromotionManagementPage from '@/pages/DashboardPromotion/PromotionManagementPage'
+import CouponManagementPage from '@/pages/DashboardPromotion/CouponManagementPage'
 import permissions from '@/configs/permissions'
-import RoleManagementPage from '@/pages/DashboardPersonnel/RoleManagementPage'
-import StaffManagementPage from '@/pages/DashboardPersonnel/StaffManagementPage'
 
-const PersonnelRoutes = [
+const PromotionRoutes = [
     {
-        path: '/personnel',
-        element: (
-            <Suspense>
-                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
-            </Suspense>
-        ),
-        errorElement: <ErrorPage />,
-        children: [
-            {
-                path: 'staff-roles',
-                element: (
-                    <PermissionProtector
-                        children={<RoleManagementPage />}
-                        permission={permissions.accessRoleDashboardPage}
-                    />
-                )
-            }
-        ]
-    },
-    {
-        path: '/staffs',
+        path: '/promotions',
         element: (
             <Suspense>
                 <AuthProtector children={<DashboardLayout />} redirect="/auth" />
@@ -41,8 +21,28 @@ const PersonnelRoutes = [
                 path: '',
                 element: (
                     <PermissionProtector
-                        children={<StaffManagementPage />}
-                        permission={permissions.accessStaffDashboardPage}
+                        children={<PromotionManagementPage />}
+                        permission={permissions.accessPromotionDashboardPage}
+                    />
+                )
+            }
+        ]
+    },
+    {
+        path: '/coupons',
+        element: (
+            <Suspense>
+                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
+            </Suspense>
+        ),
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: '',
+                element: (
+                    <PermissionProtector
+                        children={<CouponManagementPage />}
+                        permission={permissions.accessCouponDashboardPage}
                     />
                 )
             }
@@ -50,4 +50,4 @@ const PersonnelRoutes = [
     }
 ]
 
-export default PersonnelRoutes
+export default PromotionRoutes

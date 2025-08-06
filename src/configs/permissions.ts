@@ -61,7 +61,7 @@ const permissions = {
     deleteDamageCategory: 'DELETE_DAMAGE_CATEGORY',
     accessStatisticDashboardPage: 'ACCESS_STATISTIC_DASHBOARD_PAGE',
     viewProductSalesData: 'VIEW_PRODUCT_SALES_DATA',
-    viewRevenueAndStatisticData: 'VIEW_REVENUE_AND_STATISTIC_DATA'
+    viewRevenueAndStatisticData: 'VIEW_REVENUE_AND_STATISTIC_DATA',
 } as const
 
 export default permissions
