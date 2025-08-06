@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { UseMutationResult } from '@tanstack/react-query'
-import { CircleCheck, CircleX, MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header'
 import { Button } from '@/components/ui/button'
@@ -15,19 +15,6 @@ import {
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
 import dayjs from '@/libs/dayjs'
 
-export const categoryTypes = [
-    {
-        value: false,
-        label: 'Có thể chỉnh sửa',
-        icon: CircleCheck
-    },
-    {
-        value: true,
-        label: 'Không thể chỉnh sửa',
-        icon: CircleX
-    }
-]
-
 type Options = {
     hasUpdatePermission: boolean
     hasDeletePermission: boolean
@@ -39,7 +26,6 @@ type Options = {
 export const getTableColumns = ({
     hasUpdatePermission,
     hasDeletePermission,
-    onViewCategory,
     onUpdateCategory,
     removeCategoryMutation
 }: Options) => {

@@ -8,13 +8,14 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
 import dayjs from 'dayjs'
 
-export const customerTypes = [
+export const staffTypes = [
     {
         value: false,
         label: 'Đã bị khóa',
@@ -28,15 +29,23 @@ export const customerTypes = [
 ]
 
 type Options = {
-    hasDeactivateCustomerAccountPermission: boolean
-    deactivateCustomerAccountMutation: UseMutationResult<any, any, number, any>
+    hasUpdatePermission: boolean
+    hasDeactivateStaffAccountPermission: boolean
+    onViewStaff: (value: IStaff) => void
+    onUpdateStaff: (value: IStaff) => void
+    deactivateStaffAccountMutation: UseMutationResult<any, any, number, any>
+    user: IStaff | null
 }
 
 export const getTableColumns = ({
-    hasDeactivateCustomerAccountPermission,
-    deactivateCustomerAccountMutation
+    hasUpdatePermission,
+    hasDeactivateStaffAccountPermission,
+    onViewStaff,
+    onUpdateStaff,
+    deactivateStaffAccountMutation,
+    user
 }: Options) => {
-    const columns: ColumnDef<ICustomer>[] = [
+    const columns: ColumnDef<IStaff>[] = [
         {
             id: 'select',
             header: ({ table }) => (
@@ -59,9 +68,9 @@ export const getTableColumns = ({
             enableHiding: false
         },
         {
-            accessorKey: 'customerId',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Mã KH" enableHiding={false} />,
-            cell: ({ row }) => <div className="w-[50px]">{row.getValue('customerId')}</div>,
+            accessorKey: 'staffId',
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Mã NV" enableHiding={false} />,
+            cell: ({ row }) => <div className="w-[50px]">{row.getValue('staffId')}</div>,
             enableHiding: false,
             filterFn: (row, id, value: (number | string)[]) => {
                 return value.includes(row.getValue(id))
@@ -83,10 +92,10 @@ export const getTableColumns = ({
             enableSorting: false
         },
         {
-            id: 'Họ tên',
+            id: 'Họ tên nhân viên',
             accessorKey: 'fullName',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Họ tên" />,
-            cell: ({ row }) => <div className="w-[200px]">{row.getValue('Họ tên')}</div>
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Họ tên nhân viên" />,
+            cell: ({ row }) => <div className="w-[200px]">{row.getValue('Họ tên nhân viên')}</div>
         },
         {
             id: 'Email',
@@ -95,28 +104,46 @@ export const getTableColumns = ({
             cell: ({ row }) => <div className="w-[200px]">{row.getValue('Email')}</div>
         },
         {
-            id: 'Thời gian tạo',
-            accessorKey: 'createdAt',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Thời gian tạo" />,
-            cell: ({ row }) => (
-                <div className="w-[150px]">{dayjs(row.original.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
-            )
+            id: 'Vai trò',
+            accessorKey: 'role',
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Vai trò" />,
+            cell: ({ row }) => <div className="w-[200px]">{row.getValue('Vai trò')}</div>
         },
         {
             id: 'Trạng thái',
             accessorKey: 'isActive',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Trạng thái" />,
             cell: ({ row }) => {
-                const customerType = customerTypes.find(type => type.value === row.getValue('Trạng thái'))
-                if (!customerType) return null
+                const staffType = staffTypes.find(type => type.value === row.getValue('Trạng thái'))
+                if (!staffType) return null
 
                 return (
                     <div className="flex w-[150px] items-center">
-                        {customerType.icon && <customerType.icon className="text-muted-foreground mr-2 h-4 w-4" />}
-                        <span>{customerType.label}</span>
+                        {staffType.icon && <staffType.icon className="text-muted-foreground mr-2 h-4 w-4" />}
+                        <span>{staffType.label}</span>
                     </div>
                 )
             }
+        },
+        {
+            id: 'Thông tin người tạo',
+            accessorKey: 'createdBy',
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Thông tin người tạo" />,
+            cell: ({ row }) => {
+                return (
+                    <div className="flex flex-col gap-2 break-words whitespace-normal">
+                        <p>
+                            <span className="font-semibold">Người tạo: </span>
+                            {(row.original.createdByStaff as Partial<IStaff> | undefined)?.fullName || <i>Không có</i>}
+                        </p>
+                        <p>
+                            <span className="font-semibold">Ngày tạo: </span>
+                            {dayjs(row.original.createdAt).format('DD/MM/YYYY HH:mm:ss')}
+                        </p>
+                    </div>
+                )
+            },
+            enableSorting: false
         },
         {
             id: 'actions',
@@ -131,18 +158,43 @@ export const getTableColumns = ({
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="center" className="w-[160px]">
+                            <DropdownMenuItem className="cursor-pointer" onClick={() => onViewStaff(row.original)}>
+                                Chi tiết
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                disabled={!hasUpdatePermission}
+                                className="cursor-pointer"
+                                onClick={() => {
+                                    if (hasUpdatePermission) {
+                                        onUpdateStaff(row.original)
+                                    }
+                                }}
+                            >
+                                Chỉnh sửa
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
                             <ConfirmationDialog
-                                title="Bạn có chắc muốn khóa tài khoản khách hàng này?"
-                                description="Không thể hoàn tác hành động này. Thao tác này sẽ khóa tài khoản khách hàng vĩnh viễn trong hệ thống NHT Marine."
+                                title="Bạn có chắc muốn khóa tài khoản nhân viên này?"
+                                description="Không thể hoàn tác hành động này. Thao tác này sẽ khóa tài khoản nhân viên vĩnh viễn trong hệ thống NHT Marine."
                                 onConfirm={async () => {
-                                    if (hasDeactivateCustomerAccountPermission && row.original.isActive) {
-                                        deactivateCustomerAccountMutation.mutateAsync(row.original.customerId)
+                                    if (
+                                        row.original.role !== 'Super Admin' &&
+                                        hasDeactivateStaffAccountPermission &&
+                                        row.original.isActive &&
+                                        row.original.staffId !== user?.staffId
+                                    ) {
+                                        deactivateStaffAccountMutation.mutateAsync(row.original.staffId)
                                     }
                                 }}
                                 trigger={
                                     <DropdownMenuItem
                                         variant="destructive"
-                                        disabled={!hasDeactivateCustomerAccountPermission || !row.original.isActive}
+                                        disabled={
+                                            row.original.role === 'Super Admin' ||
+                                            !hasDeactivateStaffAccountPermission ||
+                                            !row.original.isActive ||
+                                            row.original.staffId === user?.staffId
+                                        }
                                         className="cursor-pointer"
                                     >
                                         Khóa tài khoản

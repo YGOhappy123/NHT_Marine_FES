@@ -49,7 +49,8 @@ export const RES_MESSAGE_MAPPING = {
     DELETE_CATEGORY_SUCCESSFULLY: 'Xóa danh mục thành công.',
     CREATE_PRODUCT_SUCCESSFULLY: 'Tạo sản phẩm thành công.',
     UPDATE_PRODUCT_SUCCESSFULLY: 'Cập nhật sản phẩm thành công.',
-    DELETE_PRODUCT_SUCCESSFULLY: 'Xóa sản phẩm thành công.'
+    DELETE_PRODUCT_SUCCESSFULLY: 'Xóa sản phẩm thành công.',
+    CREATE_PROMOTION_SUCCESSFULLY: 'Tạo chương trình khuyến mãi thành công.'
 }
 
 export const getMappedMessage = (originalMessage: string) => {
