@@ -149,7 +149,7 @@ export const getTableColumns = ({
                                 trigger={
                                     <DropdownMenuItem
                                         variant="destructive"
-                                        disabled={!hasDeletePermission}
+                                        disabled={!hasDeletePermission || row.original.isDefaultState}
                                         className="cursor-pointer"
                                     >
                                         Xóa
