@@ -38,7 +38,7 @@ const PageBreadcrumb = () => {
 
     const matchingChild = matchingItem?.children?.find(child => pathMatches(child.url))
 
-    useTitle(`NHT Marine | ${matchingChild ? matchingChild.title : matchingItem?.title}`)
+    useTitle(`NHT Marine Personnel | ${matchingChild ? matchingChild.title : matchingItem?.title}`)
 
     return (
         <div className="bg-background sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
