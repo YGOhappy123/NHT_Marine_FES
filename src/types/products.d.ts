@@ -23,6 +23,7 @@ declare global {
         parentId?: number
 
         createdByStaff?: Partial<IStaff> | string
+        parentCategory?: Partial<ICategory> | string
     }
 
     interface IProductVariant {
@@ -60,7 +61,7 @@ declare global {
         createdBy: number
 
         createdByStaff?: Partial<IStaff> | string
-        products?: Partial<IRootProduct>[]
+        products?: (string | number | IRootProduct)[]
     }
 }
 
