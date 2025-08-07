@@ -198,7 +198,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Khóa tài khoản
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

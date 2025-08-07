@@ -21,6 +21,37 @@ const orderService = ({ enableFetching = false }: { enableFetching: boolean }) =
         refetchInterval: 20000
     })
 
+    const chooseInventoryMutation = useMutation({
+        mutationFn: ({
+            orderId,
+            data
+        }: {
+            orderId: number
+            data: {
+                statusId: number
+                inventories: {
+                    productItemId: number
+                    storages: { storageId: number; quantity: number }[]
+                }[]
+            }
+        }) => axios.patch<IResponseData<any>>(`/orders/${orderId}/inventory`, data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['orders'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
+    const updateStatusMutation = useMutation({
+        mutationFn: ({ orderId, data }: { orderId: number; data: { statusId: number } }) =>
+            axios.patch<IResponseData<any>>(`/orders/${orderId}/status`, data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['orders'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
     useEffect(() => {
         if (getAllOrdersQuery.isSuccess && getAllOrdersQuery.data) {
             setOrders(getAllOrdersQuery.data.data?.data)
@@ -30,7 +61,9 @@ const orderService = ({ enableFetching = false }: { enableFetching: boolean }) =
 
     return {
         orders,
-        orderCount
+        orderCount,
+        chooseInventoryMutation,
+        updateStatusMutation
     }
 }
 

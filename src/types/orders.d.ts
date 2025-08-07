@@ -8,6 +8,7 @@ declare global {
         recipientName?: string
         deliveryAddress?: string
         deliveryPhone?: string
+        note?: string
         createdAt: string
 
         customer: Partial<ICustomer>

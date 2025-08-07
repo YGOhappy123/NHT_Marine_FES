@@ -4,7 +4,7 @@ import storage from 'redux-persist/lib/storage'
 import authReducer from '@/slices/authSlice'
 
 const persistConfig = {
-    key: 'root',
+    key: 'nht_marine_fes',
     version: 1,
     storage,
     whitelist: ['auth']

@@ -55,7 +55,9 @@ export const getTableColumns = ({
         },
         {
             accessorKey: 'typeId',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Mã loại thiệt hại" enableHiding={false} />,
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Mã loại thiệt hại" enableHiding={false} />
+            ),
             cell: ({ row }) => <div className="w-[80px]">{row.getValue('typeId')}</div>,
             enableHiding: false,
             filterFn: (row, id, value: (number | string)[]) => {
@@ -107,7 +109,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Xóa
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

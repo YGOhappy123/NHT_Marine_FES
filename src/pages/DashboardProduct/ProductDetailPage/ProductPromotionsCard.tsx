@@ -50,11 +50,11 @@ const ProductPromotionsCard = ({ product }: ProductPromotionsCardProps) => {
                 return (
                     <div className="flex justify-center">
                         {isTopPriority ? (
-                            <Badge variant="default" className="">
+                            <Badge variant="default">
                                 <BadgeCheck /> Ưu tiên
                             </Badge>
                         ) : (
-                            <Badge variant="destructive" className="">
+                            <Badge variant="destructive">
                                 <BadgeAlert /> Không
                             </Badge>
                         )}

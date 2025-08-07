@@ -160,7 +160,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Xóa
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

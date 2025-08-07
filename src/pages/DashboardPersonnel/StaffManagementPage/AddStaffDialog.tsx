@@ -28,7 +28,7 @@ const addStaffFormSchema = z.object({
 
 type AddStaffDialogProps = {
     permissions: IPermission[]
-    addNewStaffMutation: UseMutationResult<any, any, Partial<IStaffStaff>, any>
+    addNewStaffMutation: UseMutationResult<any, any, Partial<IStaff>, any>
 }
 
 const AddStaffDialog = ({ permissions, addNewStaffMutation }: AddStaffDialogProps) => {
