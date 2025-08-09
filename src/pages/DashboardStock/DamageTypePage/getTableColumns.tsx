@@ -7,11 +7,6 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
 
-interface IDamageType {
-    typeId: number
-    name: string
-}
-
 type Options = {
     hasUpdatePermission: boolean
     hasDeletePermission: boolean

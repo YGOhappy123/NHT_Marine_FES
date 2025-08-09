@@ -19,6 +19,7 @@ const ERROR_MESSAGES = {
     ROLE_NOT_FOUND: 'Không tìm thấy vai trò.',
     ROLE_EXISTED: 'Tên vai trò đã tồn tại.',
     ROLE_BEING_USED: 'Vai trò đang được sử dụng.',
+    INVALID_ROLE_SELECTED: 'Không thể chọn vai trò này.',
     CATEGORY_NOT_FOUND: 'Không tìm thấy danh mục.',
     CATEGORY_EXISTED: 'Tên danh mục đã tồn tại.',
     CATEGORY_BEING_USED: 'Danh mục đang được sử dụng.',
@@ -47,8 +48,10 @@ const ERROR_MESSAGES = {
     SUPPLIER_CONTACT_PHONE_EXISTED: 'Số điện thoại liên hệ nhà cung cấp đã tồn tại.',
     DELIVERY_CONTACT_PHONE_EXISTED: 'Số điện thoại liên hệ đơn vị vận chuyển đã tồn tại.',
     CANNOT_DELETE_DEFAULT_ORDER_STATUS: 'Không thể xóa trạng thái đơn hàng mặc định.',
-    ORDER_NOT_FOUND: 'Không tìm thấy đơn hàng',
-    CANNOT_UPDATE_TO_THIS_STATUS: 'Không thể chuyển đơn hàng sang trạng thái này.'
+    ORDER_NOT_FOUND: 'Không tìm thấy đơn hàng.',
+    CANNOT_UPDATE_TO_THIS_STATUS: 'Không thể chuyển đơn hàng sang trạng thái này.',
+    INVENTORY_NOT_FOUND: 'Không tìm thấy sản phẩm tồn kho này.',
+    INVENTORY_QUANTITY_NOT_ENOUGH: 'Sản phẩm tồn kho không đủ số lượng.'
 }
 
 const SUCCESS_MESSAGES = {
@@ -90,7 +93,8 @@ const SUCCESS_MESSAGES = {
     CREATE_ORDER_STATUS_SUCCESSFULLY: 'Thêm trạng thái đơn hàng thành công.',
     UPDATE_ORDER_STATUS_SUCCESSFULLY: 'Cập nhật trạng thái đơn hàng thành công.',
     DELETE_ORDER_STATUS_SUCCESSFULLY: 'Xóa trạng thái đơn hàng thành công.',
-    UPDATE_ORDER_SUCCESSFULLY: 'Cập nhật đơn hàng thành công.'
+    UPDATE_ORDER_SUCCESSFULLY: 'Cập nhật đơn hàng thành công.',
+    UPDATE_INVENTORY_SUCCESSFULLY: 'Cập nhật sản phẩm tồn kho thành công.'
 }
 
 export const RES_MESSAGE_MAPPING = {

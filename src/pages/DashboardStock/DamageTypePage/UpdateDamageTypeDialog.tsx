@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,11 +14,6 @@ import {
 } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-
-interface IDamageType {
-    typeId: number
-    name: string
-}
 
 const updateDamageTypeFormSchema = z.object({
     name: z.string().min(1, { message: 'Tên loại thiệt hại không được để trống.' })
@@ -70,9 +64,7 @@ const UpdateDamageTypeDialog = ({
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Chỉnh sửa loại thiệt hại</DialogTitle>
-                    <DialogDescription>
-                        Cập nhật tên loại thiệt hại. Nhấn Lưu để xác nhận.
-                    </DialogDescription>
+                    <DialogDescription>Cập nhật tên loại thiệt hại. Nhấn Lưu để xác nhận.</DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">

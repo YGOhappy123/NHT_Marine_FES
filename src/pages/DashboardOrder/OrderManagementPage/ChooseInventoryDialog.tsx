@@ -199,7 +199,7 @@ const ChooseInventoryDialog = ({
                                                 </h4>
                                                 <span className="text-muted-foreground text-sm">
                                                     Phân loại:{' '}
-                                                    {orderItem.productItem.attribute
+                                                    {orderItem.productItem.attributes
                                                         .map(attr => `${attr.variant}: ${attr.option}`)
                                                         .join(', ')}
                                                 </span>

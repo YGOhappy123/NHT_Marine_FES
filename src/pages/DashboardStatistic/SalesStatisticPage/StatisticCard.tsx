@@ -4,12 +4,12 @@ import { AxiosInstance } from 'axios'
 import { Sparkles } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { BADGE_COLORS } from '@/configs/constants'
 import { StatisticCriteria, statisticTypes } from '@/pages/DashboardStatistic/DetailStatisticPage'
 import formatCurrency from '@/utils/formatCurrency'
 import striptags from 'striptags'
-import { Button } from '@/components/ui/button'
 
 type StatisticCardProps = {
     axios: AxiosInstance
@@ -166,16 +166,13 @@ const StatisticProductItem = ({ productItem, type, salesData, options }: Statist
                         })}
                     </ul>
                 </div>
-                <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground font-semibold">
-                        Số lượng bán ra: {(matchingItem?.totalUnits ?? 0).toString().padStart(2, '0')}
-                    </span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground font-semibold">
-                        Số tiền thu về: {formatCurrency(matchingItem?.totalSales ?? 0)}
-                    </span>
-                </div>
+                <p className="text-muted-foreground font-semibold">
+                    Số lượng bán ra:{' '}
+                    <span className="font-normal">{(matchingItem?.totalUnits ?? 0).toString().padStart(2, '0')}</span>
+                </p>
+                <p className="text-muted-foreground font-semibold">
+                    Số tiền thu về: <span className="font-normal">{formatCurrency(matchingItem?.totalSales ?? 0)}</span>
+                </p>
             </div>
         </div>
     )

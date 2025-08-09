@@ -24,6 +24,26 @@ declare global {
         contactEmail: string
         contactPhone: string
     }
+
+    interface IInventory {
+        quantity: number
+        productItemId: number
+        productItem?: {
+            productItemId: number
+            imageUrl: string
+            price: number
+            attributes: {
+                variant: string
+                option: string
+            }[]
+            rootProduct: {
+                rootProductId: number
+                name: string
+                description: string
+                imageUrl: string
+            }
+        }
+    }
 }
 
 export {}
