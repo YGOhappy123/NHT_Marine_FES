@@ -23,16 +23,15 @@ const profileFormSchema = z.object({
 })
 
 type ProfileFormProps = {
-    staffRoles: IStaffRole[]
     hasModifyPermission: boolean
 }
 
-const ProfileForm = ({ staffRoles, hasModifyPermission }: ProfileFormProps) => {
+const ProfileForm = ({ hasModifyPermission }: ProfileFormProps) => {
     const user = useSelector((state: RootState) => state.auth.user) as IStaff
 
     const [avatar, setAvatar] = useState(user?.avatar)
     const { uploadBase64Mutation } = fileService()
-    const { updateStaffMutation } = staffService({ enableFetching: false })
+    const { updateStaffInfoMutation } = staffService({ enableFetching: false })
     const dispatch = useDispatch()
 
     const form = useForm<z.infer<typeof profileFormSchema>>({
@@ -55,7 +54,7 @@ const ProfileForm = ({ staffRoles, hasModifyPermission }: ProfileFormProps) => {
                 setAvatar(newImageUrl)
             }
 
-            await updateStaffMutation.mutateAsync({
+            await updateStaffInfoMutation.mutateAsync({
                 staffId: user.staffId,
                 data: {
                     fullName: values.fullName,
@@ -138,12 +137,8 @@ const ProfileForm = ({ staffRoles, hasModifyPermission }: ProfileFormProps) => {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {staffRoles.map(role => (
-                                                <SelectItem
-                                                    key={role.roleId}
-                                                    value={role.roleId.toString()}
-                                                    disabled={role.isImmutable}
-                                                >
+                                            {[user.role as IStaffRole].map(role => (
+                                                <SelectItem key={role.roleId} value={role.roleId.toString()} disabled>
                                                     {role.name}
                                                 </SelectItem>
                                             ))}

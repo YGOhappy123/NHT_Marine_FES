@@ -1,28 +1,15 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useQuery } from '@tanstack/react-query'
 import verifyPermission from '@/utils/verifyPermission'
 import permissions from '@/configs/permissions'
 import ProfileForm from '@/pages/DashboardProfile/ProfilePage/ProfileForm'
-import useAxiosIns from '@/hooks/useAxiosIns'
 
 const ProfilePage = () => {
-    const axios = useAxiosIns()
     const user = useSelector((state: RootState) => state.auth.user) as IStaff
     const hasModifyPermission =
         verifyPermission(user, permissions.modifyPersonalInformation) ||
         verifyPermission(user, permissions.updateStaffInformation)
-
-    const fetchAllRolesQuery = useQuery({
-        queryKey: ['role', user.roleId],
-        queryFn: () => axios.get<IResponseData<IStaffRole>>(`/roles/${user.roleId}`),
-        refetchOnWindowFocus: false,
-        refetchInterval: 10000,
-        enabled: true,
-        select: res => res.data
-    })
-    const role = fetchAllRolesQuery.data?.data
 
     return (
         <div className="flex flex-1 items-center justify-center">
@@ -36,7 +23,7 @@ const ProfilePage = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <ProfileForm staffRoles={role ? [role] : []} hasModifyPermission={hasModifyPermission} />
+                    <ProfileForm hasModifyPermission={hasModifyPermission} />
                 </CardContent>
             </Card>
         </div>

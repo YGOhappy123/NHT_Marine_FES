@@ -24,7 +24,7 @@ declare global {
                 productItemId: number
                 imageUrl: string
                 price: number
-                attribute: {
+                attributes: {
                     variant: string
                     option: string
                 }[]

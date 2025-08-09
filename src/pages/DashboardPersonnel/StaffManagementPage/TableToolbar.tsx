@@ -12,14 +12,14 @@ import TableDataFilter from '@/components/common/TableDataFilter'
 
 interface TableToolbarProps<TData> {
     table: Table<TData>
-    permissions: IPermission[]
-    addNewStaffMutation: UseMutationResult<any, any, Partial<IStaffStaff>, any>
+    roles: IStaffRole[]
+    addNewStaffMutation: UseMutationResult<any, any, Partial<IStaff>, any>
     hasAddStaffPermission: boolean
 }
 
 export function TableToolbar<TData>({
     table,
-    permissions,
+    roles,
     addNewStaffMutation,
     hasAddStaffPermission
 }: TableToolbarProps<TData>) {
@@ -32,8 +32,8 @@ export function TableToolbar<TData>({
                 <div className="flex items-center gap-2">
                     <Input
                         placeholder="Tìm nhân viên theo tên..."
-                        value={(table.getColumn('Họ tên nhân viên')?.getFilterValue() as string) ?? ''}
-                        onChange={event => table.getColumn('Họ tên nhân viên')?.setFilterValue(event.target.value)}
+                        value={(table.getColumn('Thông tin nhân viên')?.getFilterValue() as string) ?? ''}
+                        onChange={event => table.getColumn('Thông tin nhân viên')?.setFilterValue(event.target.value)}
                         className="text-foreground caret-foreground h-8 w-[150px] md:w-[200px] lg:w-[250px]"
                     />
                     {!isMobile && isFiltered && (
@@ -72,9 +72,7 @@ export function TableToolbar<TData>({
             <div className="flex items-center gap-2">
                 <DataTableViewOptions table={table} />
 
-                {hasAddStaffPermission && (
-                    <AddStaffDialog permissions={permissions} addNewStaffMutation={addNewStaffMutation} />
-                )}
+                {hasAddStaffPermission && <AddStaffDialog roles={roles} addNewStaffMutation={addNewStaffMutation} />}
             </div>
         </div>
     )

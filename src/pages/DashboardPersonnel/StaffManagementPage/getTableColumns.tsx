@@ -9,7 +9,6 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
@@ -29,19 +28,23 @@ export const staffTypes = [
 ]
 
 type Options = {
-    hasUpdatePermission: boolean
-    hasDeactivateStaffAccountPermission: boolean
+    hasUpdateInfoPermission: boolean
+    hasChangeRolePermission: boolean
+    hasDeactivateAccountPermission: boolean
     onViewStaff: (value: IStaff) => void
-    onUpdateStaff: (value: IStaff) => void
+    onUpdateStaffInfo: (value: IStaff) => void
+    onChangeStaffRole: (value: IStaff) => void
     deactivateStaffAccountMutation: UseMutationResult<any, any, number, any>
     user: IStaff | null
 }
 
 export const getTableColumns = ({
-    hasUpdatePermission,
-    hasDeactivateStaffAccountPermission,
+    hasUpdateInfoPermission,
+    hasChangeRolePermission,
+    hasDeactivateAccountPermission,
     onViewStaff,
-    onUpdateStaff,
+    onUpdateStaffInfo,
+    onChangeStaffRole,
     deactivateStaffAccountMutation,
     user
 }: Options) => {
@@ -92,22 +95,27 @@ export const getTableColumns = ({
             enableSorting: false
         },
         {
-            id: 'Họ tên nhân viên',
+            id: 'Thông tin nhân viên',
             accessorKey: 'fullName',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Họ tên nhân viên" />,
-            cell: ({ row }) => <div className="w-[200px]">{row.getValue('Họ tên nhân viên')}</div>
-        },
-        {
-            id: 'Email',
-            accessorKey: 'email',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
-            cell: ({ row }) => <div className="w-[200px]">{row.getValue('Email')}</div>
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Thông tin nhân viên" />,
+            cell: ({ row }) => (
+                <div className="flex flex-col gap-2 break-words whitespace-normal">
+                    <p>
+                        <span className="font-semibold">Họ và tên: </span>
+                        {row.original.fullName}
+                    </p>
+                    <p>
+                        <span className="font-semibold">Email: </span>
+                        {row.original.email}
+                    </p>
+                </div>
+            )
         },
         {
             id: 'Vai trò',
             accessorKey: 'role',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Vai trò" />,
-            cell: ({ row }) => <div className="w-[200px]">{row.getValue('Vai trò')}</div>
+            cell: ({ row }) => <div className="w-[200px]">{(row.original.role as IStaffRole).name}</div>
         },
         {
             id: 'Trạng thái',
@@ -162,15 +170,44 @@ export const getTableColumns = ({
                                 Chi tiết
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                                disabled={!hasUpdatePermission}
+                                disabled={
+                                    (row.original.role as Partial<IStaffRole>).isImmutable ||
+                                    !hasChangeRolePermission ||
+                                    !row.original.isActive
+                                }
                                 className="cursor-pointer"
                                 onClick={() => {
-                                    if (hasUpdatePermission) {
-                                        onUpdateStaff(row.original)
-                                    }
+                                    if (
+                                        (row.original.role as Partial<IStaffRole>).isImmutable ||
+                                        !hasChangeRolePermission ||
+                                        !row.original.isActive
+                                    )
+                                        return
+
+                                    onChangeStaffRole(row.original)
                                 }}
                             >
-                                Chỉnh sửa
+                                Thay đổi vai trò
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                disabled={
+                                    (row.original.role as Partial<IStaffRole>).isImmutable ||
+                                    !hasUpdateInfoPermission ||
+                                    !row.original.isActive
+                                }
+                                className="cursor-pointer"
+                                onClick={() => {
+                                    if (
+                                        (row.original.role as Partial<IStaffRole>).isImmutable ||
+                                        !hasUpdateInfoPermission ||
+                                        !row.original.isActive
+                                    )
+                                        return
+
+                                    onUpdateStaffInfo(row.original)
+                                }}
+                            >
+                                Chỉnh sửa thông tin
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <ConfirmationDialog
@@ -178,22 +215,23 @@ export const getTableColumns = ({
                                 description="Không thể hoàn tác hành động này. Thao tác này sẽ khóa tài khoản nhân viên vĩnh viễn trong hệ thống NHT Marine."
                                 onConfirm={async () => {
                                     if (
-                                        row.original.role !== 'Super Admin' &&
-                                        hasDeactivateStaffAccountPermission &&
-                                        row.original.isActive &&
-                                        row.original.staffId !== user?.staffId
-                                    ) {
-                                        deactivateStaffAccountMutation.mutateAsync(row.original.staffId)
-                                    }
+                                        (row.original.role as Partial<IStaffRole>).isImmutable ||
+                                        row.original.staffId === user?.staffId ||
+                                        !row.original.isActive ||
+                                        !hasDeactivateAccountPermission
+                                    )
+                                        return
+
+                                    await deactivateStaffAccountMutation.mutateAsync(row.original.staffId)
                                 }}
                                 trigger={
                                     <DropdownMenuItem
                                         variant="destructive"
                                         disabled={
-                                            row.original.role === 'Super Admin' ||
-                                            !hasDeactivateStaffAccountPermission ||
+                                            (row.original.role as Partial<IStaffRole>).isImmutable ||
+                                            row.original.staffId === user?.staffId ||
                                             !row.original.isActive ||
-                                            row.original.staffId === user?.staffId
+                                            !hasDeactivateAccountPermission
                                         }
                                         className="cursor-pointer"
                                     >

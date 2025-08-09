@@ -76,7 +76,7 @@ const DataCouponDialog = ({
                     <DialogDescription>
                         {mode === 'view'
                             ? 'Thông tin chi tiết về tên, loại và tất cả các quyền truy cập của khách hàng.'
-                            : 'Chỉnh sửa các thông tin của khách hàng. Ấn &apos;Xác nhận&apos; sau khi hoàn tất.'}
+                            : 'Chỉnh sửa các thông tin của khách hàng. Ấn "Xác nhận" sau khi hoàn tất.'}
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

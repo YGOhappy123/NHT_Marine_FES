@@ -191,13 +191,13 @@ export const sidebarGroups: SidebarGroupData[] = [
             {
                 title: 'Dữ liệu bán hàng',
                 icon: CircleDollarSignIcon,
-                url: '/sales-statistic',
+                url: '/statistics/sales',
                 accessRequirement: permissions.accessStatisticDashboardPage
             },
             {
                 title: 'Thống kê chi tiết',
                 icon: ChartLine,
-                url: '/detail-statistic',
+                url: '/statistics/detail',
                 accessRequirement: permissions.accessStatisticDashboardPage
             }
         ]
