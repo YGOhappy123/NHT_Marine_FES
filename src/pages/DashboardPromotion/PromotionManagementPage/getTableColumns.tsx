@@ -30,18 +30,18 @@ export const promotionTypes = [
 
 type Options = {
     hasUpdatePermission: boolean
-    hasDeletePermission: boolean
+    hasDisablePermission: boolean
     onViewPromotion: (value: IPromotion) => void
     onUpdatePromotion: (value: IPromotion) => void
-    removePromotionMutation: UseMutationResult<any, any, number, any>
+    disablePromotionMutation: UseMutationResult<any, any, number, any>
 }
 
 export const getTableColumns = ({
     hasUpdatePermission,
-    hasDeletePermission,
+    hasDisablePermission,
     onViewPromotion,
     onUpdatePromotion,
-    removePromotionMutation
+    disablePromotionMutation
 }: Options) => {
     const columns: ColumnDef<IPromotion>[] = [
         {
@@ -189,20 +189,20 @@ export const getTableColumns = ({
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <ConfirmationDialog
-                                title="Bạn có chắc muốn xóa khách hàng này?"
-                                description="Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn khách hàng khỏi hệ thống NHT Marine."
+                                title="Bạn có chắc muốn hủy chương trình này?"
+                                description="Không thể hoàn tác hành động này. Thao tác này sẽ hủy chương trình khỏi hệ thống NHT Marine."
                                 onConfirm={async () => {
-                                    if (hasDeletePermission) {
-                                        removePromotionMutation.mutateAsync(row.original.promotionId)
+                                    if (hasDisablePermission) {
+                                        disablePromotionMutation.mutateAsync(row.original.promotionId)
                                     }
                                 }}
                                 trigger={
                                     <DropdownMenuItem
                                         variant="destructive"
-                                        disabled={!hasDeletePermission}
+                                        disabled={!hasDisablePermission || !row.original.isActive}
                                         className="cursor-pointer"
                                     >
-                                        Xóa
+                                        Hủy chương trình
                                         <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }

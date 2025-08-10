@@ -134,7 +134,7 @@ export const getTableColumns = ({
             header: ({ column }) => <DataTableColumnHeader column={column} title="SL tối đa" />,
             cell: ({ row }) => (
                 <div className="flex w-[100px] flex-col gap-2 break-words whitespace-normal">
-                    {row.getValue('SL tối đa')}
+                    {row.getValue('SL tối đa') || <i>Không giới hạn</i>}
                 </div>
             )
         },

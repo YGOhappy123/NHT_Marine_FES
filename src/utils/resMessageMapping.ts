@@ -51,6 +51,8 @@ export const RES_MESSAGE_MAPPING = {
     UPDATE_PRODUCT_SUCCESSFULLY: 'Cập nhật sản phẩm thành công.',
     DELETE_PRODUCT_SUCCESSFULLY: 'Xóa sản phẩm thành công.',
     CREATE_PROMOTION_SUCCESSFULLY: 'Tạo chương trình khuyến mãi thành công.',
+    UPDATE_PROMOTION_SUCCESSFULLY: 'Cập nhật chương trình khuyến mãi thành công.',
+    DISABLE_PROMOTION_SUCCESSFULLY: 'Hủy chương trình khuyến mãi thành công.',
     CREATE_DAMAGE_TYPE_SUCCESSFULLY: 'Thêm loại thiệt hại thành công.',
     UPDATE_DAMAGE_TYPE_SUCCESSFULLY: 'Cập nhật loại thiệt hại thành công.',
     DELETE_DAMAGE_TYPE_SUCCESSFULLY: 'Xóa loại thiệt hại thành công.',

@@ -82,8 +82,8 @@ const DataPromotionDialog = ({
             data: {
                 name: values.name,
                 discountRate: values.discountRate,
-                startDate: new Date(values.startDate).toISOString().split('T')[0] + 'T00:00:00.000Z',
-                endDate: new Date(values.endDate).toISOString().split('T')[0] + 'T23:59:59.999Z',
+                startDate: values.startDate.toLocaleDateString('en-CA'),
+                endDate: values.endDate.toLocaleDateString('en-CA'),
                 products: values.products
             }
         })
@@ -99,7 +99,7 @@ const DataPromotionDialog = ({
                 discountRate: promotion.discountRate,
                 startDate: new Date(promotion.startDate),
                 endDate: new Date(promotion.endDate),
-                products: (promotion.products as IRootProduct[]).map(item => item.rootProductId)
+                products: (promotion.products as any[]).map(item => item.productId || item.rootProductId)
             })
         }
     }, [open, mode])

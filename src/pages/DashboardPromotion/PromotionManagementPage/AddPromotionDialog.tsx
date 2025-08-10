@@ -65,8 +65,8 @@ const AddPromotionDialog = ({ rootProducts, addNewPromotionMutation }: AddPromot
         await addNewPromotionMutation.mutateAsync({
             name: values.name,
             discountRate: values.discountRate,
-            startDate: new Date(values.startDate).toISOString().split('T')[0] + 'T00:00:00.000Z',
-            endDate: new Date(values.endDate).toISOString().split('T')[0] + 'T23:59:59.999Z',
+            startDate: new Date(values.startDate).toISOString(),
+            endDate: new Date(values.endDate).toISOString(),
             products: values.products
         })
 

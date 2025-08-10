@@ -18,9 +18,11 @@ const PromotionManagementPage = () => {
     const [dialogOpen, setDialogOpen] = useState(false)
     const [dialogMode, setDialogMode] = useState<'view' | 'update'>('view')
     const [selectedPromotion, setSelectedPromotion] = useState<IPromotion | null>(null)
-    const { promotions, addNewPromotionMutation, updatePromotionMutation, removePromotionMutation } = promotionService({
-        enableFetching: true
-    })
+    const { promotions, addNewPromotionMutation, updatePromotionMutation, disablePromotionMutation } = promotionService(
+        {
+            enableFetching: true
+        }
+    )
 
     const fetchAllRootProductsQuery = useQuery({
         queryKey: ['products-all'],
@@ -61,7 +63,7 @@ const PromotionManagementPage = () => {
                 data={promotions}
                 columns={getTableColumns({
                     hasUpdatePermission: verifyPermission(user, appPermissions.updatePromotion),
-                    hasDeletePermission: verifyPermission(user, appPermissions.removePromotion),
+                    hasDisablePermission: verifyPermission(user, appPermissions.disablePromotion),
                     onViewPromotion: (promotion: IPromotion) => {
                         setSelectedPromotion(promotion)
                         setDialogMode('view')
@@ -72,7 +74,7 @@ const PromotionManagementPage = () => {
                         setDialogMode('update')
                         setDialogOpen(true)
                     },
-                    removePromotionMutation: removePromotionMutation
+                    disablePromotionMutation: disablePromotionMutation
                 })}
                 renderToolbar={table => (
                     <TableToolbar
