@@ -127,7 +127,7 @@ const FirstStepForm = ({ defaultValues, categories, onNext }: FirstStepFormProps
                                             content={field.value}
                                             onChange={field.onChange}
                                             containerClassName="rounded border-2"
-                                            editorClassName="caret-card-foreground text-card-foreground "
+                                            editorClassName="caret-card-foreground text-card-foreground"
                                         />
                                     </FormControl>
                                     <FormMessage />
