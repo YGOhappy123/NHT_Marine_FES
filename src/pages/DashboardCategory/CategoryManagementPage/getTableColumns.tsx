@@ -67,16 +67,6 @@ export const getTableColumns = ({
             cell: ({ row }) => <div className="w-[200px]">{row.getValue('Tên danh mục')}</div>
         },
         {
-            id: 'Danh mục cha',
-            accessorKey: 'parentId',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Danh mục cha" />,
-            cell: ({ row }) => (
-                <div className="w-[200px]">
-                    {(row.original.parentCategory as Partial<ICategory> | undefined)?.name || <i>Không có</i>}
-                </div>
-            )
-        },
-        {
             id: 'Thông tin người tạo',
             accessorKey: 'createdBy',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Thông tin người tạo" />,
@@ -98,52 +88,54 @@ export const getTableColumns = ({
         },
         {
             id: 'actions',
-            header: 'Hành động',
+            header: () => <div className="text-center">Hành động</div>,
             cell: ({ row }) => (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="data-[state=open]:bg-muted flex h-8 w-8 p-0">
-                            <MoreHorizontal />
-                            <span className="sr-only">Mở menu</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="center" className="w-[160px]">
-                        {/* <DropdownMenuItem className="cursor-pointer" onClick={() => onViewCategory(row.original)}>
+                <div className="flex justify-center">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="data-[state=open]:bg-muted flex h-8 w-8 p-0">
+                                <MoreHorizontal />
+                                <span className="sr-only">Mở menu</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="center" className="w-[160px]">
+                            {/* <DropdownMenuItem className="cursor-pointer" onClick={() => onViewCategory(row.original)}>
                             Chi tiết
                         </DropdownMenuItem> */}
-                        <DropdownMenuItem
-                            disabled={!hasUpdatePermission}
-                            className="cursor-pointer"
-                            onClick={() => {
-                                if (hasUpdatePermission) {
-                                    onUpdateCategory(row.original)
+                            <DropdownMenuItem
+                                disabled={!hasUpdatePermission}
+                                className="cursor-pointer"
+                                onClick={() => {
+                                    if (hasUpdatePermission) {
+                                        onUpdateCategory(row.original)
+                                    }
+                                }}
+                            >
+                                Chỉnh sửa
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <ConfirmationDialog
+                                title="Bạn có chắc muốn xóa danh mục này?"
+                                description="Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn danh mục khỏi hệ thống NHT Marine."
+                                onConfirm={async () => {
+                                    if (hasDeletePermission) {
+                                        removeCategoryMutation.mutateAsync(row.original.categoryId)
+                                    }
+                                }}
+                                trigger={
+                                    <DropdownMenuItem
+                                        variant="destructive"
+                                        disabled={!hasDeletePermission}
+                                        className="cursor-pointer"
+                                    >
+                                        Xóa
+                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
+                                    </DropdownMenuItem>
                                 }
-                            }}
-                        >
-                            Chỉnh sửa
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <ConfirmationDialog
-                            title="Bạn có chắc muốn xóa danh mục này?"
-                            description="Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn danh mục khỏi hệ thống NHT Marine."
-                            onConfirm={async () => {
-                                if (hasDeletePermission) {
-                                    removeCategoryMutation.mutateAsync(row.original.categoryId)
-                                }
-                            }}
-                            trigger={
-                                <DropdownMenuItem
-                                    variant="destructive"
-                                    disabled={!hasDeletePermission}
-                                    className="cursor-pointer"
-                                >
-                                    Xóa
-                                    <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
-                                </DropdownMenuItem>
-                            }
-                        />
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            />
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             )
         }
     ]

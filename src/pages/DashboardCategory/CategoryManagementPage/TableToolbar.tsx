@@ -59,25 +59,6 @@ export function TableToolbar<TData>({ table, parentCategories, addNewCategoryMut
                         </Button>
                     )}
                 </div>
-                {table.getColumn('Danh mục cha') && (
-                    <TableDataFilter
-                        table={table}
-                        rootColumn="categoryId"
-                        filterColumn="Danh mục cha"
-                        title="Danh mục cha"
-                        options={parentCategoriesOptions}
-                        filterFn={(rawValue: string, options) => {
-                            switch (options) {
-                                case 'null':
-                                    return rawValue == null
-                                case 'hasParent':
-                                    return rawValue != null
-                                default:
-                                    return false
-                            }
-                        }}
-                    />
-                )}
                 {isFiltered && (
                     <Button
                         variant="ghost"
