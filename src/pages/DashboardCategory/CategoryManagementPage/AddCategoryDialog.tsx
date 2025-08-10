@@ -62,7 +62,7 @@ const AddCategoryDialog = ({ parentCategories, addNewCategoryMutation }: AddCate
                 <DialogHeader>
                     <DialogTitle>Thêm danh mục hàng hóa</DialogTitle>
                     <DialogDescription>
-                        Thêm các thông tin cần thiết cho danh mục hàng hóa. Ấn &apos;Xác nhận&apos; sau khi hoàn tất.
+                        Thêm các thông tin cần thiết cho danh mục hàng hóa. Ấn "Xác nhận" sau khi hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

@@ -14,7 +14,8 @@ const productService = ({ enableFetching = false }: { enableFetching: boolean })
 
     const getAllProductsQuery = useQuery({
         queryKey: ['products'],
-        queryFn: () => axios.get<IResponseData<IRootProduct[]>>('/products'),
+        queryFn: () =>
+            axios.get<IResponseData<IRootProduct[]>>(`/products?sort=${JSON.stringify({ createdAt: 'DESC' })}`),
         enabled: enableFetching,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: true,

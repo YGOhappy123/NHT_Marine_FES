@@ -13,17 +13,17 @@ type AuthProtectorProps = {
 }
 
 const AuthProtector = ({ redirect = '/', children }: AuthProtectorProps) => {
-    const accessToken = cookies.get('access_token') || localStorage.getItem('access_token')
+    const accessToken = cookies.get('access_token_fes') || localStorage.getItem('access_token_fes')
     const auth = useSelector((state: RootState) => state.auth as AuthState)
     const location = useLocation()
     const dispatch = useDispatch()
 
     useEffect(() => {
-        cookies.set('redirect_path', location.pathname, { path: '/' })
+        cookies.set('redirect_path_fes', location.pathname, { path: '/' })
 
         // Prevent redirecting to a protected page after login if user was previously denied access
         if (accessToken) {
-            cookies.remove('redirect_path', { path: '/' })
+            cookies.remove('redirect_path_fes', { path: '/' })
         }
     }, [location])
 

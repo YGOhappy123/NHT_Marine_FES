@@ -76,7 +76,7 @@ const AddCouponDialog = ({ addNewCouponMutation }: AddCouponDialogProps) => {
                 <DialogHeader>
                     <DialogTitle>Thêm mã giảm giá</DialogTitle>
                     <DialogDescription>
-                        Thêm các thông tin cần thiết cho mã giảm giá. Ấn &apos;Xác nhận&apos; sau khi hoàn tất.
+                        Thêm các thông tin cần thiết cho mã giảm giá. Ấn "Xác nhận" sau khi hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

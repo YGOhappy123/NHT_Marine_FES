@@ -2,15 +2,19 @@ import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { RootState } from '@/store'
-import { Card, CardContent } from '@/components/ui/card'
 import orderService from '@/services/orderService'
 import CustomPagination from '@/pages/DashboardOrder/OrderManagementPage/CustomPagination'
 import OrderCard from '@/pages/DashboardOrder/OrderManagementPage/OrderCard'
+import verifyPermission from '@/utils/verifyPermission'
+import permissions from '@/configs/permissions'
+import OrderSummaryCard from '@/pages/DashboardOrder/OrderManagementPage/OrderSummaryCard'
+import formatCurrency from '@/utils/formatCurrency'
 
 const OrderManagementPage = () => {
     const user = useSelector((state: RootState) => state.auth.user)
+    const hasProcessOrderPermission = verifyPermission(user, permissions.processOrder)
 
-    const { orders, orderCount } = orderService({ enableFetching: true })
+    const { orders, orderCount, chooseInventoryMutation, updateStatusMutation } = orderService({ enableFetching: true })
     const [limit, setLimit] = useState(10)
     const [page, setPage] = useState(1)
 
@@ -39,13 +43,32 @@ const OrderManagementPage = () => {
                 </div>
             </div>
 
-            <Card className="mb-6 w-full">
-                <CardContent></CardContent>
-            </Card>
+            <div className="mb-6 grid grid-cols-3 gap-6">
+                <OrderSummaryCard title="Số lượng đơn hàng" data={orderCount.toString().padStart(2, '0')} />
+                <OrderSummaryCard
+                    title="Tổng doanh thu đơn hàng"
+                    data={formatCurrency(
+                        orders.filter(o => o.orderStatus.isAccounted).reduce((acc, cur) => acc + cur.totalAmount, 0)
+                    )}
+                />
+                <OrderSummaryCard
+                    title="Số đơn hàng đang chờ xử lý"
+                    data={orders
+                        .filter(o => o.orderStatus.isDefaultState)
+                        .length.toString()
+                        .padStart(2, '0')}
+                />
+            </div>
 
             <div className="mb-4 grid grid-cols-1 gap-6 lg:grid-cols-2">
                 {paginatedOrders.map(order => (
-                    <OrderCard key={order.orderId} order={order} />
+                    <OrderCard
+                        key={order.orderId}
+                        order={order}
+                        hasPermission={hasProcessOrderPermission}
+                        chooseInventoryMutation={chooseInventoryMutation}
+                        updateStatusMutation={updateStatusMutation}
+                    />
                 ))}
             </div>
 

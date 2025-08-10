@@ -4,13 +4,7 @@ import { MoreHorizontal } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header'
 import { Button } from '@/components/ui/button'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuShortcut,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
 
 interface ISupplier {
@@ -58,7 +52,9 @@ export const getTableColumns = ({
         },
         {
             accessorKey: 'supplierId',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Mã nhà cung cấp" enableHiding={false} />,
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Mã nhà cung cấp" enableHiding={false} />
+            ),
             cell: ({ row }) => <div className="w-[80px]">{row.getValue('supplierId')}</div>,
             enableHiding: false,
             filterFn: (row, id, value: (number | string)[]) => {
@@ -76,7 +72,7 @@ export const getTableColumns = ({
             accessorKey: 'address',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Địa chỉ" />,
             cell: ({ row }) => (
-                <div className="min-w-[200px] max-w-[300px] whitespace-normal break-words">
+                <div className="max-w-[300px] min-w-[200px] break-words whitespace-normal">
                     {row.getValue('address')}
                 </div>
             )
@@ -86,7 +82,7 @@ export const getTableColumns = ({
             accessorKey: 'contactEmail',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Email liên hệ" />,
             cell: ({ row }) => (
-                <div className="min-w-[200px] max-w-[300px] whitespace-normal break-words">
+                <div className="max-w-[300px] min-w-[200px] break-words whitespace-normal">
                     {row.getValue('contactEmail')}
                 </div>
             )
@@ -136,7 +132,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Xóa
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

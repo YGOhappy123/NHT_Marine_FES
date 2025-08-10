@@ -4,19 +4,8 @@ import { MoreHorizontal } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header'
 import { Button } from '@/components/ui/button'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuShortcut,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
-
-interface IDamageType {
-    typeId: number
-    name: string
-}
 
 type Options = {
     hasUpdatePermission: boolean
@@ -55,7 +44,9 @@ export const getTableColumns = ({
         },
         {
             accessorKey: 'typeId',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Mã loại thiệt hại" enableHiding={false} />,
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Mã loại thiệt hại" enableHiding={false} />
+            ),
             cell: ({ row }) => <div className="w-[80px]">{row.getValue('typeId')}</div>,
             enableHiding: false,
             filterFn: (row, id, value: (number | string)[]) => {
@@ -107,7 +98,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Xóa
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

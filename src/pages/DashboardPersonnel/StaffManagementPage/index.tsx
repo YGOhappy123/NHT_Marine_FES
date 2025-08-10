@@ -11,24 +11,32 @@ import useAxiosIns from '@/hooks/useAxiosIns'
 import DataStaffDialog from '@/pages/DashboardPersonnel/StaffManagementPage/DataStaffDialog'
 import verifyPermission from '@/utils/verifyPermission'
 import appPermissions from '@/configs/permissions'
+import ChangeRoleDialog from '@/pages/DashboardPersonnel/StaffManagementPage/ChangeRoleDialog'
 
 const StaffManagementPage = () => {
     const axios = useAxiosIns()
     const user = useSelector((state: RootState) => state.auth.user)
-    const [dialogOpen, setDialogOpen] = useState(false)
-    const [dialogMode, setDialogMode] = useState<'view' | 'update'>('view')
+    const [changeRoleDialogOpen, setChangeRoleDialogOpen] = useState(false)
+    const [dataDialogOpen, setDataDialogOpen] = useState(false)
+    const [dataDialogMode, setDataDialogMode] = useState<'view' | 'update'>('view')
     const [selectedStaff, setSelectedStaff] = useState<IStaff | null>(null)
-    const { staffs, addNewStaffMutation, updateStaffMutation, deactivateStaffAccountMutation } = staffService({
+    const {
+        staffs,
+        addNewStaffMutation,
+        updateStaffInfoMutation,
+        changeStaffRoleMutation,
+        deactivateStaffAccountMutation
+    } = staffService({
         enableFetching: true
     })
 
-    const fetchAllPermissionsQuery = useQuery({
-        queryKey: ['permissions-all'],
-        queryFn: () => axios.get<IResponseData<IPermission[]>>('/roles/permissions'),
+    const fetchAllRolesQuery = useQuery({
+        queryKey: ['roles-all'],
+        queryFn: () => axios.get<IResponseData<IStaffRole[]>>('/roles'),
         enabled: true,
         select: res => res.data
     })
-    const permissions = fetchAllPermissionsQuery.data?.data || []
+    const roles = fetchAllRolesQuery.data?.data || []
 
     return (
         <div className="flex h-full flex-1 flex-col space-y-8 p-4">
@@ -46,29 +54,42 @@ const StaffManagementPage = () => {
 
             <DataStaffDialog
                 staff={selectedStaff}
-                permissions={permissions}
-                mode={dialogMode}
-                setMode={setDialogMode}
-                open={dialogOpen}
-                setOpen={setDialogOpen}
-                updateStaffMutation={updateStaffMutation}
-                hasUpdatePermission={verifyPermission(user, appPermissions.updateStaff)}
+                mode={dataDialogMode}
+                setMode={setDataDialogMode}
+                open={dataDialogOpen}
+                setOpen={setDataDialogOpen}
+                updateStaffInfoMutation={updateStaffInfoMutation}
+                hasUpdatePermission={verifyPermission(user, appPermissions.updateStaffInformation)}
+            />
+
+            <ChangeRoleDialog
+                staff={selectedStaff}
+                roles={roles}
+                open={changeRoleDialogOpen}
+                setOpen={setChangeRoleDialogOpen}
+                changeStaffRoleMutation={changeStaffRoleMutation}
+                hasChangeRolePermission={verifyPermission(user, appPermissions.changeStaffRole)}
             />
 
             <DataTable
                 data={staffs}
                 columns={getTableColumns({
-                    hasUpdatePermission: verifyPermission(user, appPermissions.updateStaff),
-                    hasDeactivateStaffAccountPermission: verifyPermission(user, appPermissions.deactivateStaffAccount),
+                    hasUpdateInfoPermission: verifyPermission(user, appPermissions.updateStaffInformation),
+                    hasChangeRolePermission: verifyPermission(user, appPermissions.changeStaffRole),
+                    hasDeactivateAccountPermission: verifyPermission(user, appPermissions.deactivateStaffAccount),
                     onViewStaff: (staff: IStaff) => {
                         setSelectedStaff(staff)
-                        setDialogMode('view')
-                        setDialogOpen(true)
+                        setDataDialogMode('view')
+                        setDataDialogOpen(true)
                     },
-                    onUpdateStaff: (staff: IStaff) => {
+                    onUpdateStaffInfo: (staff: IStaff) => {
                         setSelectedStaff(staff)
-                        setDialogMode('update')
-                        setDialogOpen(true)
+                        setDataDialogMode('update')
+                        setDataDialogOpen(true)
+                    },
+                    onChangeStaffRole: (staff: IStaff) => {
+                        setSelectedStaff(staff)
+                        setChangeRoleDialogOpen(true)
                     },
                     deactivateStaffAccountMutation: deactivateStaffAccountMutation,
                     user
@@ -76,7 +97,7 @@ const StaffManagementPage = () => {
                 renderToolbar={table => (
                     <TableToolbar
                         table={table}
-                        permissions={permissions}
+                        roles={roles}
                         addNewStaffMutation={addNewStaffMutation}
                         hasAddStaffPermission={verifyPermission(user, appPermissions.addNewStaff)}
                     />

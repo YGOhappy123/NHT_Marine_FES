@@ -1,4 +1,3 @@
-
 import { useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { DataTable } from '@/components/ui/data-table'
@@ -11,16 +10,12 @@ import verifyPermission from '@/utils/verifyPermission'
 import appPermissions from '@/configs/permissions'
 import UpdateDamageType from '@/pages/DashboardStock/DamageTypePage/UpdateDamageTypeDialog'
 
-interface IDamageType {
-    typeId: number
-    name: string
-}
-
 const DamageTypePage = () => {
     const user = useSelector((state: RootState) => state.auth.user)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [selectedDamageType, setSelectedDamageType] = useState<IDamageType | null>(null)
-    const { damageTypes, addNewDamageTypeMutation, updateDamageTypeMutation, removeDamageTypeMutation } = damageTypeService({ enableFetching: true })
+    const { damageTypes, addNewDamageTypeMutation, updateDamageTypeMutation, removeDamageTypeMutation } =
+        damageTypeService({ enableFetching: true })
 
     const columns = useMemo(
         () =>
@@ -74,5 +69,3 @@ const DamageTypePage = () => {
 }
 
 export default DamageTypePage
-
-

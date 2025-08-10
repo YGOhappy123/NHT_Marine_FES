@@ -8,6 +8,7 @@ declare global {
         recipientName?: string
         deliveryAddress?: string
         deliveryPhone?: string
+        note?: string
         createdAt: string
 
         customer: Partial<ICustomer>
@@ -23,7 +24,7 @@ declare global {
                 productItemId: number
                 imageUrl: string
                 price: number
-                attribute: {
+                attributes: {
                     variant: string
                     option: string
                 }[]

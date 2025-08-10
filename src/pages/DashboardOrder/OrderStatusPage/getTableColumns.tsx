@@ -4,22 +4,16 @@ import { MoreHorizontal } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header'
 import { Button } from '@/components/ui/button'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuShortcut,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
 
 interface IOrderStatus {
-    statusId: number;
-    name: string;
-    description: string;
-    isDefaultState: boolean;
-    isAccounted: boolean;
-    isUnfulfilled: boolean;
+    statusId: number
+    name: string
+    description: string
+    isDefaultState: boolean
+    isAccounted: boolean
+    isUnfulfilled: boolean
 }
 
 type Options = {
@@ -60,7 +54,9 @@ export const getTableColumns = ({
         },
         {
             accessorKey: 'statusId',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Mã trạng thái" enableHiding={false} />,
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Mã trạng thái" enableHiding={false} />
+            ),
             cell: ({ row }) => <div className="w-[80px]">{row.getValue('statusId')}</div>,
             enableHiding: false,
             filterFn: (row, id, value: (number | string)[]) => {
@@ -78,7 +74,7 @@ export const getTableColumns = ({
             accessorKey: 'description',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Mô tả" />,
             cell: ({ row }) => (
-                <div className="min-w-[200px] max-w-[300px] whitespace-normal break-words">
+                <div className="max-w-[300px] min-w-[200px] break-words whitespace-normal">
                     {row.getValue('description')}
                 </div>
             )
@@ -87,8 +83,10 @@ export const getTableColumns = ({
         {
             id: 'isDefaultState',
             accessorKey: 'isDefaultState',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Trạng thái mặc định" />,
-            cell: ({ row }) => <div className="w-[120px]">{row.getValue('isDefaultState') ? 'Có' : 'Không'}</div>,
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Trạng thái mặc định" className="justify-center" />
+            ),
+            cell: ({ row }) => <div className="text-center">{row.getValue('isDefaultState') ? 'Có' : 'Không'}</div>,
             // Khi filter, react-table sẽ truyền vào value là mảng các option đã chọn => ta kiểm tra includes
             filterFn: (row, id, value: (boolean | number | string)[]) => {
                 return value.includes(row.getValue(id))
@@ -98,8 +96,10 @@ export const getTableColumns = ({
         {
             id: 'isAccounted',
             accessorKey: 'isAccounted',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Đã thanh toán" />,
-            cell: ({ row }) => <div className="w-[120px]">{row.getValue('isAccounted') ? 'Có' : 'Không'}</div>,
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Đã thanh toán" className="justify-center" />
+            ),
+            cell: ({ row }) => <div className="text-center">{row.getValue('isAccounted') ? 'Có' : 'Không'}</div>,
             filterFn: (row, id, value: (boolean | number | string)[]) => {
                 return value.includes(row.getValue(id))
             }
@@ -108,8 +108,10 @@ export const getTableColumns = ({
         {
             id: 'isUnfulfilled',
             accessorKey: 'isUnfulfilled',
-            header: ({ column }) => <DataTableColumnHeader column={column} title="Chưa hoàn thành" />,
-            cell: ({ row }) => <div className="w-[120px]">{row.getValue('isUnfulfilled') ? 'Có' : 'Không'}</div>,
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Chưa hoàn thành" className="justify-center" />
+            ),
+            cell: ({ row }) => <div className="text-center">{row.getValue('isUnfulfilled') ? 'Có' : 'Không'}</div>,
             filterFn: (row, id, value: (boolean | number | string)[]) => {
                 return value.includes(row.getValue(id))
             }
@@ -153,7 +155,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Xóa
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

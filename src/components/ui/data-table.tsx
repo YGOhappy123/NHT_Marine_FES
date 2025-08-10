@@ -20,9 +20,15 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     renderToolbar?: (table: ReturnType<typeof useReactTable>) => ReactNode
+    disablePagination?: boolean
 }
 
-export function DataTable<TData, TValue>({ columns, data, renderToolbar }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+    columns,
+    data,
+    renderToolbar,
+    disablePagination = false
+}: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = useState({})
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -44,10 +50,10 @@ export function DataTable<TData, TValue>({ columns, data, renderToolbar }: DataT
         onColumnVisibilityChange: setColumnVisibility,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues()
+        getFacetedUniqueValues: getFacetedUniqueValues(),
+        ...(disablePagination ? {} : { getPaginationRowModel: getPaginationRowModel() })
     })
 
     return (
@@ -91,7 +97,7 @@ export function DataTable<TData, TValue>({ columns, data, renderToolbar }: DataT
                     </TableBody>
                 </Table>
             </div>
-            <DataTablePagination table={table} />
+            {!disablePagination && <DataTablePagination table={table} />}
         </div>
     )
 }

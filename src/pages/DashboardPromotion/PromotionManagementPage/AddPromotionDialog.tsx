@@ -86,8 +86,7 @@ const AddPromotionDialog = ({ rootProducts, addNewPromotionMutation }: AddPromot
                 <DialogHeader>
                     <DialogTitle>Thêm chương trình khuyến mãi</DialogTitle>
                     <DialogDescription>
-                        Thêm các thông tin cần thiết cho chương trình khuyến mãi. Ấn &apos;Xác nhận&apos; sau khi hoàn
-                        tất.
+                        Thêm các thông tin cần thiết cho chương trình khuyến mãi. Ấn "Xác nhận" sau khi hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

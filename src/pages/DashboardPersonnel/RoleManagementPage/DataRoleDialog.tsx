@@ -88,7 +88,7 @@ const DataRoleDialog = ({
                     <DialogDescription>
                         {mode === 'view'
                             ? 'Thông tin chi tiết về tên, loại và tất cả các quyền truy cập của vai trò.'
-                            : 'Chỉnh sửa các thông tin của vai trò. Ấn &apos;Xác nhận&apos; sau khi hoàn tất.'}
+                            : 'Chỉnh sửa các thông tin của vai trò. Ấn "Xác nhận" sau khi hoàn tất.'}
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />
