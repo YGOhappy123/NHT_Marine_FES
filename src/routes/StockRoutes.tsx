@@ -8,6 +8,7 @@ import DamageTypePage from '@/pages/DashboardStock/DamageTypePage'
 import StorageTypePage from '@/pages/DashboardStock/StorageTypePage'
 import SupplierPage from '@/pages/DashboardStock/SupplierPage'
 import InventoryPage from '@/pages/DashboardStock/InventoryPage'
+import StoragePage from '@/pages/DashboardStock/StoragePage'
 
 const StockRoutes = [
     {
@@ -65,6 +66,26 @@ const StockRoutes = [
                     <PermissionProtector
                         children={<SupplierPage />}
                         permission={permissions.accessSupplierDashboardPage}
+                    />
+                )
+            }
+        ]
+    },
+    {
+        path: '/storages',
+        element: (
+            <Suspense>
+                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
+            </Suspense>
+        ),
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: '',
+                element: (
+                    <PermissionProtector
+                        children={<StoragePage />}
+                        permission={permissions.accessStorageDashboardPage}
                     />
                 )
             }

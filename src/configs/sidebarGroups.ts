@@ -155,12 +155,12 @@ export const sidebarGroups: SidebarGroupData[] = [
                     },
                     {
                         title: 'Đơn nhập hàng',
-                        url: '/product-imports',
+                        url: '/products/imports',
                         accessRequirement: permissions.accessImportDashboardPage
                     },
                     {
                         title: 'Phân phối sản phẩm',
-                        url: '/inventory-distributions',
+                        url: '/inventories/distributions',
                         accessRequirement: permissions.accessStorageDashboardPage
                     }
                 ]

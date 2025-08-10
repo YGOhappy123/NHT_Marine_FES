@@ -176,28 +176,6 @@ const ChangeVariantDialog = ({
                 <Separator />
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                        {/* <FormField
-                            control={form.control}
-                            name="currStorageId"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-card-foreground">Kho/ bể hiện tại</FormLabel>
-                                    <Select onValueChange={value => {}} value={field.value?.toString() ?? ''} disabled>
-                                        <FormControl>
-                                            <SelectTrigger className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2 font-semibold">
-                                                <SelectValue placeholder="Kho/ bể hiện tại..." />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value={storage!.storageId.toString()}>
-                                                {storage?.name}
-                                            </SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        /> */}
                         <FormField
                             control={form.control}
                             name="productItemId"
