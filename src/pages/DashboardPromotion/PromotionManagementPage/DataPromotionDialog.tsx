@@ -114,7 +114,7 @@ const DataPromotionDialog = ({
                     <DialogDescription>
                         {mode === 'view'
                             ? 'Thông tin chi tiết về tên, loại và tất cả các quyền truy cập của chương trình khuyến mãi.'
-                            : 'Chỉnh sửa các thông tin của chương trình khuyến mãi. Ấn &apos;Xác nhận&apos; sau khi hoàn tất.'}
+                            : 'Chỉnh sửa các thông tin của chương trình khuyến mãi. Ấn "Xác nhận" sau khi hoàn tất.'}
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

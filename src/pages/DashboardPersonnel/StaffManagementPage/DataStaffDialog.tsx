@@ -16,50 +16,68 @@ import {
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { Checkbox } from '@/components/ui/checkbox'
+import NoButtonImageUploader from '@/components/common/NoButtonImageUploader'
+import fileService from '@/services/fileService'
 
 const dataStaffFormSchema = z.object({
-    name: z.string().min(1, { message: 'Tên nhân viên không được để trống.' }),
-    permissions: z.array(z.number()).min(1, { message: 'Vui lòng chọn ít nhất một quyền truy cập.' })
+    fullName: z
+        .string()
+        .min(1, { message: 'Họ và tên không được để trống.' })
+        .max(255, { message: 'Họ và tên không vượt quá 255 ký tự.' }),
+    email: z.email('Email không đúng định dạng.'),
+    avatar: z.string().min(1, { message: 'Vui lòng chọn ảnh đại diện' }),
+    roleId: z.number().min(1, { message: 'Vui lòng chọn vai trò.' })
 })
 
 type DataStaffDialogProps = {
     staff: IStaff | null
-    permissions: IPermission[]
     mode: 'view' | 'update'
     setMode: (value: 'view' | 'update') => void
     open: boolean
     setOpen: (value: boolean) => void
-    updateStaffMutation: UseMutationResult<any, any, { staffId: number; data: Partial<IStaff> }, any>
+    updateStaffInfoMutation: UseMutationResult<any, any, { staffId: number; data: Partial<IStaff> }, any>
     hasUpdatePermission: boolean
 }
 
 const DataStaffDialog = ({
     staff,
-    permissions,
-    updateStaffMutation,
+    updateStaffInfoMutation,
     hasUpdatePermission,
     mode,
     open,
     setMode,
     setOpen
 }: DataStaffDialogProps) => {
+    const { uploadBase64Mutation } = fileService()
+
     const form = useForm<z.infer<typeof dataStaffFormSchema>>({
         resolver: zodResolver(dataStaffFormSchema),
         defaultValues: {
-            name: '',
-            permissions: []
+            fullName: '',
+            email: '',
+            avatar: '',
+            roleId: 0
         }
     })
 
     const onSubmit = async (values: z.infer<typeof dataStaffFormSchema>) => {
         if (!staff || !hasUpdatePermission) return
 
-        await updateStaffMutation.mutateAsync({
+        let newImageUrl = null
+        if (values.avatar !== staff.avatar) {
+            const res = await uploadBase64Mutation.mutateAsync({ base64: values.avatar, folder: 'avatar' })
+            newImageUrl = res.data.data?.imageUrl
+        }
+
+        await updateStaffInfoMutation.mutateAsync({
             staffId: staff.staffId,
-            data: { name: values.name, permissions: values.permissions }
+            data: {
+                fullName: values.fullName,
+                email: values.email,
+                avatar: newImageUrl ?? staff.avatar
+            }
         })
 
         form.reset()
@@ -69,8 +87,10 @@ const DataStaffDialog = ({
     useEffect(() => {
         if (open && staff) {
             form.reset({
-                name: staff.name,
-                permissions: (staff.permissions as IPermission[]).map(item => item.permissionId)
+                fullName: staff.fullName,
+                email: staff.email,
+                avatar: staff.avatar,
+                roleId: staff.roleId
             })
         }
     }, [open, mode])
@@ -83,120 +103,106 @@ const DataStaffDialog = ({
                     <DialogDescription>
                         {mode === 'view'
                             ? 'Thông tin chi tiết về tên, email và vai trò của nhân viên.'
-                            : 'Chỉnh sửa các thông tin của nhân viên. Ấn &apos;Xác nhận&apos; sau khi hoàn tất.'}
+                            : 'Chỉnh sửa các thông tin của nhân viên. Ấn "Xác nhận" sau khi hoàn tất.'}
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-6">
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-card-foreground">Tên nhân viên</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                disabled={mode === 'view'}
-                                                placeholder="Tên nhân viên..."
-                                                className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            {/* <FormField
-                                control={form.control}
-                                name="isImmutable"
-                                disabled
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-card-foreground">Loại vai trò</FormLabel>
-                                        <FormControl>
-                                            <RadioGroup
-                                                disabled
-                                                onValueChange={val => field.onChange(val === 'true')}
-                                                defaultValue={field.value.toString()}
-                                                className="flex items-center gap-12"
-                                            >
-                                                <FormItem className="flex items-center gap-3">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="false" />
-                                                    </FormControl>
-                                                    <FormLabel className="text-muted-foreground font-normal">
-                                                        Có thể chỉnh sửa
-                                                    </FormLabel>
-                                                </FormItem>
-                                                <FormItem className="flex items-center gap-3">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="true" />
-                                                    </FormControl>
-                                                    <FormLabel className="text-muted-foreground font-normal">
-                                                        Không thể chỉnh sửa
-                                                    </FormLabel>
-                                                </FormItem>
-                                            </RadioGroup>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="permissions"
-                                render={() => (
-                                    <FormItem>
-                                        <FormLabel className="text-card-foreground">Danh sách quyền truy cập</FormLabel>
-                                        <div className="grid max-h-[200px] grid-cols-1 gap-2 overflow-y-auto md:max-h-[300px] md:grid-cols-2">
-                                            {permissions.map(permission => (
-                                                <FormField
-                                                    key={permission.permissionId}
-                                                    control={form.control}
-                                                    name="permissions"
-                                                    render={({ field }) => {
-                                                        return (
-                                                            <FormItem
-                                                                key={permission.permissionId}
-                                                                className="flex flex-row items-center gap-2"
-                                                            >
-                                                                <FormControl>
-                                                                    <Checkbox
-                                                                        disabled={mode === 'view'}
-                                                                        checked={field.value?.includes(
-                                                                            permission.permissionId
-                                                                        )}
-                                                                        onCheckedChange={checked => {
-                                                                            return checked
-                                                                                ? field.onChange([
-                                                                                      ...field.value,
-                                                                                      permission.permissionId
-                                                                                  ])
-                                                                                : field.onChange(
-                                                                                      field.value?.filter(
-                                                                                          value =>
-                                                                                              value !==
-                                                                                              permission.permissionId
-                                                                                      )
-                                                                                  )
-                                                                        }}
-                                                                    />
-                                                                </FormControl>
-                                                                <FormLabel className="text-card-foreground text-sm font-normal">
-                                                                    {permission.name}
-                                                                </FormLabel>
-                                                            </FormItem>
-                                                        )
-                                                    }}
+                        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+                            <div className="col-span-1">
+                                <FormField
+                                    control={form.control}
+                                    name="avatar"
+                                    render={({ field }) => (
+                                        <FormItem className="flex flex-col items-center">
+                                            <FormLabel className="text-card-foreground">Ảnh đại diện</FormLabel>
+                                            <FormControl>
+                                                <NoButtonImageUploader
+                                                    hasPermission={mode === 'update'}
+                                                    image={field.value}
+                                                    setImage={field.onChange}
+                                                    originalImage={staff?.avatar}
                                                 />
-                                            ))}
-                                        </div>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            /> */}
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            <div className="col-span-1 flex flex-col gap-6 md:col-span-2">
+                                <FormField
+                                    control={form.control}
+                                    name="fullName"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-card-foreground">Họ và tên nhân viên</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    disabled={mode === 'view'}
+                                                    placeholder="Họ và tên nhân viên..."
+                                                    className="caret-card-foreground text-card-foreground h-12 rounded border-2 font-semibold"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-card-foreground">Email</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    disabled={mode === 'view'}
+                                                    placeholder="Email..."
+                                                    className="caret-card-foreground text-card-foreground h-12 rounded border-2 font-semibold"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="roleId"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-card-foreground">Vai trò</FormLabel>
+                                            <Select
+                                                onValueChange={value => field.onChange(Number(value))}
+                                                value={field.value?.toString() ?? ''}
+                                                disabled
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2 font-semibold">
+                                                        <SelectValue placeholder="Vai trò..." />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {[staff?.role as Partial<IStaffRole>].map(role => (
+                                                        <SelectItem
+                                                            key={role.roleId}
+                                                            value={role.roleId!.toString()}
+                                                            disabled
+                                                        >
+                                                            {role.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                         </div>
+
                         <Separator />
                         {mode === 'update' && (
                             <DialogFooter>
@@ -215,12 +221,14 @@ const DataStaffDialog = ({
                         <DialogClose asChild>
                             <Button variant="outline">Đóng</Button>
                         </DialogClose>
-                        {hasUpdatePermission && !staff?.isImmutable && (
-                            <Button type="button" onClick={() => setMode('update')}>
-                                <PencilLine />
-                                Chỉnh sửa
-                            </Button>
-                        )}
+                        {hasUpdatePermission &&
+                            !(staff?.role as Partial<IStaffRole>)?.isImmutable &&
+                            staff?.isActive && (
+                                <Button type="button" onClick={() => setMode('update')}>
+                                    <PencilLine />
+                                    Chỉnh sửa
+                                </Button>
+                            )}
                     </DialogFooter>
                 )}
             </DialogContent>

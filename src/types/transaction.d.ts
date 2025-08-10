@@ -2,7 +2,7 @@ declare global {
     interface ICoupon {
         couponId: number
         code: string
-        type: string
+        type: 'Fixed' | 'Percentage'
         amount: number
         maxUsage: number
         isActive: boolean

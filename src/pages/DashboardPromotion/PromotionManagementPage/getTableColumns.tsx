@@ -9,7 +9,6 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
@@ -203,7 +202,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Hủy chương trình
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

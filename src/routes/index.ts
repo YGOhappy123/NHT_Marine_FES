@@ -8,6 +8,7 @@ import CategoryRoutes from '@/routes/CategoryRoutes'
 import CustomerRoutes from '@/routes/CustomerRoutes'
 import PromotionRoutes from '@/routes/PromotionRoutes'
 import StockRoutes from '@/routes/StockRoutes'
+import StatisticRoutes from '@/routes/StatisticRoutes'
 
 const developmentRoutes = createBrowserRouter([
     ...MainRoutes,
@@ -18,6 +19,7 @@ const developmentRoutes = createBrowserRouter([
     ...AuthRoutes,
     ...CustomerRoutes,
     ...PromotionRoutes,
+    ...StatisticRoutes,
     ...StockRoutes
 ])
 
@@ -30,6 +32,7 @@ const productionRoutes = createBrowserRouter([
     ...AuthRoutes,
     ...CustomerRoutes,
     ...PromotionRoutes,
+    ...StatisticRoutes,
     ...StockRoutes
 ])
 

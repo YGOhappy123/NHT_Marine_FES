@@ -82,7 +82,7 @@ const DataCategoryDialog = ({
                     <DialogDescription>
                         {mode === 'view'
                             ? 'Thông tin chi tiết về tên danh mục.'
-                            : 'Chỉnh sửa các thông tin của danh mục. Ấn &apos;Xác nhận&apos; sau khi hoàn tất.'}
+                            : 'Chỉnh sửa các thông tin của danh mục. Ấn "Xác nhận" sau khi hoàn tất.'}
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

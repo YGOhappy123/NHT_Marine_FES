@@ -9,7 +9,6 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
@@ -99,9 +98,6 @@ export const getTableColumns = ({
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="center" className="w-[160px]">
-                            {/* <DropdownMenuItem className="cursor-pointer" onClick={() => onViewCategory(row.original)}>
-                            Chi tiết
-                        </DropdownMenuItem> */}
                             <DropdownMenuItem
                                 disabled={!hasUpdatePermission}
                                 className="cursor-pointer"
@@ -129,7 +125,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Xóa
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

@@ -9,7 +9,6 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import ConfirmationDialog from '@/components/common/ConfirmationDialog'
@@ -227,7 +226,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Xóa
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

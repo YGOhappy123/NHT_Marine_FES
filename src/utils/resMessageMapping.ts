@@ -1,4 +1,4 @@
-export const RES_MESSAGE_MAPPING = {
+const ERROR_MESSAGES = {
     NO_CREDENTIALS: 'Không có thông tin xác thực.',
     INVALID_TOKEN: 'Token không hợp lệ',
     FORBIDDEN: 'Bạn không có quyền thực hiện hành động này.',
@@ -19,6 +19,7 @@ export const RES_MESSAGE_MAPPING = {
     ROLE_NOT_FOUND: 'Không tìm thấy vai trò.',
     ROLE_EXISTED: 'Tên vai trò đã tồn tại.',
     ROLE_BEING_USED: 'Vai trò đang được sử dụng.',
+    INVALID_ROLE_SELECTED: 'Không thể chọn vai trò này.',
     CATEGORY_NOT_FOUND: 'Không tìm thấy danh mục.',
     CATEGORY_EXISTED: 'Tên danh mục đã tồn tại.',
     CATEGORY_BEING_USED: 'Danh mục đang được sử dụng.',
@@ -27,7 +28,33 @@ export const RES_MESSAGE_MAPPING = {
     PRODUCT_ITEM_NOT_FOUND: 'Không tìm thấy chi tiết sản phẩm.',
     PRODUCT_IDS_MISMATCH: 'Các mã sản phẩm không khớp.',
     PRODUCT_BEING_USED: 'Sản phẩm đang được sử dụng.',
+    DAMAGE_TYPE_NOT_FOUND: 'Không tìm thấy loại thiệt hại.',
+    DAMAGE_TYPE_EXISTED: 'Tên loại thiệt hại đã tồn tại.',
+    DAMAGE_TYPE_BEING_USED: 'Loại thiệt hại đang được sử dụng.',
+    STORAGE_TYPE_NOT_FOUND: 'Không tìm thấy loại kho.',
+    STORAGE_TYPE_EXISTED: 'Tên loại kho đã tồn tại.',
+    STORAGE_TYPE_BEING_USED: 'Loại kho đang được sử dụng.',
+    SUPPLIER_NOT_FOUND: 'Không tìm thấy nhà cung cấp.',
+    SUPPLIER_EXISTED: 'Tên nhà cung cấp đã tồn tại.',
+    SUPPLIER_BEING_USED: 'Nhà cung cấp đang được sử dụng.',
+    DELIVERY_SERVICE_NOT_FOUND: 'Không tìm thấy đơn vị vận chuyển.',
+    DELIVERY_SERVICE_EXISTED: 'Tên đơn vị vận chuyển đã tồn tại.',
+    DELIVERY_SERVICE_BEING_USED: 'Đơn vị vận chuyển đang được sử dụng.',
+    ORDER_STATUS_NOT_FOUND: 'Không tìm thấy trạng thái đơn hàng.',
+    ORDER_STATUS_EXISTED: 'Tên trạng thái đơn hàng đã tồn tại.',
+    ORDER_STATUS_BEING_USED: 'Trạng thái đơn hàng đang được sử dụng.',
+    SUPPLIER_ADDRESS_EXISTED: 'Địa chỉ nhà cung cấp đã tồn tại.',
+    SUPPLIER_CONTACT_EMAIL_EXISTED: 'Email liên hệ nhà cung cấp đã tồn tại.',
+    SUPPLIER_CONTACT_PHONE_EXISTED: 'Số điện thoại liên hệ nhà cung cấp đã tồn tại.',
+    DELIVERY_CONTACT_PHONE_EXISTED: 'Số điện thoại liên hệ đơn vị vận chuyển đã tồn tại.',
+    CANNOT_DELETE_DEFAULT_ORDER_STATUS: 'Không thể xóa trạng thái đơn hàng mặc định.',
+    ORDER_NOT_FOUND: 'Không tìm thấy đơn hàng.',
+    CANNOT_UPDATE_TO_THIS_STATUS: 'Không thể chuyển đơn hàng sang trạng thái này.',
+    INVENTORY_NOT_FOUND: 'Không tìm thấy sản phẩm tồn kho này.',
+    INVENTORY_QUANTITY_NOT_ENOUGH: 'Sản phẩm tồn kho không đủ số lượng.'
+}
 
+const SUCCESS_MESSAGES = {
     SIGN_IN_SUCCESSFULLY: 'Đăng nhập thành công.',
     SIGN_UP_SUCCESSFULLY: 'Đăng ký thành công.',
     REFRESH_TOKEN_SUCCESSFULLY: 'Làm mới token thành công.',
@@ -68,26 +95,13 @@ export const RES_MESSAGE_MAPPING = {
     CREATE_ORDER_STATUS_SUCCESSFULLY: 'Thêm trạng thái đơn hàng thành công.',
     UPDATE_ORDER_STATUS_SUCCESSFULLY: 'Cập nhật trạng thái đơn hàng thành công.',
     DELETE_ORDER_STATUS_SUCCESSFULLY: 'Xóa trạng thái đơn hàng thành công.',
-    DAMAGE_TYPE_NOT_FOUND: 'Không tìm thấy loại thiệt hại.',
-    DAMAGE_TYPE_EXISTED: 'Tên loại thiệt hại đã tồn tại.',
-    DAMAGE_TYPE_BEING_USED: 'Loại thiệt hại đang được sử dụng.',
-    STORAGE_TYPE_NOT_FOUND: 'Không tìm thấy loại kho.',
-    STORAGE_TYPE_EXISTED: 'Tên loại kho đã tồn tại.',
-    STORAGE_TYPE_BEING_USED: 'Loại kho đang được sử dụng.',
-    SUPPLIER_NOT_FOUND: 'Không tìm thấy nhà cung cấp.',
-    SUPPLIER_EXISTED: 'Tên nhà cung cấp đã tồn tại.',
-    SUPPLIER_BEING_USED: 'Nhà cung cấp đang được sử dụng.',
-    DELIVERY_SERVICE_NOT_FOUND: 'Không tìm thấy đơn vị vận chuyển.',
-    DELIVERY_SERVICE_EXISTED: 'Tên đơn vị vận chuyển đã tồn tại.',
-    DELIVERY_SERVICE_BEING_USED: 'Đơn vị vận chuyển đang được sử dụng.',
-    ORDER_STATUS_NOT_FOUND: 'Không tìm thấy trạng thái đơn hàng.',
-    ORDER_STATUS_EXISTED: 'Tên trạng thái đơn hàng đã tồn tại.',
-    ORDER_STATUS_BEING_USED: 'Trạng thái đơn hàng đang được sử dụng.',
-    SUPPLIER_ADDRESS_EXISTED: 'Địa chỉ nhà cung cấp đã tồn tại.',
-    SUPPLIER_CONTACT_EMAIL_EXISTED: 'Email liên hệ nhà cung cấp đã tồn tại.',
-    SUPPLIER_CONTACT_PHONE_EXISTED: 'Số điện thoại liên hệ nhà cung cấp đã tồn tại.',
-    DELIVERY_CONTACT_PHONE_EXISTED: 'Số điện thoại liên hệ đơn vị vận chuyển đã tồn tại.',
-    CANNOT_DELETE_DEFAULT_ORDER_STATUS: 'Không thể xóa trạng thái đơn hàng mặc định.'
+    UPDATE_ORDER_SUCCESSFULLY: 'Cập nhật đơn hàng thành công.',
+    UPDATE_INVENTORY_SUCCESSFULLY: 'Cập nhật sản phẩm tồn kho thành công.'
+}
+
+export const RES_MESSAGE_MAPPING = {
+    ...ERROR_MESSAGES,
+    ...SUCCESS_MESSAGES
 }
 
 export const getMappedMessage = (originalMessage: string) => {

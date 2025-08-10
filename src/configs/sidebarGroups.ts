@@ -171,7 +171,8 @@ export const sidebarGroups: SidebarGroupData[] = [
                 accessRequirement: permissions.accessStorageDashboardPage,
                 children: [
                     { title: 'Sản phẩm trong kho', url: '/inventories' },
-                    { title: 'Loại kho', url: '/storage-types' }
+                    { title: 'Danh sách kho/ bể', url: '/storages' },
+                    { title: 'Loại kho/ bể', url: '/storage-types' }
                 ]
             },
             {
@@ -179,7 +180,7 @@ export const sidebarGroups: SidebarGroupData[] = [
                 icon: ClipboardType,
                 accessRequirement: permissions.accessDamageReportDashboardPage,
                 children: [
-                    { title: 'Danh sách báo cáo', url: '/damage-reports' },
+                    // { title: 'Danh sách báo cáo', url: '/damage-reports' },
                     { title: 'Loại thiệt hại', url: '/damage-types' }
                 ]
             }
@@ -191,13 +192,13 @@ export const sidebarGroups: SidebarGroupData[] = [
             {
                 title: 'Dữ liệu bán hàng',
                 icon: CircleDollarSignIcon,
-                url: '/sales-statistic',
+                url: '/statistics/sales',
                 accessRequirement: permissions.accessStatisticDashboardPage
             },
             {
                 title: 'Thống kê chi tiết',
                 icon: ChartLine,
-                url: '/detail-statistic',
+                url: '/statistics/detail',
                 accessRequirement: permissions.accessStatisticDashboardPage
             }
         ]

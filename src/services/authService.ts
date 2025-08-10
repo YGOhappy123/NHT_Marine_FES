@@ -26,14 +26,14 @@ const authService = () => {
         mutationFn: (account: { username: string; password: string }) =>
             axios.post<IResponseData<LoginResponse>>('/auth/dashboard/sign-in', account),
         onError: onError,
-        onSuccess: (res) => {
-            const redirectPath = cookies.get('redirect_path') || '/'
+        onSuccess: res => {
+            const redirectPath = cookies.get('redirect_path_fes') || '/'
             const { user, accessToken, refreshToken } = res.data.data
-            cookies.set('access_token', accessToken, {
+            cookies.set('access_token_fes', accessToken, {
                 path: '/',
                 expires: new Date(dayjs(Date.now()).add(30, 'day').toISOString())
             })
-            cookies.set('refresh_token', refreshToken, {
+            cookies.set('refresh_token_fes', refreshToken, {
                 path: '/',
                 expires: new Date(dayjs(Date.now()).add(30, 'day').toISOString())
             })
@@ -56,7 +56,7 @@ const authService = () => {
             confirmPassword: string
         }) => axios.patch<IResponseData<any>>('/auth/change-password', { oldPassword, newPassword, confirmPassword }),
         onError: onError,
-        onSuccess: (res) => {
+        onSuccess: res => {
             toast(getMappedMessage(res.data.message), toastConfig('success'))
         }
     })

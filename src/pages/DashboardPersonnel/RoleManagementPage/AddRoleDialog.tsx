@@ -65,7 +65,7 @@ const AddRoleDialog = ({ permissions, addNewRoleMutation }: AddRoleDialogProps) 
                 <DialogHeader>
                     <DialogTitle>Thêm vai trò nhân viên</DialogTitle>
                     <DialogDescription>
-                        Thêm các thông tin cần thiết cho vai trò. Ấn &apos;Xác nhận&apos; sau khi hoàn tất.
+                        Thêm các thông tin cần thiết cho vai trò. Ấn "Xác nhận" sau khi hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

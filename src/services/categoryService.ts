@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getMappedMessage } from '@/utils/resMessageMapping'
@@ -56,6 +56,32 @@ const categoryService = ({ enableFetching = false }: { enableFetching: boolean }
         }
     }, [getAllCategoriesQuery.isSuccess, getAllCategoriesQuery.data])
 
-    return { categories, categoryCount, addNewCategoryMutation, updateCategoryMutation, removeCategoryMutation }
+    const categoryGroup = useMemo(() => {
+        const group: Record<number, ICategory[]> = {}
+        if (categories.length === 0) return group
+
+        const mappedCategories = categories.map(category => ({
+            ...category,
+            parentId: category.parentId || 0
+        }))
+
+        mappedCategories.forEach(category => {
+            if (group[category.parentId] == null) {
+                group[category.parentId] = []
+            }
+            group[category.parentId].push(category)
+        })
+
+        return group
+    }, [categories])
+
+    return {
+        categories,
+        categoryCount,
+        categoryGroup,
+        addNewCategoryMutation,
+        updateCategoryMutation,
+        removeCategoryMutation
+    }
 }
 export default categoryService

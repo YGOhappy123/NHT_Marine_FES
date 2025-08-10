@@ -7,12 +7,8 @@ import { Input } from '@/components/ui/input'
 import { DataTableViewOptions } from '@/components/ui/data-table-view-options'
 import { useIsMobile } from '@/hooks/useMobile'
 import { twMerge } from 'tailwind-merge'
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from '@/components/ui/dropdown-menu'
 import AddOrderStatusDialog from '@/pages/DashboardOrder/OrderStatusPage/AddOrderStatusDialog'
-import {
-    DropdownMenu,
-    DropdownMenuTrigger,
-    DropdownMenuContent
-} from '@/components/ui/dropdown-menu'
 
 interface TableToolbarProps<TData> {
     table: Table<TData>
@@ -92,24 +88,26 @@ export function TableToolbar<TData>({
                     <Input
                         placeholder="Tìm trạng thái đơn hàng theo tên..."
                         value={(table.getColumn('Tên trạng thái đơn hàng')?.getFilterValue() as string) ?? ''}
-                        onChange={event => table.getColumn('Tên trạng thái đơn hàng')?.setFilterValue(event.target.value)}
+                        onChange={event =>
+                            table.getColumn('Tên trạng thái đơn hàng')?.setFilterValue(event.target.value)
+                        }
                         className="text-foreground caret-foreground h-8 w-[150px] md:w-[200px] lg:w-[250px]"
                     />
 
                     {/* Nút filter gộp — menu chỉ đóng khi bấm Áp dụng */}
                     <DropdownMenu open={menuOpen} onOpenChange={open => setMenuOpen(open)}>
                         <DropdownMenuTrigger asChild>
-                            <Button variant={isFiltered ? 'secondary' : 'outline'} className="h-8 ml-2">
+                            <Button variant={isFiltered ? 'secondary' : 'outline'} className="ml-2 h-8">
                                 <Filter className="mr-2" />
                                 {summaryLabel()}
                             </Button>
                         </DropdownMenuTrigger>
 
                         <DropdownMenuContent align="start" className="w-[320px] p-3">
-                            <div onClick={(e) => e.stopPropagation()} className="flex flex-col gap-4">
+                            <div onClick={e => e.stopPropagation()} className="flex flex-col gap-4">
                                 {/* Trạng thái mặc định */}
                                 <div>
-                                    <div className="text-sm font-medium mb-2">Trạng thái mặc định</div>
+                                    <div className="mb-2 text-sm font-medium">Trạng thái mặc định</div>
                                     <div className="flex gap-2">
                                         <Button
                                             size="sm"
@@ -137,7 +135,7 @@ export function TableToolbar<TData>({
 
                                 {/* Đã thanh toán */}
                                 <div>
-                                    <div className="text-sm font-medium mb-2">Đã thanh toán</div>
+                                    <div className="mb-2 text-sm font-medium">Đã thanh toán</div>
                                     <div className="flex gap-2">
                                         <Button
                                             size="sm"
@@ -165,7 +163,7 @@ export function TableToolbar<TData>({
 
                                 {/* Chưa hoàn thành */}
                                 <div>
-                                    <div className="text-sm font-medium mb-2">Chưa hoàn thành</div>
+                                    <div className="mb-2 text-sm font-medium">Chưa hoàn thành</div>
                                     <div className="flex gap-2">
                                         <Button
                                             size="sm"
@@ -192,10 +190,10 @@ export function TableToolbar<TData>({
                                 </div>
 
                                 {/* Hành động: Đặt lại (không đóng), Áp dụng (đóng + apply) */}
-                                <div className="flex justify-between mt-2">
+                                <div className="mt-2 flex justify-between">
                                     <Button
                                         variant="ghost"
-                                        onClick={(e) => {
+                                        onClick={e => {
                                             e.stopPropagation()
                                             // resetFilters giữ menu MỞ — theo yêu cầu trước
                                             resetFilters()
@@ -207,7 +205,7 @@ export function TableToolbar<TData>({
                                     <div className="flex gap-2">
                                         <Button
                                             variant="outline"
-                                            onClick={(e) => {
+                                            onClick={e => {
                                                 e.stopPropagation()
                                                 applyFilters()
                                             }}
@@ -255,8 +253,10 @@ export function TableToolbar<TData>({
                 <DataTableViewOptions table={table} />
 
                 {hasAddOrderStatusPermission && (
-                    <AddOrderStatusDialog addNewOrderStatusMutation={addNewOrderStatusMutation}
-                    existingOrderStatuses={orderStatuses} />
+                    <AddOrderStatusDialog
+                        addNewOrderStatusMutation={addNewOrderStatusMutation}
+                        existingOrderStatuses={orderStatuses}
+                    />
                 )}
             </div>
         </div>

@@ -9,7 +9,6 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import striptags from 'striptags'
@@ -222,7 +221,6 @@ export const getTableColumns = ({
                                         className="cursor-pointer"
                                     >
                                         Xóa
-                                        <DropdownMenuShortcut className="text-base">⌘⌫</DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 }
                             />

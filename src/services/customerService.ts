@@ -14,8 +14,8 @@ const customerService = ({ enableFetching = false }: { enableFetching: boolean }
 
     const getAllCustomersQuery = useQuery({
         queryKey: ['customers'],
-        queryFn: () => axios.get<IResponseData<ICustomer[]>>('/customers'),
-        enabled: enableFetching,
+        queryFn: () =>
+            axios.get<IResponseData<ICustomer[]>>(`/customers?sort=${JSON.stringify({ createdAt: 'DESC' })}`),
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: true,
         refetchInterval: 10000
