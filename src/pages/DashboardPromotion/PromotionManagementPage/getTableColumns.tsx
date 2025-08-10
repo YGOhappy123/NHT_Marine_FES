@@ -176,10 +176,10 @@ export const getTableColumns = ({
                                 Chi tiết
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                                disabled={!hasUpdatePermission}
+                                disabled={!hasUpdatePermission || !row.original.isActive}
                                 className="cursor-pointer"
                                 onClick={() => {
-                                    if (hasUpdatePermission) {
+                                    if (hasUpdatePermission && row.original.isActive) {
                                         onUpdatePromotion(row.original)
                                     }
                                 }}

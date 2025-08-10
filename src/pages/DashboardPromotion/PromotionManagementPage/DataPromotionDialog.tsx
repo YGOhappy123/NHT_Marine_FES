@@ -131,6 +131,7 @@ const DataPromotionDialog = ({
                                         </FormLabel>
                                         <FormControl>
                                             <Input
+                                                disabled={mode === 'view'}
                                                 placeholder="Tên chương trình khuyến mãi..."
                                                 className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                                 {...field}
@@ -148,6 +149,7 @@ const DataPromotionDialog = ({
                                         <FormLabel className="text-card-foreground">Phần trăm giảm</FormLabel>
                                         <FormControl>
                                             <Input
+                                                disabled={mode === 'view'}
                                                 placeholder="Phần trăm giảm..."
                                                 type="number"
                                                 className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
@@ -172,6 +174,7 @@ const DataPromotionDialog = ({
                                             <PopoverTrigger asChild>
                                                 <FormControl>
                                                     <Button
+                                                        disabled={mode === 'view'}
                                                         variant={'outline'}
                                                         className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2"
                                                     >
@@ -211,6 +214,7 @@ const DataPromotionDialog = ({
                                             <PopoverTrigger asChild>
                                                 <FormControl>
                                                     <Button
+                                                        disabled={mode === 'view'}
                                                         variant={'outline'}
                                                         className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2"
                                                     >
@@ -261,6 +265,7 @@ const DataPromotionDialog = ({
                                                             >
                                                                 <FormControl>
                                                                     <Checkbox
+                                                                        disabled={mode === 'view'}
                                                                         checked={field.value?.includes(
                                                                             product.rootProductId
                                                                         )}
@@ -312,7 +317,7 @@ const DataPromotionDialog = ({
                         <DialogClose asChild>
                             <Button variant="outline">Đóng</Button>
                         </DialogClose>
-                        {hasUpdatePermission && (
+                        {hasUpdatePermission && promotion?.isActive && (
                             <Button type="button" onClick={() => setMode('update')}>
                                 <PencilLine />
                                 Chỉnh sửa
