@@ -51,7 +51,11 @@ const ERROR_MESSAGES = {
     ORDER_NOT_FOUND: 'Không tìm thấy đơn hàng.',
     CANNOT_UPDATE_TO_THIS_STATUS: 'Không thể chuyển đơn hàng sang trạng thái này.',
     INVENTORY_NOT_FOUND: 'Không tìm thấy sản phẩm tồn kho này.',
-    INVENTORY_QUANTITY_NOT_ENOUGH: 'Sản phẩm tồn kho không đủ số lượng.'
+    INVENTORY_QUANTITY_NOT_ENOUGH: 'Sản phẩm tồn kho không đủ số lượng.',
+    STORAGE_EXISTED: 'Tên kho đã tồn tại.',
+    STORAGE_NOT_FOUND: 'Không tìm thấy kho.',
+    STORAGE_BEING_USED: 'Kho đang được sử dụng.',
+    STORAGE_TYPE_NOT_EXIST: 'Loại kho không tồn tại.'
 }
 
 const SUCCESS_MESSAGES = {
@@ -94,7 +98,10 @@ const SUCCESS_MESSAGES = {
     UPDATE_ORDER_STATUS_SUCCESSFULLY: 'Cập nhật trạng thái đơn hàng thành công.',
     DELETE_ORDER_STATUS_SUCCESSFULLY: 'Xóa trạng thái đơn hàng thành công.',
     UPDATE_ORDER_SUCCESSFULLY: 'Cập nhật đơn hàng thành công.',
-    UPDATE_INVENTORY_SUCCESSFULLY: 'Cập nhật sản phẩm tồn kho thành công.'
+    UPDATE_INVENTORY_SUCCESSFULLY: 'Cập nhật sản phẩm tồn kho thành công.',
+    CREATE_STORAGE_SUCCESSFULLY: 'Thêm kho thành công.',
+    UPDATE_STORAGE_SUCCESSFULLY: 'Cập nhật kho thành công.',
+    DELETE_STORAGE_SUCCESSFULLY: 'Xóa kho thành công.'
 }
 
 export const RES_MESSAGE_MAPPING = {

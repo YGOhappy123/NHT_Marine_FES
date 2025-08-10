@@ -52,6 +52,26 @@ const StockRoutes = [
         ]
     },
     {
+        path: '/storages',
+        element: (
+            <Suspense>
+                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
+            </Suspense>
+        ),
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: '',
+                element: (
+                    <PermissionProtector
+                        children={<StoragePage />}
+                        permission={permissions.accessStorageDashboardPage}
+                    />
+                )
+            }
+        ]
+    },
+    {
         path: '/suppliers',
         element: (
             <Suspense>
