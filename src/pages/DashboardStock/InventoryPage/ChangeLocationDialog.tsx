@@ -105,7 +105,7 @@ const ChangeLocationDialog = ({
                 <DialogHeader>
                     <DialogTitle>Đổi kho/ bể lưu trữ sản phẩm</DialogTitle>
                     <DialogDescription>
-                        Chọn kho/bể và số lượng sản phẩm để di dời. Ấn "Xác nhận" sau khi hoàn tất.
+                        Chọn kho/ bể và số lượng sản phẩm để di dời. Ấn "Xác nhận" sau khi hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

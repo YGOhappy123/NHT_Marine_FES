@@ -32,40 +32,20 @@ export const formSteps = [
 const AddImportPage = () => {
     const user = useSelector((state: RootState) => state.auth.user)
     const axios = useAxiosIns()
-    const [step, setStep] = useState(2)
-    const [firstStepData, setFirstStepData] = useState<FirstStepData | null>({
-        importDate: new Date(),
-        invoiceNumber: 'hd0001',
-        supplierId: 1
-    })
-    const [secondStepData, setSecondStepData] = useState<SecondStepData | null>({
-        items: [
-            {
-                rootProductId: 2,
-                productItemId: 5,
-                cost: 10000,
-                quantity: 10
-            },
-            {
-                rootProductId: 4,
-                productItemId: 11,
-                cost: 20000,
-                quantity: 10
-            }
-        ]
-    })
+    const [step, setStep] = useState(0)
+    const [firstStepData, setFirstStepData] = useState<FirstStepData | null>(null)
+    const [secondStepData, setSecondStepData] = useState<SecondStepData | null>(null)
 
-    const {} = importService({ enableFetching: false })
+    const { trackNewImportMutation } = importService({ enableFetching: false })
 
     const handleSubmit = async (values: AddImportData) => {
-        // await addNewImportMutation.mutateAsync({
-        //     name: values.name,
-        //     description: values.description,
-        //     imageUrl: bannerImg,
-        //     categoryId: values.categoryId,
-        //     variants: values.variants,
-        //     importItems: importItems
-        // })
+        const finalValues = {
+            ...values,
+            importDate: new Date(values.importDate).toISOString(),
+            items: values.items.map(ii => ({ productItemId: ii.productItemId, cost: ii.cost, quantity: ii.quantity }))
+        }
+
+        await trackNewImportMutation.mutateAsync(finalValues)
 
         setFirstStepData(null)
         setSecondStepData(null)
@@ -203,6 +183,7 @@ const AddImportPage = () => {
                         {step === 2 && firstStepData != null && secondStepData != null && (
                             <FinalStepForm
                                 data={{ ...firstStepData, ...secondStepData }}
+                                rootProducts={rootProducts}
                                 suppliers={suppliers}
                                 onConfirm={async values => handleSubmit(values)}
                                 onPrev={() => setStep(1)}

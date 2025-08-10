@@ -9,6 +9,7 @@ import StorageTypePage from '@/pages/DashboardStock/StorageTypePage'
 import SupplierPage from '@/pages/DashboardStock/SupplierPage'
 import InventoryPage from '@/pages/DashboardStock/InventoryPage'
 import StoragePage from '@/pages/DashboardStock/StoragePage'
+import InventoryDistributionPage from '@/pages/DashboardImport/InventoryDistributionPage'
 
 const StockRoutes = [
     {
@@ -106,6 +107,15 @@ const StockRoutes = [
                     <PermissionProtector
                         children={<InventoryPage />}
                         permission={permissions.accessStorageDashboardPage}
+                    />
+                )
+            },
+            {
+                path: 'distributions',
+                element: (
+                    <PermissionProtector
+                        children={<InventoryDistributionPage />}
+                        permission={permissions.updateInventory}
                     />
                 )
             }

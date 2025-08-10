@@ -94,7 +94,9 @@ const SUCCESS_MESSAGES = {
     UPDATE_ORDER_STATUS_SUCCESSFULLY: 'Cập nhật trạng thái đơn hàng thành công.',
     DELETE_ORDER_STATUS_SUCCESSFULLY: 'Xóa trạng thái đơn hàng thành công.',
     UPDATE_ORDER_SUCCESSFULLY: 'Cập nhật đơn hàng thành công.',
-    UPDATE_INVENTORY_SUCCESSFULLY: 'Cập nhật sản phẩm tồn kho thành công.'
+    UPDATE_INVENTORY_SUCCESSFULLY: 'Cập nhật sản phẩm tồn kho thành công.',
+    TRACK_IMPORT_SUCCESSFULLY: 'Ghi nhận đơn nhập hàng thành công.',
+    DISTRIBUTE_IMPORT_SUCCESSFULLY: 'Phân phối sản phẩm vào kho thành công.'
 }
 
 export const RES_MESSAGE_MAPPING = {

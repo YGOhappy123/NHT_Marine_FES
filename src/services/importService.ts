@@ -14,11 +14,55 @@ const importService = ({ enableFetching = false }: { enableFetching: boolean }) 
 
     const getAllImportsQuery = useQuery({
         queryKey: ['imports'],
-        queryFn: () => axios.get<IResponseData<IProductImport[]>>('/product-imports'),
+        queryFn: () =>
+            axios.get<IResponseData<IProductImport[]>>(
+                `/product-imports?sort=${JSON.stringify({ trackedAt: 'DESC' })}`
+            ),
         enabled: enableFetching,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: true,
         refetchInterval: 30000
+    })
+
+    const trackNewImportMutation = useMutation({
+        mutationFn: (data: {
+            supplierId: number
+            invoiceNumber: string
+            importDate: string
+            items: {
+                productItemId: number
+                cost: number
+                quantity: number
+            }[]
+        }) => axios.post<IResponseData<any>>('/product-imports', data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['imports'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
+    const distributeImportMutation = useMutation({
+        mutationFn: ({
+            importId,
+            data
+        }: {
+            importId: number
+            data: {
+                items: {
+                    productItemId: number
+                    storages: {
+                        storageId: number
+                        quantity: number
+                    }[]
+                }[]
+            }
+        }) => axios.patch<IResponseData<any>>(`/product-imports/${importId}/distribute`, data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['imports'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
     })
 
     useEffect(() => {
@@ -30,7 +74,9 @@ const importService = ({ enableFetching = false }: { enableFetching: boolean }) 
 
     return {
         imports,
-        importCount
+        importCount,
+        trackNewImportMutation,
+        distributeImportMutation
     }
 }
 

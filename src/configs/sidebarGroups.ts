@@ -58,13 +58,13 @@ export const sidebarGroups: SidebarGroupData[] = [
                 icon: Users,
                 url: '/customers',
                 accessRequirement: permissions.accessCustomerDashboardPage
-            },
-            {
-                title: 'Trò chuyện trực tuyến',
-                icon: MessageCircleMore,
-                url: '/chat',
-                accessRequirement: permissions.accessAdvisoryDashboardPage
             }
+            // {
+            //     title: 'Trò chuyện trực tuyến',
+            //     icon: MessageCircleMore,
+            //     url: '/chat',
+            //     accessRequirement: permissions.accessAdvisoryDashboardPage
+            // }
         ]
     },
     {
