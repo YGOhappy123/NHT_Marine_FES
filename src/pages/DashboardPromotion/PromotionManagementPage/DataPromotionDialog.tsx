@@ -26,6 +26,7 @@ import dayjs from 'dayjs'
 const dataPromotionFormSchema = z
     .object({
         name: z.string().min(1, { message: 'Tên chương trình khuyến mãi không được để trống.' }),
+        description: z.string().min(1, { message: 'Mô tả chương trình khuyến mãi không được để trống.' }),
         discountRate: z
             .number('Giá trị giảm giá phải là số')
             .int('Giá trị giảm giá phải là số nguyên')
@@ -67,6 +68,7 @@ const DataPromotionDialog = ({
         resolver: zodResolver(dataPromotionFormSchema),
         defaultValues: {
             name: '',
+            description: '',
             discountRate: 0,
             startDate: new Date(new Date().setDate(new Date().getDate() + 1)),
             endDate: new Date(new Date().setDate(new Date().getDate() + 7)),
@@ -81,6 +83,7 @@ const DataPromotionDialog = ({
             promotionId: promotion.promotionId,
             data: {
                 name: values.name,
+                description: values.description,
                 discountRate: values.discountRate,
                 startDate: values.startDate.toLocaleDateString('en-CA'),
                 endDate: values.endDate.toLocaleDateString('en-CA'),
@@ -96,6 +99,7 @@ const DataPromotionDialog = ({
         if (open && promotion) {
             form.reset({
                 name: promotion.name,
+                description: promotion.description,
                 discountRate: promotion.discountRate,
                 startDate: new Date(promotion.startDate),
                 endDate: new Date(promotion.endDate),
@@ -143,6 +147,24 @@ const DataPromotionDialog = ({
                             />
                             <FormField
                                 control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-card-foreground">Mô tả</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={mode === 'view'}
+                                                placeholder="Mô tả..."
+                                                className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
                                 name="discountRate"
                                 render={({ field }) => (
                                     <FormItem>
@@ -164,91 +186,93 @@ const DataPromotionDialog = ({
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="startDate"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-card-foreground">Ngày bắt đầu</FormLabel>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <FormControl>
-                                                    <Button
-                                                        disabled={mode === 'view'}
-                                                        variant={'outline'}
-                                                        className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2"
-                                                    >
-                                                        {field.value ? (
-                                                            format(field.value, 'dd/MM/yyyy')
-                                                        ) : (
-                                                            <span>Chọn ngày bắt đầu</span>
-                                                        )}
-                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                    </Button>
-                                                </FormControl>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-auto p-0" align="start">
-                                                <Calendar
-                                                    mode="single"
-                                                    selected={field.value ? new Date(field.value) : undefined}
-                                                    onSelect={field.onChange}
-                                                    defaultMonth={dayjs(field.value).toDate()}
-                                                    disabled={date =>
-                                                        date < dayjs().startOf('day').toDate() ||
-                                                        date < new Date('1900-01-01')
-                                                    }
-                                                    captionLayout="dropdown"
-                                                    required
-                                                />
-                                            </PopoverContent>
-                                        </Popover>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="endDate"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-card-foreground">Ngày kết thúc</FormLabel>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <FormControl>
-                                                    <Button
-                                                        disabled={mode === 'view'}
-                                                        variant={'outline'}
-                                                        className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2"
-                                                    >
-                                                        {field.value ? (
-                                                            format(field.value, 'dd/MM/yyyy')
-                                                        ) : (
-                                                            <span>Chọn ngày kết thúc</span>
-                                                        )}
-                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                    </Button>
-                                                </FormControl>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-auto p-0" align="start">
-                                                <Calendar
-                                                    mode="single"
-                                                    selected={field.value ? new Date(field.value) : undefined}
-                                                    onSelect={field.onChange}
-                                                    defaultMonth={dayjs(field.value).toDate()}
-                                                    disabled={date =>
-                                                        date < dayjs(form.getValues('startDate')).toDate() ||
-                                                        date < dayjs().startOf('day').toDate() ||
-                                                        date < new Date('1900-01-01')
-                                                    }
-                                                    captionLayout="dropdown"
-                                                    required
-                                                />
-                                            </PopoverContent>
-                                        </Popover>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <FormField
+                                    control={form.control}
+                                    name="startDate"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-card-foreground">Ngày bắt đầu</FormLabel>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <FormControl>
+                                                        <Button
+                                                            disabled={mode === 'view'}
+                                                            variant={'outline'}
+                                                            className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2"
+                                                        >
+                                                            {field.value ? (
+                                                                format(field.value, 'dd/MM/yyyy')
+                                                            ) : (
+                                                                <span>Chọn ngày bắt đầu</span>
+                                                            )}
+                                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-auto p-0" align="start">
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={field.value ? new Date(field.value) : undefined}
+                                                        onSelect={field.onChange}
+                                                        defaultMonth={dayjs(field.value).toDate()}
+                                                        disabled={date =>
+                                                            date < dayjs().startOf('day').toDate() ||
+                                                            date < new Date('1900-01-01')
+                                                        }
+                                                        captionLayout="dropdown"
+                                                        required
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="endDate"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-card-foreground">Ngày kết thúc</FormLabel>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <FormControl>
+                                                        <Button
+                                                            disabled={mode === 'view'}
+                                                            variant={'outline'}
+                                                            className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2"
+                                                        >
+                                                            {field.value ? (
+                                                                format(field.value, 'dd/MM/yyyy')
+                                                            ) : (
+                                                                <span>Chọn ngày kết thúc</span>
+                                                            )}
+                                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-auto p-0" align="start">
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={field.value ? new Date(field.value) : undefined}
+                                                        onSelect={field.onChange}
+                                                        defaultMonth={dayjs(field.value).toDate()}
+                                                        disabled={date =>
+                                                            date < dayjs(form.getValues('startDate')).toDate() ||
+                                                            date < dayjs().startOf('day').toDate() ||
+                                                            date < new Date('1900-01-01')
+                                                        }
+                                                        captionLayout="dropdown"
+                                                        required
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                             <FormField
                                 control={form.control}
                                 name="products"
