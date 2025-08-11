@@ -77,17 +77,16 @@ const CategoryItem = ({ category, categoryGroup, hasUpdatePermission, onUpdateCa
                     </div>
                     {hasUpdatePermission && (
                         <Button
-                            type="button"
                             onClick={() => onUpdateCategory({ ...category, parentId: category.parentId || undefined })}
                         >
                             <PencilLine />
-                            Chỉnh sửa
+                            Chỉnh sửa danh mục
                         </Button>
                     )}
                 </CardHeader>
                 <Separator />
                 <CardContent>
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-2 gap-12">
                         <div>
                             <p className="line-clamp-1 text-xl font-semibold">Thông tin người tạo</p>
                             <div className="mt-4 flex items-start gap-4">
@@ -113,6 +112,7 @@ const CategoryItem = ({ category, categoryGroup, hasUpdatePermission, onUpdateCa
                                 </div>
                             </div>
                         </div>
+
                         <div className="flex flex-col gap-4">
                             <p className="line-clamp-1 text-xl font-semibold">Thông tin danh mục</p>
                             <p>

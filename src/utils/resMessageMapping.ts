@@ -61,7 +61,9 @@ const ERROR_MESSAGES = {
     STORAGE_EXISTED: 'Tên kho đã tồn tại.',
     STORAGE_NOT_FOUND: 'Không tìm thấy kho.',
     STORAGE_BEING_USED: 'Kho đang được sử dụng.',
-    STORAGE_TYPE_NOT_EXIST: 'Loại kho không tồn tại.'
+    STORAGE_TYPE_NOT_EXIST: 'Loại kho không tồn tại.',
+    STATUS_TRANSITION_NOT_FOUND: 'Không tìm thấy hướng chuyển trạng thái.',
+    STATUS_TRANSITION_EXISTED: 'Hướng chuyển trạng thái đã tồn tại.'
 }
 
 const SUCCESS_MESSAGES = {
@@ -114,7 +116,10 @@ const SUCCESS_MESSAGES = {
     UPDATE_STORAGE_SUCCESSFULLY: 'Cập nhật kho thành công.',
     DELETE_STORAGE_SUCCESSFULLY: 'Xóa kho thành công.',
     TRACK_IMPORT_SUCCESSFULLY: 'Ghi nhận đơn nhập hàng thành công.',
-    DISTRIBUTE_IMPORT_SUCCESSFULLY: 'Phân phối sản phẩm vào kho thành công.'
+    DISTRIBUTE_IMPORT_SUCCESSFULLY: 'Phân phối sản phẩm vào kho thành công.',
+    CREATE_STATUS_TRANSITION_SUCCESSFULLY: 'Thêm hướng chuyển trạng thái thành công.',
+    UPDATE_STATUS_TRANSITION_SUCCESSFULLY: 'Cập nhật hướng chuyển trạng thái thành công.',
+    DELETE_STATUS_TRANSITION_SUCCESSFULLY: 'Xóa hướng chuyển trạng thái thành công.'
 }
 
 export const RES_MESSAGE_MAPPING = {

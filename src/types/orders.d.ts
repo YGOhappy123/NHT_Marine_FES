@@ -49,6 +49,12 @@ declare global {
         toStatus?: Partial<IOrderStatus>
     }
 
+    interface ITransitionGroup {
+        fromStatusId: number
+        fromStatus?: Partial<IOrderStatus>
+        transitions: Partial<IOrderStatusTransition>[]
+    }
+
     interface IOrderStatusUpdateLog {
         logId: number
         orderId: number
