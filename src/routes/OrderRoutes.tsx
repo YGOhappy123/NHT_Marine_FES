@@ -7,6 +7,7 @@ import OrderManagementPage from '@/pages/DashboardOrder/OrderManagementPage'
 import permissions from '@/configs/permissions'
 import DeliveryServicePage from '@/pages/DashboardOrder/DeliveryServicePage'
 import OrderStatusPage from '@/pages/DashboardOrder/OrderStatusPage'
+import OrderStatusTransitionPage from '@/pages/DashboardOrder/OrderStatusTransitionPage'
 
 const OrderRoutes = [
     {
@@ -63,6 +64,26 @@ const OrderRoutes = [
                 element: (
                     <PermissionProtector
                         children={<OrderStatusPage />}
+                        permission={permissions.accessOrderStatusDashboardPage}
+                    />
+                )
+            }
+        ]
+    },
+    {
+        path: '/status-transitions',
+        element: (
+            <Suspense>
+                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
+            </Suspense>
+        ),
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: '',
+                element: (
+                    <PermissionProtector
+                        children={<OrderStatusTransitionPage />}
                         permission={permissions.accessOrderStatusDashboardPage}
                     />
                 )
