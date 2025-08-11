@@ -61,7 +61,7 @@ const PromotionManagementPage = () => {
                 data={promotions}
                 columns={getTableColumns({
                     hasUpdatePermission: verifyPermission(user, appPermissions.updatePromotion),
-                    hasDeletePermission: verifyPermission(user, appPermissions.removePromotion),
+                    hasDeletePermission: verifyPermission(user, appPermissions.disablePromotion),
                     onViewPromotion: (promotion: IPromotion) => {
                         setSelectedPromotion(promotion)
                         setDialogMode('view')
@@ -78,7 +78,7 @@ const PromotionManagementPage = () => {
                     <TableToolbar
                         table={table}
                         rootProducts={rootProducts}
-                        addNewPromotionMutation={addNewPromotionMutation}
+                        addNewPromotionMutation={addNewPromotionMutation as any}
                         hasAddPromotionPermission={verifyPermission(user, appPermissions.addNewPromotion)}
                     />
                 )}

@@ -168,9 +168,9 @@ const ChangeVariantDialog = ({
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="min-w-2xl md:min-w-3xl">
                 <DialogHeader>
-                    <DialogTitle>Đổi kho/ bể lưu trữ sản phẩm</DialogTitle>
+                    <DialogTitle>Đổi phân loại của sản phẩm lưu trữ</DialogTitle>
                     <DialogDescription>
-                        Chọn kho/bể và số lượng sản phẩm để di dời. Ấn "Xác nhận" sau khi hoàn tất.
+                        Chọn phân loại và số lượng sản phẩm để thay đổi. Ấn "Xác nhận" sau khi hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

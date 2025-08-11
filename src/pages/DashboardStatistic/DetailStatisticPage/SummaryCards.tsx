@@ -77,7 +77,7 @@ const SummaryCards = () => {
                         loading={getSummaryStatisticQuery.isLoading}
                         value={summaryData?.revenues.currentCount ?? 0}
                         prevValue={summaryData?.revenues.previousCount ?? 0}
-                        label="Doanh thu"
+                        label="Doanh thu đơn hàng"
                         unit="vnđ"
                         to="/orders"
                     />

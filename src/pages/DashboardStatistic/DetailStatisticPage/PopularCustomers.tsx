@@ -30,8 +30,6 @@ const PopularCustomers = () => {
 
     const popularCustomers = getPopularCustomersQuery.data?.data
 
-    console.log(popularCustomers)
-
     return (
         <Card className="col-span-6">
             <CardHeader className="flex items-center justify-between gap-12">

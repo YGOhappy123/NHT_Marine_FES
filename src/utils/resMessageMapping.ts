@@ -101,7 +101,9 @@ const SUCCESS_MESSAGES = {
     UPDATE_INVENTORY_SUCCESSFULLY: 'Cập nhật sản phẩm tồn kho thành công.',
     CREATE_STORAGE_SUCCESSFULLY: 'Thêm kho thành công.',
     UPDATE_STORAGE_SUCCESSFULLY: 'Cập nhật kho thành công.',
-    DELETE_STORAGE_SUCCESSFULLY: 'Xóa kho thành công.'
+    DELETE_STORAGE_SUCCESSFULLY: 'Xóa kho thành công.',
+    TRACK_IMPORT_SUCCESSFULLY: 'Ghi nhận đơn nhập hàng thành công.',
+    DISTRIBUTE_IMPORT_SUCCESSFULLY: 'Phân phối sản phẩm vào kho thành công.'
 }
 
 export const RES_MESSAGE_MAPPING = {

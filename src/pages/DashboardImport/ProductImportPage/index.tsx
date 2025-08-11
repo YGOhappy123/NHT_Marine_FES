@@ -12,6 +12,7 @@ import appPermissions from '@/configs/permissions'
 import permissions from '@/configs/permissions'
 import { TableToolbar } from '@/pages/DashboardImport/ProductImportPage/TableToolbar'
 import { getTableColumns } from '@/pages/DashboardImport/ProductImportPage/getTableColumns'
+import ViewImportDialog from '@/pages/DashboardImport/ProductImportPage/ViewImportDialog'
 
 const ProductImportPage = () => {
     const axios = useAxiosIns()
@@ -34,6 +35,8 @@ const ProductImportPage = () => {
                     </Avatar>
                 </div>
             </div>
+
+            <ViewImportDialog productImport={selectedImport} open={dialogOpen} setOpen={setDialogOpen} />
 
             <DataTable
                 data={imports}
