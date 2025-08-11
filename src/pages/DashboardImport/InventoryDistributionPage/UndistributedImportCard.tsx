@@ -48,25 +48,22 @@ const UndistributedImportCard = ({ productImport, onDistributeImport }: Undistri
                     <p>
                         <span className="font-semibold">Nhân viên tạo đơn: </span>
                     </p>
-                    <div>
-                        <div className="flex items-start gap-4">
-                            <div className="border-primary flex w-[60px] items-center justify-center overflow-hidden rounded-lg border-2 p-1">
-                                <img
-                                    src={productImport.trackedByStaff?.avatar}
-                                    alt="product item image"
-                                    className="aspect-square h-full w-full rounded-sm object-cover"
-                                />
-                            </div>
+                    <div className="flex items-start gap-4">
+                        <div className="border-primary flex w-[60px] items-center justify-center overflow-hidden rounded-lg border-2 p-1">
+                            <img
+                                src={productImport.trackedByStaff?.avatar}
+                                alt="product item image"
+                                className="aspect-square h-full w-full rounded-sm object-cover"
+                            />
+                        </div>
 
-                            <div className="flex flex-col gap-1">
-                                <p className="text-base font-semibold">
-                                    Mã số {productImport.trackedByStaff?.staffId} -{' '}
-                                    {productImport.trackedByStaff?.fullName}
-                                </p>
-                                <p className="text-muted-foreground font-semibold">
-                                    Email: <span className="font-normal">{productImport.trackedByStaff?.email}</span>
-                                </p>
-                            </div>
+                        <div className="flex flex-col gap-1">
+                            <p className="text-base font-semibold">
+                                Mã số {productImport.trackedByStaff?.staffId} - {productImport.trackedByStaff?.fullName}
+                            </p>
+                            <p className="text-muted-foreground font-semibold">
+                                Email: <span className="font-normal">{productImport.trackedByStaff?.email}</span>
+                            </p>
                         </div>
                     </div>
                     <Separator />

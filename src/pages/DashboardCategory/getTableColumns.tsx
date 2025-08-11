@@ -72,7 +72,7 @@ export const getTableColumns = ({
             accessorKey: 'parentId',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Danh mục cha" />,
             cell: ({ row }) => {
-                const parentCategory = parentCategories.find(cat => cat.categoryId === row.original.categoryId)
+                const parentCategory = parentCategories.find(cat => cat.categoryId === row.original.parentId)
                 return <div className="w-[200px]">{parentCategory?.name || <i>Không có</i>}</div>
             }
         },

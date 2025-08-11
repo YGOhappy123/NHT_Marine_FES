@@ -36,11 +36,11 @@ declare global {
                 }
             }
         }[]
-        transitions: Partial<IOrderTransition>[]
+        transitions: Partial<IOrderStatusTransition>[]
         updateLogs: Partial<IOrderStatusUpdateLog>[]
     }
 
-    interface IOrderTransition {
+    interface IOrderStatusTransition {
         transitionId: number
         transitionLabel: string
         fromStatusId: number

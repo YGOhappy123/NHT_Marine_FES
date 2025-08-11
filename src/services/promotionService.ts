@@ -14,7 +14,8 @@ const promotionService = ({ enableFetching = false }: { enableFetching: boolean 
 
     const getAllPromotionsQuery = useQuery({
         queryKey: ['promotions'],
-        queryFn: () => axios.get<IResponseData<IPromotion[]>>('/promotions'),
+        queryFn: () =>
+            axios.get<IResponseData<IPromotion[]>>(`/promotions?sort=${JSON.stringify({ createdAt: 'DESC' })}`),
         enabled: enableFetching,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: true,

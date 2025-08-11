@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useQuery } from '@tanstack/react-query'
+import { Network, TableProperties } from 'lucide-react'
 import { DataTable } from '@/components/ui/data-table'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { TableToolbar } from '@/pages/DashboardCategory/TableToolbar'
 import { getTableColumns } from '@/pages/DashboardCategory/getTableColumns'
 import { RootState } from '@/store'
 import categoryService from '@/services/categoryService'
 import useAxiosIns from '@/hooks/useAxiosIns'
 import DataCategoryDialog from '@/pages/DashboardCategory/DataCategoryDialog'
+import CategoryTree from '@/pages/DashboardCategory/CategoryTree'
 import verifyPermission from '@/utils/verifyPermission'
 import appPermissions from '@/configs/permissions'
 
@@ -17,10 +21,12 @@ const CategoryManagementPage = () => {
     const user = useSelector((state: RootState) => state.auth.user)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [dialogMode, setDialogMode] = useState<'view' | 'update'>('view')
+    const [viewMode, setViewMode] = useState<'table' | 'tree'>('table')
     const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null)
-    const { categories, addNewCategoryMutation, updateCategoryMutation, removeCategoryMutation } = categoryService({
-        enableFetching: true
-    })
+    const { categories, categoryGroup, addNewCategoryMutation, updateCategoryMutation, removeCategoryMutation } =
+        categoryService({
+            enableFetching: true
+        })
 
     const fetchAllParentCategoriesQuery = useQuery({
         queryKey: ['categories-all'],
@@ -72,32 +78,65 @@ const CategoryManagementPage = () => {
                 hasUpdatePermission={verifyPermission(user, appPermissions.updateProductCategory)}
             />
 
-            <DataTable
-                data={categories}
-                columns={getTableColumns({
-                    parentCategories: parentCategories,
-                    hasUpdatePermission: verifyPermission(user, appPermissions.updateProductCategory),
-                    hasDeletePermission: verifyPermission(user, appPermissions.deleteProductCategory),
-                    onViewCategory: (category: ICategory) => {
-                        setSelectedCategory(category)
-                        setDialogMode('view')
-                        setDialogOpen(true)
-                    },
-                    onUpdateCategory: (category: ICategory) => {
+            <RadioGroup
+                defaultValue={viewMode}
+                onValueChange={value => setViewMode(value as 'table' | 'tree')}
+                className="flex items-center justify-center gap-6"
+            >
+                <div className="flex items-center gap-3">
+                    <RadioGroupItem value="table" id="r1" />
+                    <Label htmlFor="r1" className="cursor-pointer">
+                        Hiển thị dạng bảng <TableProperties />
+                    </Label>
+                </div>
+                <div className="flex items-center gap-3">
+                    <RadioGroupItem value="tree" id="r2" />
+                    <Label htmlFor="r2" className="cursor-pointer">
+                        Hiển thị dạng cây <Network />
+                    </Label>
+                </div>
+            </RadioGroup>
+
+            {viewMode === 'tree' && (
+                <CategoryTree
+                    categoryGroup={categoryGroup}
+                    hasUpdatePermission={verifyPermission(user, appPermissions.updateProductCategory)}
+                    onUpdateCategory={(category: ICategory) => {
                         setSelectedCategory(category)
                         setDialogMode('update')
                         setDialogOpen(true)
-                    },
-                    removeCategoryMutation: removeCategoryMutation
-                })}
-                renderToolbar={table => (
-                    <TableToolbar
-                        table={table}
-                        parentCategories={parentCategories}
-                        addNewCategoryMutation={addNewCategoryMutation}
-                    />
-                )}
-            />
+                    }}
+                />
+            )}
+
+            {viewMode === 'table' && (
+                <DataTable
+                    data={categories}
+                    columns={getTableColumns({
+                        parentCategories: parentCategories,
+                        hasUpdatePermission: verifyPermission(user, appPermissions.updateProductCategory),
+                        hasDeletePermission: verifyPermission(user, appPermissions.deleteProductCategory),
+                        onViewCategory: (category: ICategory) => {
+                            setSelectedCategory(category)
+                            setDialogMode('view')
+                            setDialogOpen(true)
+                        },
+                        onUpdateCategory: (category: ICategory) => {
+                            setSelectedCategory(category)
+                            setDialogMode('update')
+                            setDialogOpen(true)
+                        },
+                        removeCategoryMutation: removeCategoryMutation
+                    })}
+                    renderToolbar={table => (
+                        <TableToolbar
+                            table={table}
+                            parentCategories={parentCategories}
+                            addNewCategoryMutation={addNewCategoryMutation}
+                        />
+                    )}
+                />
+            )}
         </div>
     )
 }
