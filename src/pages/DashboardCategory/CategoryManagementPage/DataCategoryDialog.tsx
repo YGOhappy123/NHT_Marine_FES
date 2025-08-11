@@ -18,6 +18,8 @@ import { Separator } from '@/components/ui/separator'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
+import getAllDescendants from '@/utils/getAllDescendants'
+import categoryService from '@/services/categoryService'
 
 const dataCategoryFormSchema = z.object({
     name: z.string().min(1, { message: 'Tên danh mục không được để trống.' }),
@@ -26,7 +28,6 @@ const dataCategoryFormSchema = z.object({
 
 type DataCategoryDialogProps = {
     category: ICategory | null
-    parentCategories: ICategory[]
     mode: 'view' | 'update'
     setMode: (value: 'view' | 'update') => void
     open: boolean
@@ -37,7 +38,6 @@ type DataCategoryDialogProps = {
 
 const DataCategoryDialog = ({
     category,
-    parentCategories,
     updateCategoryMutation,
     hasUpdatePermission,
     mode,
@@ -45,6 +45,9 @@ const DataCategoryDialog = ({
     setMode,
     setOpen
 }: DataCategoryDialogProps) => {
+    const { categories, categoryGroup } = categoryService({ enableFetching: true })
+    const descendants = category?.categoryId ? getAllDescendants(category.categoryId ?? 0, categoryGroup) : []
+
     const form = useForm<z.infer<typeof dataCategoryFormSchema>>({
         resolver: zodResolver(dataCategoryFormSchema),
         defaultValues: {
@@ -134,11 +137,15 @@ const DataCategoryDialog = ({
                                                     <SelectItem value="none">
                                                         <i>Không có</i>
                                                     </SelectItem>
-                                                    {parentCategories
+                                                    {categories
                                                         .filter(
                                                             parentCategory =>
                                                                 !category ||
-                                                                parentCategory.categoryId !== category.categoryId
+                                                                (parentCategory.categoryId !== category.categoryId &&
+                                                                    descendants.every(
+                                                                        cat =>
+                                                                            cat.categoryId != parentCategory.categoryId
+                                                                    ))
                                                         )
                                                         .map(category => (
                                                             <SelectItem
