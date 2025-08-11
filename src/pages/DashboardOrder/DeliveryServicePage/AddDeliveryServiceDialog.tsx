@@ -69,10 +69,10 @@ const AddDeliveryServiceDialog = ({ addNewDeliveryServiceMutation }: AddDelivery
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Tên nhà cung cấp</FormLabel>
+                                    <FormLabel>Tên đơn vị vận chuyển</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Nhập tên nhà cung cấp"
+                                            placeholder="Nhập tên đơn vị vận chuyển"
                                             className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                             {...field}
                                         />
