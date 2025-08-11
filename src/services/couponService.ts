@@ -40,8 +40,9 @@ const couponService = ({ enableFetching = false }: { enableFetching: boolean }) 
         }
     })
 
-    const removeCouponMutation = useMutation({
-        mutationFn: (couponId: number) => axios.delete<IResponseData<any>>(`/promotions/coupons/${couponId}`),
+    const disableCouponMutation = useMutation({
+        mutationFn: (couponId: number) =>
+            axios.post<IResponseData<any>>(`/promotions/coupons/disable-coupon/${couponId}`),
         onError: onError,
         onSuccess: res => {
             queryClient.invalidateQueries({ queryKey: ['coupons'] })
@@ -56,6 +57,6 @@ const couponService = ({ enableFetching = false }: { enableFetching: boolean }) 
         }
     }, [getAllCouponsQuery.isSuccess, getAllCouponsQuery.data])
 
-    return { coupons, couponCount, addNewCouponMutation, updateCouponMutation, removeCouponMutation }
+    return { coupons, couponCount, addNewCouponMutation, updateCouponMutation, disableCouponMutation }
 }
 export default couponService

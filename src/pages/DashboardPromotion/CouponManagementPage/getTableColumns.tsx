@@ -42,18 +42,18 @@ export const couponStatuses = [
 
 type Options = {
     hasUpdatePermission: boolean
-    hasDeletePermission: boolean
+    hasDisablePermission: boolean
     onViewCoupon: (value: ICoupon) => void
     onUpdateCoupon: (value: ICoupon) => void
-    removeCouponMutation: UseMutationResult<any, any, number, any>
+    disableCouponMutation: UseMutationResult<any, any, number, any>
 }
 
 export const getTableColumns = ({
     hasUpdatePermission,
-    hasDeletePermission,
+    hasDisablePermission,
     onViewCoupon,
     onUpdateCoupon,
-    removeCouponMutation
+    disableCouponMutation
 }: Options) => {
     const columns: ColumnDef<ICoupon>[] = [
         {
@@ -96,22 +96,6 @@ export const getTableColumns = ({
                 </div>
             )
         },
-        // {
-        //     id: 'Loại giảm giá',
-        //     accessorKey: 'type',
-        //     header: ({ column }) => <DataTableColumnHeader column={column} title="Loại giảm giá" />,
-        //     cell: ({ row }) => {
-        //         const couponType = couponTypes.find(type => type.value === row.getValue('Loại giảm giá'))
-        //         if (!couponType) return null
-
-        //         return (
-        //             <div className="flex w-[150px] items-center">
-        //                 {/* {couponType.icon && <couponType.icon className="text-muted-foreground mr-2 h-4 w-4" />} */}
-        //                 <span>{couponType.label}</span>
-        //             </div>
-        //         )
-        //     }
-        // },
         {
             id: 'Giá trị giảm',
             accessorKey: 'amount',
@@ -133,7 +117,7 @@ export const getTableColumns = ({
             header: ({ column }) => <DataTableColumnHeader column={column} title="SL tối đa" />,
             cell: ({ row }) => (
                 <div className="flex w-[100px] flex-col gap-2 break-words whitespace-normal">
-                    {row.getValue('SL tối đa')}
+                    {row.getValue('SL tối đa') || <i>Không giới hạn</i>}
                 </div>
             )
         },
@@ -200,10 +184,10 @@ export const getTableColumns = ({
                                 Chi tiết
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                                disabled={!hasUpdatePermission}
+                                disabled={!hasUpdatePermission || !row.original.isActive}
                                 className="cursor-pointer"
                                 onClick={() => {
-                                    if (hasUpdatePermission) {
+                                    if (hasUpdatePermission && row.original.isActive) {
                                         onUpdateCoupon(row.original)
                                     }
                                 }}
@@ -212,20 +196,20 @@ export const getTableColumns = ({
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <ConfirmationDialog
-                                title="Bạn có chắc muốn xóa khách hàng này?"
-                                description="Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn khách hàng khỏi hệ thống NHT Marine."
+                                title="Bạn có chắc muốn khóa phiếu giảm giá này?"
+                                description="Không thể hoàn tác hành động này. Thao tác này sẽ khóa phiếu giảm giá trong hệ thống NHT Marine."
                                 onConfirm={async () => {
-                                    if (hasDeletePermission) {
-                                        removeCouponMutation.mutateAsync(row.original.couponId)
+                                    if (hasDisablePermission && row.original.isActive) {
+                                        disableCouponMutation.mutateAsync(row.original.couponId)
                                     }
                                 }}
                                 trigger={
                                     <DropdownMenuItem
                                         variant="destructive"
-                                        disabled={!hasDeletePermission}
+                                        disabled={!hasDisablePermission || !row.original.isActive}
                                         className="cursor-pointer"
                                     >
-                                        Xóa
+                                        Khóa phiếu
                                     </DropdownMenuItem>
                                 }
                             />

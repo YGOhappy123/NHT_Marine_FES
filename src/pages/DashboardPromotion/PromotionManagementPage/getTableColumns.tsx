@@ -29,18 +29,18 @@ export const promotionTypes = [
 
 type Options = {
     hasUpdatePermission: boolean
-    hasDeletePermission: boolean
+    hasDisablePermission: boolean
     onViewPromotion: (value: IPromotion) => void
     onUpdatePromotion: (value: IPromotion) => void
-    removePromotionMutation: UseMutationResult<any, any, number, any>
+    disablePromotionMutation: UseMutationResult<any, any, number, any>
 }
 
 export const getTableColumns = ({
     hasUpdatePermission,
-    hasDeletePermission,
+    hasDisablePermission,
     onViewPromotion,
     onUpdatePromotion,
-    removePromotionMutation
+    disablePromotionMutation
 }: Options) => {
     const columns: ColumnDef<IPromotion>[] = [
         {
@@ -83,16 +83,6 @@ export const getTableColumns = ({
                 </div>
             )
         },
-        // {
-        //     id: 'Mô tả',
-        //     accessorKey: 'description',
-        //     header: ({ column }) => <DataTableColumnHeader column={column} title="Mô tả" />,
-        //     cell: ({ row }) => (
-        //         <div className="flex w-[200px] flex-col gap-2 break-words whitespace-normal">
-        //             <p className="line-clamp-3">{row.getValue('Mô tả')}</p>
-        //         </div>
-        //     )
-        // },
         {
             id: 'Giảm giá',
             accessorKey: 'discountRate',
@@ -176,10 +166,10 @@ export const getTableColumns = ({
                                 Chi tiết
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                                disabled={!hasUpdatePermission}
+                                disabled={!hasUpdatePermission || !row.original.isActive}
                                 className="cursor-pointer"
                                 onClick={() => {
-                                    if (hasUpdatePermission) {
+                                    if (hasUpdatePermission && row.original.isActive) {
                                         onUpdatePromotion(row.original)
                                     }
                                 }}
@@ -188,20 +178,20 @@ export const getTableColumns = ({
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <ConfirmationDialog
-                                title="Bạn có chắc muốn xóa khách hàng này?"
-                                description="Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn khách hàng khỏi hệ thống NHT Marine."
+                                title="Bạn có chắc muốn kết thúc chương trình này?"
+                                description="Không thể hoàn tác hành động này. Thao tác này sẽ kết thúc chương trình trong hệ thống NHT Marine."
                                 onConfirm={async () => {
-                                    if (hasDeletePermission) {
-                                        removePromotionMutation.mutateAsync(row.original.promotionId)
+                                    if (hasDisablePermission && row.original.isActive) {
+                                        disablePromotionMutation.mutateAsync(row.original.promotionId)
                                     }
                                 }}
                                 trigger={
                                     <DropdownMenuItem
                                         variant="destructive"
-                                        disabled={!hasDeletePermission}
+                                        disabled={!hasDisablePermission || !row.original.isActive}
                                         className="cursor-pointer"
                                     >
-                                        Xóa
+                                        Kết thúc CT
                                     </DropdownMenuItem>
                                 }
                             />

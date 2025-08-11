@@ -7,7 +7,7 @@ import { DataTableViewOptions } from '@/components/ui/data-table-view-options'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import appPermissions from '@/configs/permissions'
-import AddCategoryDialog from '@/pages/DashboardCategory/CategoryManagementPage/AddCategoryDialog'
+import AddCategoryDialog from '@/pages/DashboardCategory/AddCategoryDialog'
 import verifyPermission from '@/utils/verifyPermission'
 import TableDataFilter from '@/components/common/TableDataFilter'
 import { useIsMobile } from '@/hooks/useMobile'
@@ -59,25 +59,6 @@ export function TableToolbar<TData>({ table, parentCategories, addNewCategoryMut
                         </Button>
                     )}
                 </div>
-                {table.getColumn('Danh mục cha') && (
-                    <TableDataFilter
-                        table={table}
-                        rootColumn="categoryId"
-                        filterColumn="Danh mục cha"
-                        title="Danh mục cha"
-                        options={parentCategoriesOptions}
-                        filterFn={(rawValue: string, options) => {
-                            switch (options) {
-                                case 'null':
-                                    return rawValue == null
-                                case 'hasParent':
-                                    return rawValue != null
-                                default:
-                                    return false
-                            }
-                        }}
-                    />
-                )}
                 {isFiltered && (
                     <Button
                         variant="ghost"

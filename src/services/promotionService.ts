@@ -41,8 +41,9 @@ const promotionService = ({ enableFetching = false }: { enableFetching: boolean 
         }
     })
 
-    const removePromotionMutation = useMutation({
-        mutationFn: (promotionId: number) => axios.delete<IResponseData<any>>(`/promotions/${promotionId}`),
+    const disablePromotionMutation = useMutation({
+        mutationFn: (promotionId: number) =>
+            axios.post<IResponseData<any>>(`/promotions/disable-promotion/${promotionId}`),
         onError: onError,
         onSuccess: res => {
             queryClient.invalidateQueries({ queryKey: ['promotions'] })
@@ -57,6 +58,6 @@ const promotionService = ({ enableFetching = false }: { enableFetching: boolean 
         }
     }, [getAllPromotionsQuery.isSuccess, getAllPromotionsQuery.data])
 
-    return { promotions, promotionCount, addNewPromotionMutation, updatePromotionMutation, removePromotionMutation }
+    return { promotions, promotionCount, addNewPromotionMutation, updatePromotionMutation, disablePromotionMutation }
 }
 export default promotionService
