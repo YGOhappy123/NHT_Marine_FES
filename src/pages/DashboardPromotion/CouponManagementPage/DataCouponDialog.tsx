@@ -121,11 +121,13 @@ const DataCouponDialog = ({
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="min-w-2xl md:min-w-3xl">
                 <DialogHeader>
-                    <DialogTitle>{mode === 'view' ? 'Thông tin mã giảm giá' : 'Cập nhật mã giảm giá'}</DialogTitle>
+                    <DialogTitle>
+                        {mode === 'view' ? 'Thông tin phiếu giảm giá' : 'Cập nhật phiếu giảm giá'}
+                    </DialogTitle>
                     <DialogDescription>
                         {mode === 'view'
-                            ? 'Thông tin chi tiết về mã giảm giá.'
-                            : 'Chỉnh sửa các thông tin của mã giảm giá. Ấn "Xác nhận" sau khi hoàn tất.'}
+                            ? 'Thông tin chi tiết về phiếu giảm giá.'
+                            : 'Chỉnh sửa các thông tin của phiếu giảm giá. Ấn "Xác nhận" sau khi hoàn tất.'}
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />

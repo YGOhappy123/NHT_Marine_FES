@@ -102,9 +102,9 @@ const AddCouponDialog = ({ addNewCouponMutation }: AddCouponDialogProps) => {
             </DialogTrigger>
             <DialogContent className="max-h-[90vh] min-w-2xl overflow-y-auto md:min-w-4xl">
                 <DialogHeader>
-                    <DialogTitle>Thêm mã giảm giá</DialogTitle>
+                    <DialogTitle>Thêm phiếu giảm giá</DialogTitle>
                     <DialogDescription>
-                        Thêm các thông tin cần thiết cho mã giảm giá. Ấn "Xác nhận" sau khi hoàn tất.
+                        Thêm các thông tin cần thiết cho phiếu giảm giá. Ấn "Xác nhận" sau khi hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />
