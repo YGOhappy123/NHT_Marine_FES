@@ -21,24 +21,24 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns'
 import { Calendar } from '@/components/ui/calendar'
 import { Checkbox } from '@/components/ui/checkbox'
+import dayjs from 'dayjs'
 
 const dataPromotionFormSchema = z
     .object({
         name: z.string().min(1, { message: 'Tên chương trình khuyến mãi không được để trống.' }),
         discountRate: z
             .number('Giá trị giảm giá phải là số')
+            .int('Giá trị giảm giá phải là số nguyên')
             .min(0, { message: 'Giá trị giảm giá phải lớn hơn hoặc bằng 0.' })
             .max(100, {
                 message: 'Giá trị giảm giá phải nhỏ hơn hoặc bằng 100.'
             }),
-        startDate: z.date().refine(date => date > new Date(), {
-            message: 'Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại.'
-        }),
+        startDate: z.date(),
         endDate: z.date(),
         products: z.array(z.number()).min(1, { message: 'Vui lòng chọn ít nhất một sản phẩm.' })
     })
-    .refine(data => data.endDate > data.startDate, {
-        message: 'Ngày kết thúc phải sau ngày bắt đầu.',
+    .refine(data => data.endDate >= data.startDate, {
+        message: 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
         path: ['endDate']
     })
 
@@ -192,8 +192,10 @@ const DataPromotionDialog = ({
                                                     mode="single"
                                                     selected={field.value ? new Date(field.value) : undefined}
                                                     onSelect={field.onChange}
+                                                    defaultMonth={dayjs(field.value).toDate()}
                                                     disabled={date =>
-                                                        date < new Date() || date < new Date('1900-01-01')
+                                                        date < dayjs().startOf('day').toDate() ||
+                                                        date < new Date('1900-01-01')
                                                     }
                                                     captionLayout="dropdown"
                                                     required
@@ -232,8 +234,10 @@ const DataPromotionDialog = ({
                                                     mode="single"
                                                     selected={field.value ? new Date(field.value) : undefined}
                                                     onSelect={field.onChange}
+                                                    defaultMonth={dayjs(field.value).toDate()}
                                                     disabled={date =>
-                                                        date < form.getValues('startDate') ||
+                                                        date < dayjs(form.getValues('startDate')).toDate() ||
+                                                        date < dayjs().startOf('day').toDate() ||
                                                         date < new Date('1900-01-01')
                                                     }
                                                     captionLayout="dropdown"
