@@ -1,24 +1,21 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useQuery } from '@tanstack/react-query'
 import { DataTable } from '@/components/ui/data-table'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { TableToolbar } from '@/pages/DashboardPromotion/CouponManagementPage/TableToolbar'
 import { getTableColumns } from '@/pages/DashboardPromotion/CouponManagementPage/getTableColumns'
 import { RootState } from '@/store'
 import couponService from '@/services/couponService'
-import useAxiosIns from '@/hooks/useAxiosIns'
 import DataCouponDialog from '@/pages/DashboardPromotion/CouponManagementPage/DataCouponDialog'
 import verifyPermission from '@/utils/verifyPermission'
 import appPermissions from '@/configs/permissions'
 
 const CouponManagementPage = () => {
-    const axios = useAxiosIns()
     const user = useSelector((state: RootState) => state.auth.user)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [dialogMode, setDialogMode] = useState<'view' | 'update'>('view')
     const [selectedCoupon, setSelectedCoupon] = useState<ICoupon | null>(null)
-    const { coupons, addNewCouponMutation, updateCouponMutation, removeCouponMutation } = couponService({
+    const { coupons, addNewCouponMutation, updateCouponMutation, disableCouponMutation } = couponService({
         enableFetching: true
     })
 
@@ -50,7 +47,7 @@ const CouponManagementPage = () => {
                 data={coupons}
                 columns={getTableColumns({
                     hasUpdatePermission: verifyPermission(user, appPermissions.updateCoupon),
-                    hasDeletePermission: verifyPermission(user, appPermissions.removeCoupon),
+                    hasDisablePermission: verifyPermission(user, appPermissions.disableCoupon),
                     onViewCoupon: (coupon: ICoupon) => {
                         setSelectedCoupon(coupon)
                         setDialogMode('view')
@@ -61,12 +58,12 @@ const CouponManagementPage = () => {
                         setDialogMode('update')
                         setDialogOpen(true)
                     },
-                    removeCouponMutation: removeCouponMutation
+                    disableCouponMutation: disableCouponMutation
                 })}
                 renderToolbar={table => (
                     <TableToolbar
                         table={table}
-                        addNewCouponMutation={addNewCouponMutation}
+                        addNewCouponMutation={addNewCouponMutation as any}
                         hasAddCouponPermission={verifyPermission(user, appPermissions.addNewCoupon)}
                     />
                 )}

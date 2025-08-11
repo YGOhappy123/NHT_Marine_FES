@@ -83,16 +83,6 @@ export const getTableColumns = ({
                 </div>
             )
         },
-        // {
-        //     id: 'Mô tả',
-        //     accessorKey: 'description',
-        //     header: ({ column }) => <DataTableColumnHeader column={column} title="Mô tả" />,
-        //     cell: ({ row }) => (
-        //         <div className="flex w-[200px] flex-col gap-2 break-words whitespace-normal">
-        //             <p className="line-clamp-3">{row.getValue('Mô tả')}</p>
-        //         </div>
-        //     )
-        // },
         {
             id: 'Giảm giá',
             accessorKey: 'discountRate',
@@ -188,10 +178,10 @@ export const getTableColumns = ({
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <ConfirmationDialog
-                                title="Bạn có chắc muốn hủy chương trình này?"
-                                description="Không thể hoàn tác hành động này. Thao tác này sẽ hủy chương trình khỏi hệ thống NHT Marine."
+                                title="Bạn có chắc muốn kết thúc chương trình này?"
+                                description="Không thể hoàn tác hành động này. Thao tác này sẽ kết thúc chương trình trong hệ thống NHT Marine."
                                 onConfirm={async () => {
-                                    if (hasDisablePermission) {
+                                    if (hasDisablePermission && row.original.isActive) {
                                         disablePromotionMutation.mutateAsync(row.original.promotionId)
                                     }
                                 }}
@@ -201,7 +191,7 @@ export const getTableColumns = ({
                                         disabled={!hasDisablePermission || !row.original.isActive}
                                         className="cursor-pointer"
                                     >
-                                        Hủy chương trình
+                                        Kết thúc CT
                                     </DropdownMenuItem>
                                 }
                             />
