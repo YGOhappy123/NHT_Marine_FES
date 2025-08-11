@@ -52,19 +52,18 @@ const CategoryManagementPage = () => {
         <div className="flex h-full flex-1 flex-col space-y-8 p-4">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">Xin chào, {user?.fullName}!</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Xin chào, {user!.fullName}!</h2>
                     <p className="text-muted-foreground">Đây là danh sách danh mục hàng hóa của hệ thống NHT Marine.</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <Avatar className="size-12 rounded-full">
-                        <AvatarImage src={user?.avatar} alt={user?.fullName} />
+                        <AvatarImage src={user!.avatar} alt={user!.fullName} />
                     </Avatar>
                 </div>
             </div>
 
             <DataCategoryDialog
                 category={selectedCategory}
-                parentCategories={parentCategories}
                 mode={dialogMode}
                 setMode={setDialogMode}
                 open={dialogOpen}
@@ -76,6 +75,7 @@ const CategoryManagementPage = () => {
             <DataTable
                 data={categories}
                 columns={getTableColumns({
+                    parentCategories: parentCategories,
                     hasUpdatePermission: verifyPermission(user, appPermissions.updateProductCategory),
                     hasDeletePermission: verifyPermission(user, appPermissions.deleteProductCategory),
                     onViewCategory: (category: ICategory) => {

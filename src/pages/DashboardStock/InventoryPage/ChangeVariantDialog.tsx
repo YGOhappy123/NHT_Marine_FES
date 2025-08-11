@@ -168,36 +168,14 @@ const ChangeVariantDialog = ({
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="min-w-2xl md:min-w-3xl">
                 <DialogHeader>
-                    <DialogTitle>Đổi kho/ bể lưu trữ sản phẩm</DialogTitle>
+                    <DialogTitle>Đổi phân loại của sản phẩm lưu trữ</DialogTitle>
                     <DialogDescription>
-                        Chọn kho/bể và số lượng sản phẩm để di dời. Ấn "Xác nhận" sau khi hoàn tất.
+                        Chọn phân loại và số lượng sản phẩm để thay đổi. Ấn "Xác nhận" sau khi hoàn tất.
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                        {/* <FormField
-                            control={form.control}
-                            name="currStorageId"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-card-foreground">Kho/ bể hiện tại</FormLabel>
-                                    <Select onValueChange={value => {}} value={field.value?.toString() ?? ''} disabled>
-                                        <FormControl>
-                                            <SelectTrigger className="caret-card-foreground text-card-foreground h-12! w-full rounded border-2 font-semibold">
-                                                <SelectValue placeholder="Kho/ bể hiện tại..." />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value={storage!.storageId.toString()}>
-                                                {storage?.name}
-                                            </SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        /> */}
                         <FormField
                             control={form.control}
                             name="productItemId"

@@ -3,7 +3,6 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { UseMutationResult } from '@tanstack/react-query'
-import { PencilLine } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,
@@ -18,50 +17,45 @@ import { Separator } from '@/components/ui/separator'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import getAllDescendants from '@/utils/getAllDescendants'
-import categoryService from '@/services/categoryService'
 
-const dataCategoryFormSchema = z.object({
-    name: z.string().min(1, { message: 'Tên danh mục không được để trống.' }),
-    parentId: z.number().optional().nullable()
+const dataStorageFormSchema = z.object({
+    name: z.string().min(1, { message: 'Tên kho không được để trống.' }),
+    typeId: z.number('Loại kho không được để trống.')
 })
 
-type DataCategoryDialogProps = {
-    category: ICategory | null
+type DataStorageDialogProps = {
+    storage: IStorage | null
+    storageTypes: IStorageType[]
     mode: 'view' | 'update'
-    setMode: (value: 'view' | 'update') => void
     open: boolean
     setOpen: (value: boolean) => void
-    updateCategoryMutation: UseMutationResult<any, any, { categoryId: number; data: Partial<ICategory> }, any>
+    updateStorageMutation: UseMutationResult<any, any, { storageId: number; data: Partial<IStorage> }, any>
     hasUpdatePermission: boolean
 }
 
-const DataCategoryDialog = ({
-    category,
-    updateCategoryMutation,
+const DataStorageDialog = ({
+    storage,
+    storageTypes,
+    updateStorageMutation,
     hasUpdatePermission,
     mode,
     open,
-    setMode,
     setOpen
-}: DataCategoryDialogProps) => {
-    const { categories, categoryGroup } = categoryService({ enableFetching: true })
-    const descendants = category?.categoryId ? getAllDescendants(category.categoryId ?? 0, categoryGroup) : []
-
-    const form = useForm<z.infer<typeof dataCategoryFormSchema>>({
-        resolver: zodResolver(dataCategoryFormSchema),
+}: DataStorageDialogProps) => {
+    const form = useForm<z.infer<typeof dataStorageFormSchema>>({
+        resolver: zodResolver(dataStorageFormSchema),
         defaultValues: {
             name: '',
-            parentId: undefined
+            typeId: undefined
         }
     })
 
-    const onSubmit = async (values: z.infer<typeof dataCategoryFormSchema>) => {
-        if (!category || !hasUpdatePermission) return
+    const onSubmit = async (values: z.infer<typeof dataStorageFormSchema>) => {
+        if (!storage || !hasUpdatePermission) return
 
-        await updateCategoryMutation.mutateAsync({
-            categoryId: category.categoryId,
-            data: { name: values.name, parentId: values.parentId ?? undefined }
+        await updateStorageMutation.mutateAsync({
+            storageId: storage.storageId,
+            data: { name: values.name, typeId: values.typeId ?? undefined }
         })
 
         form.reset()
@@ -69,23 +63,23 @@ const DataCategoryDialog = ({
     }
 
     useEffect(() => {
-        if (open && category) {
+        if (open && storage) {
             form.reset({
-                name: category.name,
-                parentId: category.parentId ?? undefined
+                name: storage.name,
+                typeId: storage.typeId ?? undefined
             })
         }
-    }, [open, mode, category])
+    }, [open, mode, storage])
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="min-w-2xl md:min-w-3xl">
                 <DialogHeader>
-                    <DialogTitle>{mode === 'view' ? 'Thông tin danh mục' : 'Cập nhật danh mục'}</DialogTitle>
+                    <DialogTitle>{mode === 'view' ? 'Thông tin kho' : 'Cập nhật kho'}</DialogTitle>
                     <DialogDescription>
                         {mode === 'view'
-                            ? 'Thông tin chi tiết về tên danh mục.'
-                            : 'Chỉnh sửa các thông tin của danh mục. Ấn "Xác nhận" sau khi hoàn tất.'}
+                            ? 'Thông tin chi tiết về tên kho.'
+                            : 'Chỉnh sửa các thông tin của kho. Ấn "Xác nhận" sau khi hoàn tất.'}
                     </DialogDescription>
                 </DialogHeader>
                 <Separator />
@@ -97,11 +91,11 @@ const DataCategoryDialog = ({
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-card-foreground">Tên danh mục</FormLabel>
+                                        <FormLabel className="text-card-foreground">Tên kho</FormLabel>
                                         <FormControl>
                                             <Input
                                                 disabled={mode === 'view'}
-                                                placeholder="Tên danh mục..."
+                                                placeholder="Tên kho..."
                                                 className="text-card-foreground caret-card-foreground h-12 rounded border-2 font-semibold"
                                                 {...field}
                                             />
@@ -112,10 +106,10 @@ const DataCategoryDialog = ({
                             />
                             <FormField
                                 control={form.control}
-                                name="parentId"
+                                name="typeId"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-card-foreground">Danh mục cha</FormLabel>
+                                        <FormLabel className="text-card-foreground">Loại kho</FormLabel>
                                         <FormControl>
                                             <Select
                                                 onValueChange={value =>
@@ -134,25 +128,13 @@ const DataCategoryDialog = ({
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>
-                                                    <SelectItem value="none">
-                                                        <i>Không có</i>
-                                                    </SelectItem>
-                                                    {categories
-                                                        .filter(
-                                                            parentCategory =>
-                                                                !category ||
-                                                                (parentCategory.categoryId !== category.categoryId &&
-                                                                    descendants.every(
-                                                                        cat =>
-                                                                            cat.categoryId != parentCategory.categoryId
-                                                                    ))
-                                                        )
-                                                        .map(category => (
+                                                    {storageTypes
+                                                        .map(storageType => (
                                                             <SelectItem
-                                                                key={category.categoryId}
-                                                                value={category.categoryId.toString()}
+                                                                key={storageType.typeId}
+                                                                value={storageType.typeId.toString()}
                                                             >
-                                                                {category.name}
+                                                                {storageType.name}
                                                             </SelectItem>
                                                         ))}
                                                 </SelectContent>
@@ -174,23 +156,11 @@ const DataCategoryDialog = ({
                     </form>
                 </Form>
 
-                {/* Move <DialogFooter /> outside <Form /> to prevent auto-submitting behavior */}
-                {mode === 'view' && (
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button variant="outline">Đóng</Button>
-                        </DialogClose>
-                        {hasUpdatePermission && (
-                            <Button type="button" onClick={() => setMode('update')}>
-                                <PencilLine />
-                                Chỉnh sửa
-                            </Button>
-                        )}
-                    </DialogFooter>
-                )}
+                
+                
             </DialogContent>
         </Dialog>
     )
 }
 
-export default DataCategoryDialog
+export default DataStorageDialog

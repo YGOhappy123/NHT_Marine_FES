@@ -80,7 +80,7 @@ const PromotionManagementPage = () => {
                     <TableToolbar
                         table={table}
                         rootProducts={rootProducts}
-                        addNewPromotionMutation={addNewPromotionMutation}
+                        addNewPromotionMutation={addNewPromotionMutation as any}
                         hasAddPromotionPermission={verifyPermission(user, appPermissions.addNewPromotion)}
                     />
                 )}

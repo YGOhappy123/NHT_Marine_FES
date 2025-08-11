@@ -44,6 +44,40 @@ declare global {
             }
         }
     }
+
+    interface IProductImport {
+        importId: number
+        supplierId: number
+        invoiceNumber: string
+        totalCost: number
+        importDate: string
+        isDistributed: boolean
+        trackedAt: string
+        trackedBy: 3
+        supplier?: Partial<ISupplier>
+        trackedByStaff?: Partial<IStaff>
+        items: {
+            productItemId: number
+            cost: number
+            quantity: number
+
+            productItem?: {
+                productItemId: number
+                imageUrl: string
+                price: number
+                attributes: {
+                    variant: string
+                    option: string
+                }[]
+                rootProduct: {
+                    rootProductId: number
+                    name: string
+                    description: string
+                    imageUrl: string
+                }
+            }
+        }[]
+    }
 }
 
 export {}

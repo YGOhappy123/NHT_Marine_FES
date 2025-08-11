@@ -15,6 +15,7 @@ import ConfirmationDialog from '@/components/common/ConfirmationDialog'
 import dayjs from '@/libs/dayjs'
 
 type Options = {
+    parentCategories: ICategory[]
     hasUpdatePermission: boolean
     hasDeletePermission: boolean
     onViewCategory: (value: ICategory) => void
@@ -23,6 +24,7 @@ type Options = {
 }
 
 export const getTableColumns = ({
+    parentCategories,
     hasUpdatePermission,
     hasDeletePermission,
     onUpdateCategory,
@@ -64,6 +66,15 @@ export const getTableColumns = ({
             accessorKey: 'name',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Tên danh mục" />,
             cell: ({ row }) => <div className="w-[200px]">{row.getValue('Tên danh mục')}</div>
+        },
+        {
+            id: 'Danh mục cha',
+            accessorKey: 'parentId',
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Danh mục cha" />,
+            cell: ({ row }) => {
+                const parentCategory = parentCategories.find(cat => cat.categoryId === row.original.categoryId)
+                return <div className="w-[200px]">{parentCategory?.name || <i>Không có</i>}</div>
+            }
         },
         {
             id: 'Thông tin người tạo',

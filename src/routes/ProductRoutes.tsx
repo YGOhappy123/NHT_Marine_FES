@@ -5,7 +5,9 @@ import AuthProtector from '@/components/container/AuthProtector'
 import PermissionProtector from '@/components/container/PermissionProtector'
 import ProductManagementPage from '@/pages/DashboardProduct/ProductManagementPage'
 import ProductDetailPage from '@/pages/DashboardProduct/ProductDetailPage'
+import ProductImportPage from '@/pages/DashboardImport/ProductImportPage'
 import AddProductPage from '@/pages/DashboardProduct/AddProductPage'
+import AddImportPage from '@/pages/DashboardImport/AddImportPage'
 import permissions from '@/configs/permissions'
 
 const ProductRoutes = [
@@ -29,6 +31,19 @@ const ProductRoutes = [
             {
                 path: 'add',
                 element: <PermissionProtector children={<AddProductPage />} permission={permissions.addNewProduct} />
+            },
+            {
+                path: 'imports',
+                element: (
+                    <PermissionProtector
+                        children={<ProductImportPage />}
+                        permission={permissions.accessImportDashboardPage}
+                    />
+                )
+            },
+            {
+                path: 'imports/add',
+                element: <PermissionProtector children={<AddImportPage />} permission={permissions.addNewImport} />
             }
         ]
     }

@@ -8,6 +8,8 @@ import DamageTypePage from '@/pages/DashboardStock/DamageTypePage'
 import StorageTypePage from '@/pages/DashboardStock/StorageTypePage'
 import SupplierPage from '@/pages/DashboardStock/SupplierPage'
 import InventoryPage from '@/pages/DashboardStock/InventoryPage'
+import StoragePage from '@/pages/DashboardStock/StoragePage'
+import InventoryDistributionPage from '@/pages/DashboardImport/InventoryDistributionPage'
 
 const StockRoutes = [
     {
@@ -51,6 +53,26 @@ const StockRoutes = [
         ]
     },
     {
+        path: '/storages',
+        element: (
+            <Suspense>
+                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
+            </Suspense>
+        ),
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: '',
+                element: (
+                    <PermissionProtector
+                        children={<StoragePage />}
+                        permission={permissions.accessStorageDashboardPage}
+                    />
+                )
+            }
+        ]
+    },
+    {
         path: '/suppliers',
         element: (
             <Suspense>
@@ -71,6 +93,26 @@ const StockRoutes = [
         ]
     },
     {
+        path: '/storages',
+        element: (
+            <Suspense>
+                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
+            </Suspense>
+        ),
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: '',
+                element: (
+                    <PermissionProtector
+                        children={<StoragePage />}
+                        permission={permissions.accessStorageDashboardPage}
+                    />
+                )
+            }
+        ]
+    },
+    {
         path: '/inventories',
         element: (
             <Suspense>
@@ -85,6 +127,15 @@ const StockRoutes = [
                     <PermissionProtector
                         children={<InventoryPage />}
                         permission={permissions.accessStorageDashboardPage}
+                    />
+                )
+            },
+            {
+                path: 'distributions',
+                element: (
+                    <PermissionProtector
+                        children={<InventoryDistributionPage />}
+                        permission={permissions.updateInventory}
                     />
                 )
             }

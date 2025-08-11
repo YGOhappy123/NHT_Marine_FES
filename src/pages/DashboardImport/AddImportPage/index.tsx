@@ -6,96 +6,74 @@ import { Check } from 'lucide-react'
 import { twMerge } from 'tailwind-merge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import FirstStepForm, { FirstStepData } from '@/pages/DashboardProduct/AddProductPage/FirstStepForm'
-import SecondStepForm, { SecondStepData } from '@/pages/DashboardProduct/AddProductPage/SecondStepForm'
-import ThirdStepForm, { ThirdStepData } from '@/pages/DashboardProduct/AddProductPage/ThirdStepForm'
-import FinalStepForm from '@/pages/DashboardProduct/AddProductPage/FinalStepForm'
+import FirstStepForm, { FirstStepData } from '@/pages/DashboardImport/AddImportPage/FirstStepForm'
+import SecondStepForm, { SecondStepData } from '@/pages/DashboardImport/AddImportPage/SecondStepForm'
+import FinalStepForm from '@/pages/DashboardImport/AddImportPage/FinalStepForm'
 import useAxiosIns from '@/hooks/useAxiosIns'
-import productService from '@/services/productService'
-import fileService from '@/services/fileService'
+import importService from '@/services/importService'
 
-export type AddProductData = FirstStepData & SecondStepData & ThirdStepData
+export type AddImportData = FirstStepData & SecondStepData
 
 export const formSteps = [
     {
         title: 'Thông tin cơ bản',
-        description: 'Định nghĩa các thông tin cơ bản cho sản phẩm.'
+        description: 'Định nghĩa các thông tin cơ bản cho đơn nhập hàng.'
     },
     {
-        title: 'Nhóm phân loại',
-        description: 'Định nghĩa các nhóm phân loại cho sản phẩm.'
-    },
-    {
-        title: 'Giá cả',
-        description: 'Định nghĩa giá tiền và quy cách đóng gói cho từng chi tiết sản phẩm.'
+        title: 'Thông tin sản phẩm',
+        description: 'Định nghĩa các thông tin sản phẩm cho đơn nhập hàng.'
     },
     {
         title: 'Kiểm tra',
-        description: 'Tổng hợp thông tin trước khi tiến hành tạo sản phẩm.'
+        description: 'Tổng hợp thông tin trước khi tiến hành tạo đơn nhập hàng.'
     }
 ]
 
-const AddProductPage = () => {
+const AddImportPage = () => {
     const user = useSelector((state: RootState) => state.auth.user)
     const axios = useAxiosIns()
     const [step, setStep] = useState(0)
     const [firstStepData, setFirstStepData] = useState<FirstStepData | null>(null)
     const [secondStepData, setSecondStepData] = useState<SecondStepData | null>(null)
-    const [thirdStepData, setThirdStepData] = useState<ThirdStepData | null>(null)
 
-    const { uploadBase64Mutation } = fileService()
-    const { addNewProductMutation } = productService({ enableFetching: false })
+    const { trackNewImportMutation } = importService({ enableFetching: false })
 
-    const handleSubmit = async (values: AddProductData) => {
-        const resBanner = await uploadBase64Mutation.mutateAsync({
-            base64: values.imageUrl,
-            folder: 'products'
-        })
-        const bannerImg = resBanner.data.data?.imageUrl
+    const handleSubmit = async (values: AddImportData) => {
+        const finalValues = {
+            ...values,
+            importDate: new Date(values.importDate).toISOString(),
+            items: values.items.map(ii => ({ productItemId: ii.productItemId, cost: ii.cost, quantity: ii.quantity }))
+        }
 
-        const productItems = await Promise.all(
-            values.productItems.map(async item => {
-                const resImage = await uploadBase64Mutation.mutateAsync({
-                    base64: item.imageUrl,
-                    folder: 'products'
-                })
-                const newImageUrl = resImage.data.data?.imageUrl
-
-                return {
-                    attributes: item.attributes,
-                    imageUrl: newImageUrl,
-                    price: item.price,
-                    packingGuide: item.packingGuide
-                }
-            })
-        )
-
-        await addNewProductMutation.mutateAsync({
-            name: values.name,
-            description: values.description,
-            imageUrl: bannerImg,
-            categoryId: values.categoryId,
-            variants: values.variants,
-            productItems: productItems
-        })
+        await trackNewImportMutation.mutateAsync(finalValues)
 
         setFirstStepData(null)
         setSecondStepData(null)
-        setThirdStepData(null)
         setStep(0)
     }
 
-    const getCategoriesQuery = useQuery({
-        queryKey: ['categories-all'],
-        queryFn: () => axios.get<IResponseData<ICategory[]>>('/products/categories'),
+    const getSuppliersQuery = useQuery({
+        queryKey: ['suppliers-all'],
+        queryFn: () => axios.get<IResponseData<ISupplier[]>>('/suppliers'),
         enabled: true,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: true,
-        refetchInterval: 10000,
+        refetchInterval: 30000,
         select: res => res.data
     })
 
-    const categories = getCategoriesQuery.data?.data ?? []
+    const fetchAllRootProductsQuery = useQuery({
+        queryKey: ['products-all'],
+        queryFn: () => axios.get<IResponseData<IRootProduct[]>>('/products'),
+        enabled: true,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: true,
+        refetchInterval: 30000,
+        select: res => res.data
+    })
+
+    const suppliers = getSuppliersQuery.data?.data ?? []
+    const rootProducts = fetchAllRootProductsQuery.data?.data || []
 
     return (
         <div className="flex h-full flex-1 flex-col space-y-8 p-4">
@@ -103,7 +81,7 @@ const AddProductPage = () => {
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">Xin chào, {user!.fullName}!</h2>
                     <p className="text-muted-foreground">
-                        Đây là các bước cần thiết để tạo một sản phẩm mới trên hệ thống NHT Marine.
+                        Đây là các bước cần thiết để tạo một đơn nhập hàng mới trên hệ thống NHT Marine.
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -177,14 +155,14 @@ const AddProductPage = () => {
 
                 <Card className="w-full max-w-4xl">
                     <CardHeader className="text-center">
-                        <CardTitle className="text-xl">Tạo sản phẩm mới</CardTitle>
+                        <CardTitle className="text-xl">Tạo đơn nhập hàng mới</CardTitle>
                         <CardDescription>{formSteps[step].description}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         {step === 0 && (
                             <FirstStepForm
                                 defaultValues={firstStepData}
-                                categories={categories}
+                                suppliers={suppliers}
                                 onNext={values => {
                                     setFirstStepData(values)
                                     setStep(1)
@@ -194,6 +172,7 @@ const AddProductPage = () => {
                         {step === 1 && (
                             <SecondStepForm
                                 defaultValues={secondStepData}
+                                rootProducts={rootProducts}
                                 onNext={values => {
                                     setSecondStepData(values)
                                     setStep(2)
@@ -201,24 +180,14 @@ const AddProductPage = () => {
                                 onPrev={() => setStep(0)}
                             />
                         )}
-                        {step === 2 && secondStepData != null && (
-                            <ThirdStepForm
-                                secondStepData={secondStepData}
-                                defaultValues={thirdStepData}
-                                onNext={values => {
-                                    setThirdStepData(values)
-                                    setStep(3)
-                                }}
-                                onPrev={() => setStep(1)}
-                            />
-                        )}
-                        {step === 3 && firstStepData != null && secondStepData != null && thirdStepData != null && (
+                        {step === 2 && firstStepData != null && secondStepData != null && (
                             <FinalStepForm
-                                data={{ ...firstStepData, ...secondStepData, ...thirdStepData }}
-                                categories={categories}
+                                data={{ ...firstStepData, ...secondStepData }}
+                                rootProducts={rootProducts}
+                                suppliers={suppliers}
                                 onConfirm={async values => handleSubmit(values)}
-                                onPrev={() => setStep(2)}
-                                isLoading={addNewProductMutation.isPending}
+                                onPrev={() => setStep(1)}
+                                isLoading={false}
                             />
                         )}
                     </CardContent>
@@ -228,4 +197,4 @@ const AddProductPage = () => {
     )
 }
 
-export default AddProductPage
+export default AddImportPage

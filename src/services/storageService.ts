@@ -66,11 +66,50 @@ const storageService = ({ enableFetching = false }: { enableFetching: boolean })
         }
     }, [getAllStoragesQuery.isSuccess, getAllStoragesQuery.data])
 
+    const addNewStorageMutation = useMutation({
+        mutationFn: (data: any) => axios.post<IResponseData<any>>('/storages', data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['storages'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
+    const updateStorageMutation = useMutation({
+        mutationFn: ({ storageId, data }: { storageId: number; data: Partial<IStorage> }) =>
+            axios.patch<IResponseData<any>>(`/storages/${storageId}`, data),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['storages'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
+
+    const removeStorageMutation = useMutation({
+        mutationFn: (storageId: number) => axios.delete<IResponseData<any>>(`/storages/${storageId}`),
+        onError: onError,
+        onSuccess: res => {
+            queryClient.invalidateQueries({ queryKey: ['storages'] })
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
+
+    useEffect(() => {
+        if (getAllStoragesQuery.isSuccess && getAllStoragesQuery.data) {
+            setStorages(getAllStoragesQuery.data.data?.data)
+            setStorageCount(getAllStoragesQuery.data.data?.total as number)
+        }
+    }, [getAllStoragesQuery.isSuccess, getAllStoragesQuery.data])
+
     return {
         storages,
         storageCount,
         changeInventoryLocationMutation,
-        changeInventoryVariantMutation
+        changeInventoryVariantMutation,
+        addNewStorageMutation,
+        updateStorageMutation,
+        removeStorageMutation
     }
 }
 export default storageService

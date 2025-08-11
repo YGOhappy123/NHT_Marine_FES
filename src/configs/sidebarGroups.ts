@@ -58,13 +58,13 @@ export const sidebarGroups: SidebarGroupData[] = [
                 icon: Users,
                 url: '/customers',
                 accessRequirement: permissions.accessCustomerDashboardPage
-            },
-            {
-                title: 'Trò chuyện trực tuyến',
-                icon: MessageCircleMore,
-                url: '/chat',
-                accessRequirement: permissions.accessAdvisoryDashboardPage
             }
+            // {
+            //     title: 'Trò chuyện trực tuyến',
+            //     icon: MessageCircleMore,
+            //     url: '/chat',
+            //     accessRequirement: permissions.accessAdvisoryDashboardPage
+            // }
         ]
     },
     {
@@ -155,12 +155,12 @@ export const sidebarGroups: SidebarGroupData[] = [
                     },
                     {
                         title: 'Đơn nhập hàng',
-                        url: '/product-imports',
+                        url: '/products/imports',
                         accessRequirement: permissions.accessImportDashboardPage
                     },
                     {
                         title: 'Phân phối sản phẩm',
-                        url: '/inventory-distributions',
+                        url: '/inventories/distributions',
                         accessRequirement: permissions.accessStorageDashboardPage
                     }
                 ]
