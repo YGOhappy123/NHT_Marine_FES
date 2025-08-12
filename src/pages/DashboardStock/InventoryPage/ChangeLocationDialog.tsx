@@ -198,7 +198,15 @@ const ChangeLocationDialog = ({
                             name="quantity"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-card-foreground">Số lượng cần chuyển</FormLabel>
+                                    <FormLabel className="text-card-foreground">
+                                        Số lượng cần chuyển (tối đa{' '}
+                                        {
+                                            storage?.productItems?.find(
+                                                iv => iv.productItemId === form.watch('productItemId')
+                                            )?.quantity
+                                        }
+                                        )
+                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"

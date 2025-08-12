@@ -20,12 +20,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input'
 import useAxiosIns from '@/hooks/useAxiosIns'
 
-const changeVariantFormSchema = z.object({
-    currStorageId: z.number(),
-    productItemId: z.number().min(1, { message: 'Vui lòng chọn sản phẩm.' }),
-    newProductItemId: z.number().min(1, { message: 'Vui lòng chọn phân loại mới.' }),
-    quantity: z.coerce.number().min(1, { message: 'Số lượng không được bé hơn 1.' })
-})
+const changeVariantFormSchema = z
+    .object({
+        currStorageId: z.number(),
+        productItemId: z.number().min(1, { message: 'Vui lòng chọn sản phẩm.' }),
+        newProductItemId: z.number(),
+        quantity: z.coerce.number().min(1, { message: 'Số lượng không được bé hơn 1.' })
+    })
+    .refine(data => data.newProductItemId && data.productItemId !== data.newProductItemId, {
+        message: 'Phân loại mới đang bị trùng với phân loại cũ.',
+        path: ['newProductItemId']
+    })
 
 type ChangeVariantDialogProps = {
     storage: IStorage | null
@@ -214,7 +219,13 @@ const ChangeVariantDialog = ({
                             name="quantity"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-card-foreground">Số lượng cần chuyển</FormLabel>
+                                    <FormLabel className="text-card-foreground">
+                                        Số lượng cần chuyển (tối đa{' '}
+                                        {storage?.productItems?.find(
+                                            iv => iv.productItemId === form.watch('productItemId')
+                                        )?.quantity ?? 0}
+                                        )
+                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
@@ -260,6 +271,11 @@ const ChangeVariantDialog = ({
                                         </div>
                                     ))}
                                 </div>
+                                {form.formState.errors.newProductItemId && (
+                                    <p className="text-destructive mt-2 text-sm">
+                                        {form.formState.errors.newProductItemId.message}
+                                    </p>
+                                )}
                             </div>
                         )}
 

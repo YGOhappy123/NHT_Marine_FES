@@ -7,7 +7,6 @@ import {
     Fish,
     KeyRound,
     LucideIcon,
-    MessageCircleMore,
     Package,
     ScanBarcode,
     ShieldUser,
@@ -155,7 +154,7 @@ export const sidebarGroups: SidebarGroupData[] = [
                     },
                     {
                         title: 'Đơn nhập hàng',
-                        url: '/products/imports',
+                        url: '/product-imports',
                         accessRequirement: permissions.accessImportDashboardPage
                     },
                     {

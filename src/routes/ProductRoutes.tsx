@@ -31,9 +31,20 @@ const ProductRoutes = [
             {
                 path: 'add',
                 element: <PermissionProtector children={<AddProductPage />} permission={permissions.addNewProduct} />
-            },
+            }
+        ]
+    },
+    {
+        path: '/product-imports',
+        element: (
+            <Suspense>
+                <AuthProtector children={<DashboardLayout />} redirect="/auth" />
+            </Suspense>
+        ),
+        errorElement: <ErrorPage />,
+        children: [
             {
-                path: 'imports',
+                path: '',
                 element: (
                     <PermissionProtector
                         children={<ProductImportPage />}
@@ -42,7 +53,7 @@ const ProductRoutes = [
                 )
             },
             {
-                path: 'imports/add',
+                path: 'add',
                 element: <PermissionProtector children={<AddImportPage />} permission={permissions.addNewImport} />
             }
         ]

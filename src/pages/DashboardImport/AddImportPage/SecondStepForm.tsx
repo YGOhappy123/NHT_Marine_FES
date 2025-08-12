@@ -24,7 +24,7 @@ const secondStepFormSchema = z.object({
         )
         .min(1, { message: 'Phải chọn ít nhất một sản phẩm.' })
         .refine(items => new Set(items.map(v => v.productItemId)).size === items.length, {
-            message: 'Các sản phẩm trong đơn nhập hàng phải là duy nhất.'
+            message: 'Các phân loại của cùng một sản phẩm trong đơn nhập hàng phải là duy nhất.'
         })
 })
 

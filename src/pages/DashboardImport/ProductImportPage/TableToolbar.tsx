@@ -68,7 +68,7 @@ export function TableToolbar<TData>({ table, hasAddImportPermission }: TableTool
                 <DataTableViewOptions table={table} />
 
                 {hasAddImportPermission && (
-                    <Button size="sm" className="flex h-8" onClick={() => navigate('/products/imports/add')}>
+                    <Button size="sm" className="flex h-8" onClick={() => navigate('/product-imports/add')}>
                         <PencilLine />
                         Thêm đơn nhập hàng
                     </Button>
