@@ -75,12 +75,12 @@ export const sidebarGroups: SidebarGroupData[] = [
                 url: '/orders',
                 accessRequirement: permissions.accessOrderDashboardPage
             },
-            {
-                title: 'Đơn vị vận chuyển',
-                icon: Truck,
-                url: '/delivery-services',
-                accessRequirement: permissions.accessDeliveryServiceDashboardPage
-            },
+            // {
+            //     title: 'Đơn vị vận chuyển',
+            //     icon: Truck,
+            //     url: '/delivery-services',
+            //     accessRequirement: permissions.accessDeliveryServiceDashboardPage
+            // },
             {
                 title: 'Trạng thái đơn hàng',
                 icon: ClockArrowUp,
@@ -173,16 +173,16 @@ export const sidebarGroups: SidebarGroupData[] = [
                     { title: 'Danh sách kho/ bể', url: '/storages' },
                     { title: 'Loại kho/ bể', url: '/storage-types' }
                 ]
-            },
-            {
-                title: 'Báo cáo thiệt hại',
-                icon: ClipboardType,
-                accessRequirement: permissions.accessDamageReportDashboardPage,
-                children: [
-                    // { title: 'Danh sách báo cáo', url: '/damage-reports' },
-                    { title: 'Loại thiệt hại', url: '/damage-types' }
-                ]
             }
+            // {
+            //     title: 'Báo cáo thiệt hại',
+            //     icon: ClipboardType,
+            //     accessRequirement: permissions.accessDamageReportDashboardPage,
+            //     children: [
+            //         { title: 'Danh sách báo cáo', url: '/damage-reports' },
+            //         { title: 'Loại thiệt hại', url: '/damage-types' }
+            //     ]
+            // }
         ]
     },
     {

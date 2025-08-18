@@ -26,7 +26,7 @@ const CategoryTree = ({ categoryGroup, hasUpdatePermission, onUpdateCategory }: 
         )
 
     return (
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-6">
             <CategoryList
                 categories={rootCategories}
                 categoryGroup={categoryGroup}
@@ -45,8 +45,9 @@ type CategoryListProps = {
 }
 
 const CategoryList = ({ categories, categoryGroup, hasUpdatePermission, onUpdateCategory }: CategoryListProps) => {
-    return categories.map(category => (
+    return categories.map((category, index) => (
         <div key={category.categoryId}>
+            {!category.parentId && index > 0 && <Separator className="mb-6 border" />}
             <CategoryItem
                 category={category}
                 categoryGroup={categoryGroup}
@@ -132,7 +133,7 @@ const CategoryItem = ({ category, categoryGroup, hasUpdatePermission, onUpdateCa
             {childCategories && childCategories.length > 0 && (
                 <div className="flex">
                     <div className="bg-primary w-1.5"></div>
-                    <div className="flex-1 pl-6">
+                    <div className="flex flex-1 flex-col gap-6 pl-6">
                         <CategoryList
                             categories={childCategories}
                             categoryGroup={categoryGroup}
