@@ -9,6 +9,7 @@ declare global {
         deliveryAddress?: string
         deliveryPhone?: string
         note?: string
+        isStockReduced: boolean
         createdAt: string
 
         customer: Partial<ICustomer>

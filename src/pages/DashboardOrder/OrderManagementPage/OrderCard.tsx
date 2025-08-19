@@ -153,7 +153,7 @@ const OrderCard = ({ order, hasPermission, chooseInventoryMutation, updateStatus
     const [selectedStatus, setSelectedStatus] = useState<IOrderStatus>(order.orderStatus)
 
     const handleProcessOrder = async (newStatus: IOrderStatus) => {
-        if (order.orderStatus.isDefaultState && !newStatus.isUnfulfilled) {
+        if (!order.isStockReduced && !newStatus.isUnfulfilled) {
             setSelectedStatus(newStatus)
             setInventoryDialogOpen(true)
         } else {

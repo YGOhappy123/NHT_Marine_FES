@@ -17,12 +17,12 @@ import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 
 interface IOrderStatus {
-    statusId: number;
-    name: string;
-    description: string;
-    isDefaultState: boolean;
-    isAccounted: boolean;
-    isUnfulfilled: boolean;
+    statusId: number
+    name: string
+    description: string
+    isDefaultState: boolean
+    isAccounted: boolean
+    isUnfulfilled: boolean
 }
 
 const updateOrderStatusFormSchema = z.object({
@@ -35,7 +35,21 @@ const updateOrderStatusFormSchema = z.object({
 
 type UpdateOrderStatusDialogProps = {
     orderStatus: IOrderStatus | null
-    updateOrderStatusMutation: UseMutationResult<any, any, { statusId: number; data: { name: string; description: string; isDefaultState: boolean; isAccounted: boolean; isUnfulfilled: boolean } }, any>
+    updateOrderStatusMutation: UseMutationResult<
+        any,
+        any,
+        {
+            statusId: number
+            data: {
+                name: string
+                description: string
+                isDefaultState: boolean
+                isAccounted: boolean
+                isUnfulfilled: boolean
+            }
+        },
+        any
+    >
     hasUpdatePermission: boolean
     open: boolean
     setOpen: (open: boolean) => void
@@ -92,9 +106,7 @@ const UpdateOrderStatusDialog = ({
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Chỉnh sửa trạng thái đơn hàng</DialogTitle>
-                    <DialogDescription>
-                        Cập nhật thông tin trạng thái đơn hàng. Nhấn Lưu để xác nhận.
-                    </DialogDescription>
+                    <DialogDescription>Cập nhật thông tin trạng thái đơn hàng. Nhấn Lưu để xác nhận.</DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -138,14 +150,13 @@ const UpdateOrderStatusDialog = ({
                             control={form.control}
                             name="isDefaultState"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                <FormItem className="flex flex-row items-center space-y-0 space-x-3">
                                     <FormControl>
                                         <Checkbox
                                             checked={field.value}
-                                            onCheckedChange={(checked) => {
-                                                // Không cho bỏ tick nếu dòng đang sửa là mặc định
-                                                if (orderStatus?.isDefaultState && !checked) return;
-                                                field.onChange(checked);
+                                            onCheckedChange={checked => {
+                                                if (orderStatus?.isDefaultState && !checked) return
+                                                field.onChange(checked)
                                             }}
                                             disabled={!hasUpdatePermission}
                                         />
@@ -159,7 +170,7 @@ const UpdateOrderStatusDialog = ({
                             control={form.control}
                             name="isAccounted"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                <FormItem className="flex flex-row items-center space-y-0 space-x-3">
                                     <FormControl>
                                         <Checkbox
                                             checked={field.value}
@@ -175,7 +186,7 @@ const UpdateOrderStatusDialog = ({
                             control={form.control}
                             name="isUnfulfilled"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                <FormItem className="flex flex-row items-center space-y-0 space-x-3">
                                     <FormControl>
                                         <Checkbox
                                             checked={field.value}
