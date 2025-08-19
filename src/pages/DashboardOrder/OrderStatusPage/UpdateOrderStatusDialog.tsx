@@ -158,7 +158,12 @@ const UpdateOrderStatusDialog = ({
                                                 if (orderStatus?.isDefaultState && !checked) return
                                                 field.onChange(checked)
                                             }}
-                                            disabled={!hasUpdatePermission}
+                                            disabled={
+                                                !hasUpdatePermission ||
+                                                orderStatus?.isDefaultState ||
+                                                orderStatus?.isAccounted ||
+                                                orderStatus?.isUnfulfilled
+                                            }
                                         />
                                     </FormControl>
                                     <FormLabel>Trạng thái mặc định</FormLabel>
@@ -175,7 +180,7 @@ const UpdateOrderStatusDialog = ({
                                         <Checkbox
                                             checked={field.value}
                                             onCheckedChange={field.onChange}
-                                            disabled={!hasUpdatePermission}
+                                            disabled={!hasUpdatePermission || orderStatus?.isDefaultState}
                                         />
                                     </FormControl>
                                     <FormLabel>Đã thanh toán</FormLabel>
@@ -191,10 +196,23 @@ const UpdateOrderStatusDialog = ({
                                         <Checkbox
                                             checked={field.value}
                                             onCheckedChange={field.onChange}
-                                            disabled={!hasUpdatePermission}
+                                            disabled={
+                                                !hasUpdatePermission ||
+                                                orderStatus?.isUnfulfilled ||
+                                                orderStatus?.isDefaultState
+                                            }
                                         />
                                     </FormControl>
-                                    <FormLabel>Chưa hoàn thành</FormLabel>
+                                    <FormLabel>
+                                        <span>
+                                            Chưa hoàn thành{' '}
+                                            <i>
+                                                {orderStatus?.isUnfulfilled
+                                                    ? '(Trạng thái này không thể bị chỉnh sửa)'
+                                                    : '(Không thể chỉnh sửa sau khi đã chọn)'}
+                                            </i>
+                                        </span>
+                                    </FormLabel>
                                 </FormItem>
                             )}
                         />

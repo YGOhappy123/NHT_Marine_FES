@@ -109,7 +109,10 @@ const OrderStatusTransitionPage = () => {
                                             {hasUpdatePermission && (
                                                 <Button
                                                     type="button"
+                                                    disabled={status.isUnfulfilled}
                                                     onClick={() => {
+                                                        if (status.isUnfulfilled) return
+
                                                         setSelectedStatus(status)
                                                         setAddDialogOpen(true)
                                                     }}
