@@ -59,6 +59,10 @@ const OrderCard = ({ order, hasPermission, chooseInventoryMutation, updateStatus
                         <span className="font-medium">Phân loại: </span>
                         {row.original.productItem.attributes.map(attr => `${attr.variant}: ${attr.option}`).join(', ')}
                     </p>
+                    <p className="text-muted-foreground break-words whitespace-normal">
+                        <span className="font-medium">Đóng gói: </span>
+                        {row.original.productItem.packingGuide}
+                    </p>
                 </div>
             ),
             enableHiding: false,
@@ -69,7 +73,9 @@ const OrderCard = ({ order, hasPermission, chooseInventoryMutation, updateStatus
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Số lượng" enableHiding={false} className="text-center" />
             ),
-            cell: ({ row }) => <p className="text-center">{row.original.quantity.toString().padStart(2, '0')}</p>,
+            cell: ({ row }) => (
+                <p className="min-w-[80px] text-center">{row.original.quantity.toString().padStart(2, '0')}</p>
+            ),
             enableHiding: false,
             enableSorting: false
         },
@@ -78,7 +84,7 @@ const OrderCard = ({ order, hasPermission, chooseInventoryMutation, updateStatus
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Đơn giá" enableHiding={false} className="text-center" />
             ),
-            cell: ({ row }) => <p className="text-center">{formatCurrency(row.original.price)}</p>,
+            cell: ({ row }) => <p className="min-w-[80px] text-center">{formatCurrency(row.original.price)}</p>,
             enableHiding: false,
             enableSorting: false
         }

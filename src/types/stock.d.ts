@@ -69,6 +69,7 @@ declare global {
                     variant: string
                     option: string
                 }[]
+                packingGuide: string
                 rootProduct: {
                     rootProductId: number
                     name: string
