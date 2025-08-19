@@ -279,7 +279,7 @@ const DataPromotionDialog = ({
                                 render={() => (
                                     <FormItem>
                                         <FormLabel className="text-card-foreground">Danh sách sản phẩm</FormLabel>
-                                        <div className="grid max-h-[200px] grid-cols-1 gap-2 overflow-y-auto md:max-h-[300px] md:grid-cols-2">
+                                        <div className="grid max-h-[60px] grid-cols-1 gap-2 overflow-y-auto md:max-h-[90px] md:grid-cols-2">
                                             {rootProducts.map(product => (
                                                 <FormField
                                                     key={product.rootProductId}
