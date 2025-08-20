@@ -9,6 +9,7 @@ declare global {
         deliveryAddress?: string
         deliveryPhone?: string
         note?: string
+        isStockReduced: boolean
         createdAt: string
 
         customer: Partial<ICustomer>
@@ -28,6 +29,7 @@ declare global {
                     variant: string
                     option: string
                 }[]
+                packingGuide: string
                 rootProduct: {
                     rootProductId: number
                     name: string

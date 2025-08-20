@@ -68,9 +68,7 @@ const AddOrderStatusDialog = ({ addNewOrderStatusMutation, existingOrderStatuses
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Thêm trạng thái đơn hàng mới</DialogTitle>
-                    <DialogDescription>
-                        Nhập thông tin trạng thái đơn hàng mới. Nhấn Lưu để tạo.
-                    </DialogDescription>
+                    <DialogDescription>Nhập thông tin trạng thái đơn hàng mới. Nhấn Lưu để tạo.</DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -112,7 +110,7 @@ const AddOrderStatusDialog = ({ addNewOrderStatusMutation, existingOrderStatuses
                             control={form.control}
                             name="isDefaultState"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                <FormItem className="flex flex-row items-center space-y-0 space-x-3">
                                     <FormControl>
                                         <Checkbox
                                             checked={!hasDefaultState}
@@ -126,19 +124,21 @@ const AddOrderStatusDialog = ({ addNewOrderStatusMutation, existingOrderStatuses
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="isAccounted"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                <FormItem className="flex flex-row items-center space-y-0 space-x-3">
                                     <FormControl>
                                         <Checkbox
                                             checked={field.value}
                                             onCheckedChange={field.onChange}
+                                            disabled={!hasDefaultState}
                                         />
                                     </FormControl>
-                                    <FormLabel>Đã thanh toán</FormLabel>
+                                    <FormLabel className={!hasDefaultState ? 'opacity-50' : ''}>
+                                        Đã thanh toán
+                                    </FormLabel>
                                 </FormItem>
                             )}
                         />
@@ -146,14 +146,19 @@ const AddOrderStatusDialog = ({ addNewOrderStatusMutation, existingOrderStatuses
                             control={form.control}
                             name="isUnfulfilled"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                <FormItem className="flex flex-row items-center space-y-0 space-x-3">
                                     <FormControl>
                                         <Checkbox
                                             checked={field.value}
                                             onCheckedChange={field.onChange}
+                                            disabled={!hasDefaultState}
                                         />
                                     </FormControl>
-                                    <FormLabel>Chưa hoàn thành</FormLabel>
+                                    <FormLabel className={!hasDefaultState ? 'opacity-50' : ''}>
+                                        <span>
+                                            Chưa hoàn thành <i>(Không thể chỉnh sửa sau khi đã chọn)</i>
+                                        </span>
+                                    </FormLabel>
                                 </FormItem>
                             )}
                         />

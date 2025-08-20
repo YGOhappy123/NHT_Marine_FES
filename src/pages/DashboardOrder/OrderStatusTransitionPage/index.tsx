@@ -89,171 +89,183 @@ const OrderStatusTransitionPage = () => {
             )}
 
             {orderStatuses.length > 0 && (
-                <div className="flex flex-col gap-12">
-                    {orderStatuses.map(status => {
+                <div className="flex flex-col gap-6">
+                    {orderStatuses.map((status, index) => {
                         const matchingGroup = statusTransitions.find(trans => trans.fromStatusId === status.statusId)
 
                         return (
-                            <div key={status.statusId} className="flex flex-col gap-6">
-                                <Card>
-                                    <CardHeader className="flex items-center justify-between gap-12">
-                                        <div className="flex flex-col justify-center gap-1">
-                                            <CardTitle className="text-xl">Chi tiết trạng thái đơn hàng</CardTitle>
-                                            <CardDescription>Mã trạng thái đơn hàng: {status.statusId}</CardDescription>
-                                        </div>
-                                        {hasUpdatePermission && (
-                                            <Button
-                                                type="button"
-                                                disabled={status.isUnfulfilled}
-                                                onClick={() => {
-                                                    setSelectedStatus(status)
-                                                    setAddDialogOpen(true)
-                                                }}
-                                            >
-                                                <FunnelPlus />
-                                                Thêm hướng chuyển
-                                            </Button>
-                                        )}
-                                    </CardHeader>
-                                    <Separator />
-                                    <CardContent>
-                                        <div className="flex flex-col gap-4">
-                                            <p className="line-clamp-1 text-xl font-semibold">Thông tin trạng thái</p>
-                                            <p>
-                                                <span className="font-semibold">Tên trạng thái: </span>
-                                                <span className="text-muted-foreground">{status.name}</span>
-                                            </p>
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-semibold">Phân loại: </span>
-                                                {status.isDefaultState && <Badge>Trạng thái mặc định</Badge>}
-                                                {status.isAccounted && (
-                                                    <Badge variant="success">Trạng thái đã thu tiền</Badge>
-                                                )}
-                                                {status.isUnfulfilled && (
-                                                    <Badge variant="destructive">Trạng thái không hoàn thành</Badge>
-                                                )}
-                                                {!status.isDefaultState &&
-                                                    !status.isAccounted &&
-                                                    !status.isUnfulfilled && (
-                                                        <Badge variant="outline">Trạng thái thường</Badge>
-                                                    )}
+                            <div key={status.statusId}>
+                                {index > 0 && <Separator className="mb-6 border" />}
+
+                                <div key={status.statusId} className="flex flex-col gap-6">
+                                    <Card>
+                                        <CardHeader className="flex items-center justify-between gap-12">
+                                            <div className="flex flex-col justify-center gap-1">
+                                                <CardTitle className="text-xl">Chi tiết trạng thái đơn hàng</CardTitle>
+                                                <CardDescription>
+                                                    Mã trạng thái đơn hàng: {status.statusId}
+                                                </CardDescription>
                                             </div>
-                                            <p>
-                                                <span className="font-semibold">Mô tả trạng thái: </span>
-                                                <span className="text-muted-foreground">{status.description}</span>
-                                            </p>
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                                            {hasUpdatePermission && (
+                                                <Button
+                                                    type="button"
+                                                    disabled={status.isUnfulfilled}
+                                                    onClick={() => {
+                                                        if (status.isUnfulfilled) return
 
-                                {matchingGroup && matchingGroup.transitions.length > 0 && (
-                                    <div className="flex">
-                                        <div className="bg-primary w-1.5"></div>
-                                        <div className="grid flex-1 grid-cols-1 gap-6 pl-6 lg:grid-cols-2">
-                                            {matchingGroup.transitions.map((trans, index) => (
-                                                <Card key={index}>
-                                                    <CardHeader className="flex items-center justify-between gap-12">
-                                                        <div className="flex flex-col justify-center gap-1">
-                                                            <CardTitle className="text-xl">
-                                                                Chi tiết hướng chuyển trạng thái
-                                                            </CardTitle>
-                                                            <CardDescription>
-                                                                Mã chuyển trạng thái: {trans.transitionId}
-                                                            </CardDescription>
-                                                        </div>
-                                                        {hasUpdatePermission && (
-                                                            <div className="flex flex-col gap-4">
-                                                                <Button
-                                                                    variant="outline"
-                                                                    onClick={() => {
-                                                                        setSelectedTransition({
-                                                                            ...trans,
-                                                                            fromStatusId: status.statusId,
-                                                                            fromStatus: status
-                                                                        } as IOrderStatusTransition)
-                                                                        setUpdateDialogOpen(true)
-                                                                    }}
-                                                                >
-                                                                    <PencilLine />
-                                                                    Chỉnh sửa
-                                                                </Button>
-                                                                <ConfirmationDialog
-                                                                    title="Bạn có chắc muốn xóa hướng chuyển trạng thái này?"
-                                                                    description="Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn hướng chuyển trạng thái khỏi hệ thống NHT Marine."
-                                                                    onConfirm={async () => {
-                                                                        await removeTransitionMutation.mutateAsync(
-                                                                            trans.transitionId!
-                                                                        )
-                                                                    }}
-                                                                    trigger={
-                                                                        <Button variant="destructive">
-                                                                            <Eraser />
-                                                                            Xóa
-                                                                        </Button>
-                                                                    }
-                                                                />
-                                                            </div>
+                                                        setSelectedStatus(status)
+                                                        setAddDialogOpen(true)
+                                                    }}
+                                                >
+                                                    <FunnelPlus />
+                                                    Thêm hướng chuyển
+                                                </Button>
+                                            )}
+                                        </CardHeader>
+                                        <Separator />
+                                        <CardContent>
+                                            <div className="flex flex-col gap-4">
+                                                <p className="line-clamp-1 text-xl font-semibold">
+                                                    Thông tin trạng thái
+                                                </p>
+                                                <p>
+                                                    <span className="font-semibold">Tên trạng thái: </span>
+                                                    <span className="text-muted-foreground">{status.name}</span>
+                                                </p>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-semibold">Phân loại: </span>
+                                                    {status.isDefaultState && <Badge>Trạng thái mặc định</Badge>}
+                                                    {status.isAccounted && (
+                                                        <Badge variant="success">Trạng thái đã thu tiền</Badge>
+                                                    )}
+                                                    {status.isUnfulfilled && (
+                                                        <Badge variant="destructive">Trạng thái không hoàn thành</Badge>
+                                                    )}
+                                                    {!status.isDefaultState &&
+                                                        !status.isAccounted &&
+                                                        !status.isUnfulfilled && (
+                                                            <Badge variant="outline">Trạng thái thường</Badge>
                                                         )}
-                                                    </CardHeader>
-                                                    <Separator />
-                                                    <CardContent>
-                                                        <div className="col-span-2 flex flex-col gap-4">
-                                                            <p className="line-clamp-1 text-xl font-semibold">
-                                                                Thông tin trạng thái mới
-                                                            </p>
-                                                            <p>
-                                                                <span className="font-semibold">Tên trạng thái: </span>
-                                                                <span className="text-muted-foreground">
-                                                                    {trans.toStatus?.name}
-                                                                </span>
-                                                            </p>
+                                                </div>
+                                                <p>
+                                                    <span className="font-semibold">Mô tả trạng thái: </span>
+                                                    <span className="text-muted-foreground">{status.description}</span>
+                                                </p>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
 
-                                                            <div className="flex items-center gap-2">
-                                                                <span className="font-semibold">Phân loại: </span>
-                                                                {trans.toStatus?.isDefaultState && (
-                                                                    <Badge>Trạng thái mặc định</Badge>
-                                                                )}
-                                                                {trans.toStatus?.isAccounted && (
-                                                                    <Badge variant="success">
-                                                                        Trạng thái đã thu tiền
-                                                                    </Badge>
-                                                                )}
-                                                                {trans.toStatus?.isUnfulfilled && (
-                                                                    <Badge variant="destructive">
-                                                                        Trạng thái không hoàn thành
-                                                                    </Badge>
-                                                                )}
-                                                                {!trans.toStatus?.isDefaultState &&
-                                                                    !trans.toStatus?.isAccounted &&
-                                                                    !trans.toStatus?.isUnfulfilled && (
-                                                                        <Badge variant="outline">
-                                                                            Trạng thái thường
+                                    {matchingGroup && matchingGroup.transitions.length > 0 && (
+                                        <div className="flex">
+                                            <div className="bg-primary w-1.5"></div>
+                                            <div className="grid flex-1 grid-cols-1 gap-6 pl-6 lg:grid-cols-2">
+                                                {matchingGroup.transitions.map((trans, index) => (
+                                                    <Card key={index}>
+                                                        <CardHeader className="flex items-center justify-between gap-12">
+                                                            <div className="flex flex-col justify-center gap-1">
+                                                                <CardTitle className="text-xl">
+                                                                    Chi tiết hướng chuyển trạng thái
+                                                                </CardTitle>
+                                                                <CardDescription>
+                                                                    Mã chuyển trạng thái: {trans.transitionId}
+                                                                </CardDescription>
+                                                            </div>
+                                                            {hasUpdatePermission && (
+                                                                <div className="flex flex-col gap-4">
+                                                                    <Button
+                                                                        variant="outline"
+                                                                        onClick={() => {
+                                                                            setSelectedTransition({
+                                                                                ...trans,
+                                                                                fromStatusId: status.statusId,
+                                                                                fromStatus: status
+                                                                            } as IOrderStatusTransition)
+                                                                            setUpdateDialogOpen(true)
+                                                                        }}
+                                                                    >
+                                                                        <PencilLine />
+                                                                        Chỉnh sửa
+                                                                    </Button>
+                                                                    <ConfirmationDialog
+                                                                        title="Bạn có chắc muốn xóa hướng chuyển trạng thái này?"
+                                                                        description="Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn hướng chuyển trạng thái khỏi hệ thống NHT Marine."
+                                                                        onConfirm={async () => {
+                                                                            await removeTransitionMutation.mutateAsync(
+                                                                                trans.transitionId!
+                                                                            )
+                                                                        }}
+                                                                        trigger={
+                                                                            <Button variant="destructive">
+                                                                                <Eraser />
+                                                                                Xóa
+                                                                            </Button>
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                            )}
+                                                        </CardHeader>
+                                                        <Separator />
+                                                        <CardContent>
+                                                            <div className="col-span-2 flex flex-col gap-4">
+                                                                <p className="line-clamp-1 text-xl font-semibold">
+                                                                    Thông tin trạng thái mới
+                                                                </p>
+                                                                <p>
+                                                                    <span className="font-semibold">
+                                                                        Tên trạng thái:{' '}
+                                                                    </span>
+                                                                    <span className="text-muted-foreground">
+                                                                        {trans.toStatus?.name}
+                                                                    </span>
+                                                                </p>
+
+                                                                <div className="flex items-center gap-2">
+                                                                    <span className="font-semibold">Phân loại: </span>
+                                                                    {trans.toStatus?.isDefaultState && (
+                                                                        <Badge>Trạng thái mặc định</Badge>
+                                                                    )}
+                                                                    {trans.toStatus?.isAccounted && (
+                                                                        <Badge variant="success">
+                                                                            Trạng thái đã thu tiền
                                                                         </Badge>
                                                                     )}
+                                                                    {trans.toStatus?.isUnfulfilled && (
+                                                                        <Badge variant="destructive">
+                                                                            Trạng thái không hoàn thành
+                                                                        </Badge>
+                                                                    )}
+                                                                    {!trans.toStatus?.isDefaultState &&
+                                                                        !trans.toStatus?.isAccounted &&
+                                                                        !trans.toStatus?.isUnfulfilled && (
+                                                                            <Badge variant="outline">
+                                                                                Trạng thái thường
+                                                                            </Badge>
+                                                                        )}
+                                                                </div>
+                                                                <p>
+                                                                    <span className="font-semibold">
+                                                                        Mô tả trạng thái:{' '}
+                                                                    </span>
+                                                                    <span className="text-muted-foreground">
+                                                                        {trans.toStatus?.description}
+                                                                    </span>
+                                                                </p>
+                                                                <p>
+                                                                    <span className="font-semibold">
+                                                                        Mô tả hướng chuyển đổi:{' '}
+                                                                    </span>
+                                                                    <span className="text-muted-foreground">
+                                                                        {trans.transitionLabel}
+                                                                    </span>
+                                                                </p>
                                                             </div>
-                                                            <p>
-                                                                <span className="font-semibold">
-                                                                    Mô tả trạng thái:{' '}
-                                                                </span>
-                                                                <span className="text-muted-foreground">
-                                                                    {trans.toStatus?.description}
-                                                                </span>
-                                                            </p>
-                                                            <p>
-                                                                <span className="font-semibold">
-                                                                    Mô tả hướng chuyển đổi:{' '}
-                                                                </span>
-                                                                <span className="text-muted-foreground">
-                                                                    {trans.transitionLabel}
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
-                                            ))}
+                                                        </CardContent>
+                                                    </Card>
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
                         )
                     })}

@@ -89,13 +89,13 @@ const RevenueChart = () => {
                                 name="Chi phí nhập hàng"
                                 maxBarSize={40}
                             />
-                            <Bar
+                            {/* <Bar
                                 dataKey="totalDamages"
                                 stackId="a"
                                 fill="var(--chart-3)"
                                 name="Thiệt hại sản phẩm"
                                 maxBarSize={40}
-                            />
+                            /> */}
 
                             <Line
                                 type="monotone"

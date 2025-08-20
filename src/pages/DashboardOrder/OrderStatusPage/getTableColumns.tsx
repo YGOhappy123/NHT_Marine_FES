@@ -23,7 +23,6 @@ type Options = {
     removeOrderStatusMutation: UseMutationResult<any, any, number, any>
 }
 
-// (phần import và interface IOrderStatus giữ nguyên)
 export const getTableColumns = ({
     hasUpdatePermission,
     hasDeletePermission,
@@ -79,7 +78,6 @@ export const getTableColumns = ({
                 </div>
             )
         },
-        // --- Trạng thái mặc định ---
         {
             id: 'isDefaultState',
             accessorKey: 'isDefaultState',
@@ -87,12 +85,10 @@ export const getTableColumns = ({
                 <DataTableColumnHeader column={column} title="Trạng thái mặc định" className="justify-center" />
             ),
             cell: ({ row }) => <div className="text-center">{row.getValue('isDefaultState') ? 'Có' : 'Không'}</div>,
-            // Khi filter, react-table sẽ truyền vào value là mảng các option đã chọn => ta kiểm tra includes
             filterFn: (row, id, value: (boolean | number | string)[]) => {
                 return value.includes(row.getValue(id))
             }
         },
-        // --- Đã thanh toán (isAccounted) ---
         {
             id: 'isAccounted',
             accessorKey: 'isAccounted',
@@ -104,7 +100,6 @@ export const getTableColumns = ({
                 return value.includes(row.getValue(id))
             }
         },
-        // --- Chưa hoàn thành (isUnfulfilled) ---
         {
             id: 'isUnfulfilled',
             accessorKey: 'isUnfulfilled',

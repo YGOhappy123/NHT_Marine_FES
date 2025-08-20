@@ -26,12 +26,9 @@ export function TableToolbar<TData>({
     const isFiltered = table.getState().columnFilters.length > 0
     const isMobile = useIsMobile()
 
-    // local states cho 3 filter: null = Tất cả, true = Có, false = Không
     const [defaultStateFilter, setDefaultStateFilter] = useState<null | boolean>(null)
     const [isAccountedFilter, setIsAccountedFilter] = useState<null | boolean>(null)
     const [isUnfulfilledFilter, setIsUnfulfilledFilter] = useState<null | boolean>(null)
-
-    // control open state của Dropdown để chỉ đóng khi bấm Áp dụng
     const [menuOpen, setMenuOpen] = useState(false)
 
     const applyFilters = () => {
@@ -53,22 +50,17 @@ export function TableToolbar<TData>({
             table.getColumn('isUnfulfilled')?.setFilterValue([isUnfulfilledFilter])
         }
 
-        // đóng menu sau khi áp dụng
         setMenuOpen(false)
     }
 
     const resetFilters = () => {
-        // reset local state
         setDefaultStateFilter(null)
         setIsAccountedFilter(null)
         setIsUnfulfilledFilter(null)
 
-        // remove filters trên table
         table.getColumn('isDefaultState')?.setFilterValue(undefined)
         table.getColumn('isAccounted')?.setFilterValue(undefined)
         table.getColumn('isUnfulfilled')?.setFilterValue(undefined)
-
-        // reset cả ô tìm kiếm theo tên
         table.getColumn('Tên trạng thái đơn hàng')?.setFilterValue(undefined)
     }
 
@@ -82,7 +74,6 @@ export function TableToolbar<TData>({
 
     return (
         <div className="flex items-center justify-between">
-            {/* Giữ Input tìm kiếm như bạn yêu cầu */}
             <div className={twMerge('flex gap-2', isMobile ? '' : 'flex-col items-start xl:flex-row')}>
                 <div className="flex items-center gap-2">
                     <Input
@@ -94,7 +85,6 @@ export function TableToolbar<TData>({
                         className="text-foreground caret-foreground h-8 w-[150px] md:w-[200px] lg:w-[250px]"
                     />
 
-                    {/* Nút filter gộp — menu chỉ đóng khi bấm Áp dụng */}
                     <DropdownMenu open={menuOpen} onOpenChange={open => setMenuOpen(open)}>
                         <DropdownMenuTrigger asChild>
                             <Button variant={isFiltered ? 'secondary' : 'outline'} className="ml-2 h-8">
@@ -105,7 +95,6 @@ export function TableToolbar<TData>({
 
                         <DropdownMenuContent align="start" className="w-[320px] p-3">
                             <div onClick={e => e.stopPropagation()} className="flex flex-col gap-4">
-                                {/* Trạng thái mặc định */}
                                 <div>
                                     <div className="mb-2 text-sm font-medium">Trạng thái mặc định</div>
                                     <div className="flex gap-2">
@@ -133,7 +122,6 @@ export function TableToolbar<TData>({
                                     </div>
                                 </div>
 
-                                {/* Đã thanh toán */}
                                 <div>
                                     <div className="mb-2 text-sm font-medium">Đã thanh toán</div>
                                     <div className="flex gap-2">
@@ -161,7 +149,6 @@ export function TableToolbar<TData>({
                                     </div>
                                 </div>
 
-                                {/* Chưa hoàn thành */}
                                 <div>
                                     <div className="mb-2 text-sm font-medium">Chưa hoàn thành</div>
                                     <div className="flex gap-2">
@@ -189,13 +176,11 @@ export function TableToolbar<TData>({
                                     </div>
                                 </div>
 
-                                {/* Hành động: Đặt lại (không đóng), Áp dụng (đóng + apply) */}
                                 <div className="mt-2 flex justify-between">
                                     <Button
                                         variant="ghost"
                                         onClick={e => {
                                             e.stopPropagation()
-                                            // resetFilters giữ menu MỞ — theo yêu cầu trước
                                             resetFilters()
                                         }}
                                     >
@@ -218,7 +203,6 @@ export function TableToolbar<TData>({
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    {/* nút reset nhanh (ngoài menu) — giờ gọi resetFilters() và đóng menu */}
                     {!isMobile && isFiltered && (
                         <Button
                             variant="ghost"
